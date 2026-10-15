@@ -1,0 +1,40 @@
+# Site vitrine ARKA — un conteneur nginx derrière le Traefik déjà en place sur le VPS.
+# Ne crée ni réseau, ni volume, ni port publié : il rejoint seulement public_network.
+# Seul public/ est servi (lecture seule) : le README et deploy/ restent hors ligne.
+# Le dossier est monté en entier pour qu'un `git pull` soit pris en compte sans redémarrage.
+name: arka-site
+
+services:
+  arka-site:
+    image: nginx:1.30.5-alpine
+    container_name: arka-site
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+    volumes:
+      - ../public:/usr/share/nginx/html:ro
+    networks:
+      - public_network
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.arka-site.rule=Host(`${ARKA_DOMAIN}`) || Host(`www.${ARKA_DOMAIN}`)'
+      - 'traefik.http.routers.arka-site.entrypoints=websecure'
+      - 'traefik.http.routers.arka-site.tls.certresolver=mytlschallenge'
+      - 'traefik.http.services.arka-site.loadbalancer.server.port=80'
+      - 'traefik.docker.network=public_network'
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '5m'
+        max-file: '2'
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 64M
+
+networks:
+  public_network:
+    external: true
