@@ -139,10 +139,6 @@ h1{font-size:clamp(46px,6.4vw,88px);line-height:.98;letter-spacing:-.045em;font-
 .feedback{position:absolute;top:calc(100% + 16px);left:0;right:0;font-size:14px;line-height:1.5;color:var(--text-3)}
 .feedback p{margin:0}
 .feedback .error{color:var(--brand)}
-.feedback a{color:var(--ink);text-underline-offset:3px}
-.feedback .fallback{white-space:nowrap}
-.copy{margin-left:10px;border:1px solid var(--separator);background:var(--white);border-radius:999px;padding:3px 11px;font-size:12px;font-weight:500;cursor:pointer;transition:border-color .2s var(--ease)}
-.copy:hover{border-color:var(--ink)}
 .duo .pill{width:100%;height:58px;justify-content:center;padding:0 22px}
 
 /* --- Garanties ----------------------------------------------------------- */
@@ -332,7 +328,6 @@ footer address a:hover{color:var(--ink)}
           </form>
           <div class="feedback" aria-live="polite">
             <p class="error" hidden>Cette adresse ne semble pas valide.</p>
-            <p class="fallback" hidden>Rien ne s’ouvre ? <a href="mailto:contact@arkawatch.com">contact@arkawatch.com</a><button class="copy" type="button" data-copy="contact@arkawatch.com">Copier</button></p>
           </div>
         </div>
       </article>
@@ -344,11 +339,8 @@ footer address a:hover{color:var(--ink)}
         <h2>Le prix juste<br>se construit avec vous<span class="dot">.</span></h2>
         <p class="body">Nous invitons quelques maisons suisses à bâtir avec nous la cote de référence, à partir de leurs ventes. Aucune donnée client, aucune vente affichée sous votre nom.</p>
         <div class="action">
-          <a class="pill" id="partner" href="mailto:contact@arkawatch.com?subject=Devenir%20maison%20partenaire%20ARKA">Devenir maison partenaire
+          <a class="pill" href="mailto:contact@arkawatch.com?subject=Devenir%20maison%20partenaire%20ARKA">Devenir maison partenaire
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M2 8h12M9 3l5 5-5 5"/></svg></a>
-          <div class="feedback" aria-live="polite">
-            <p class="fallback" hidden>Rien ne s’ouvre ? <a href="mailto:contact@arkawatch.com">contact@arkawatch.com</a><button class="copy" type="button" data-copy="contact@arkawatch.com">Copier</button></p>
-          </div>
         </div>
       </article>
     </div>
@@ -392,21 +384,14 @@ footer address a:hover{color:var(--ink)}
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  /* Pas de backend : les deux actions ouvrent un e-mail prerempli vers
-     contact@arkawatch.com. Sans messagerie installee, rien ne s'ouvre :
-     l'adresse s'affiche alors sous l'action, avec un bouton pour la copier. */
-  const showFallback = (action) => {
-    action.querySelector('.error')?.setAttribute('hidden', '');
-    setTimeout(() => action.querySelector('.fallback').removeAttribute('hidden'), 600);
-  };
-
+  /* Liste d'attente : pas de backend. Le formulaire ouvre un e-mail prerempli
+     vers contact@arkawatch.com dans la messagerie du visiteur. */
   const form = document.getElementById('waitlist');
   const action = form.closest('.action');
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const email = form.email.value.trim();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
-      action.querySelector('.fallback').setAttribute('hidden', '');
       action.querySelector('.error').removeAttribute('hidden');
       form.email.focus();
       return;
@@ -414,23 +399,9 @@ footer address a:hover{color:var(--ink)}
     const subject = encodeURIComponent('Liste d’attente ARKA');
     const body = encodeURIComponent(`Prévenez-moi à la sortie de l’app ARKA.\n\n${email}`);
     location.href = `mailto:contact@arkawatch.com?subject=${subject}&body=${body}`;
-    showFallback(action);
   });
   form.email.addEventListener('input', () => action.querySelector('.error').setAttribute('hidden', ''));
 
-  const partner = document.getElementById('partner');
-  partner.addEventListener('click', () => showFallback(partner.closest('.action')));
-
-  document.querySelectorAll('.copy').forEach((btn) => btn.addEventListener('click', async () => {
-    try {
-      await navigator.clipboard.writeText(btn.dataset.copy);
-      btn.textContent = 'Copié';
-    } catch {
-      getSelection().selectAllChildren(btn.previousElementSibling);
-      btn.textContent = 'Sélectionné';
-    }
-    setTimeout(() => { btn.textContent = 'Copier'; }, 2000);
-  }));
 
   /* La valeur se compte une fois, a l'entree. */
   const value = document.querySelector('[data-count]');
