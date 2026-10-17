@@ -60,7 +60,7 @@ button{font:inherit}
 .ticks{display:flex;align-items:flex-end;gap:3px;height:10px}
 .ticks span{display:block;width:1px}
 .boot .pct{font-family:var(--mono);font-size:11px;color:var(--fg)}
-.bot-right{display:flex;align-items:center;gap:28px;margin-right:64px} /* place pour la bulle de l'assistant */
+.bot-right{display:flex;align-items:center;gap:28px;margin-right:96px} /* place pour la bulle de l'assistant */
 .outline{pointer-events:auto;display:flex;align-items:center;justify-content:center;min-width:140px;min-height:44px;padding:0 22px;background:transparent;color:var(--fg);border:1px solid var(--fg);border-radius:2px;font-family:var(--serif);font-size:14px;cursor:pointer}
 
 /* Contact */
@@ -70,20 +70,23 @@ button{font:inherit}
 .kicker{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
 .dtitle{font-size:24px;font-weight:300;letter-spacing:-.01em;line-height:1.2}
 .seg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));padding:3px;border:1px solid var(--line);border-radius:999px}
-.seg button{min-height:40px;border:0;border-radius:999px;background:transparent;color:var(--fg);font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+.seg button{min-height:40px;border:0;border-radius:999px;background:transparent;color:var(--fg);font-family:var(--serif);font-size:15px;cursor:pointer;transition:background .2s ease,color .2s ease}
 .seg button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
-.field{display:flex;flex-direction:column;gap:8px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-.field input,.field textarea{border:1px solid var(--line);border-radius:12px;background:transparent;color:var(--fg);font-family:var(--sans);font-size:15px;letter-spacing:0;text-transform:none}
+.field{display:flex;flex-direction:column;gap:8px;font-family:var(--serif);font-size:14px;color:var(--muted)}
+.field input,.field textarea{border:1px solid var(--line);border-radius:12px;background:transparent;color:var(--fg);font-family:var(--sans);font-size:15px;transition:border-color .2s ease}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--fg)}
 .field input{min-height:44px;padding:0 14px}
 .field textarea{padding:12px 14px;line-height:1.4;resize:vertical}
-.hintline{font-family:var(--serif);font-size:13px;line-height:1.5;color:var(--muted)}
-.send{display:flex;align-items:center;justify-content:center;gap:10px;min-height:48px;border-radius:999px;background:var(--accent);color:#FFFFFF;text-decoration:none;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase}
-.send:hover{color:#FFFFFF}
+.hintline{font-family:var(--serif);font-size:14px;line-height:1.5;color:var(--muted)}
+.send{display:flex;align-items:center;justify-content:center;gap:10px;min-height:48px;border-radius:999px;background:var(--fg);color:var(--bg);text-decoration:none;font-family:var(--serif);font-size:16px;transition:opacity .2s ease}
+.send:hover{opacity:.85}
+.send:hover{color:var(--bg)}
 .send[aria-disabled="true"]{background:transparent;border:1px solid var(--line);color:var(--muted);pointer-events:none}
 
 /* Maisons partenaires */
 .partners{position:absolute;inset:0;overflow-y:auto;scroll-behavior:smooth;opacity:0;cursor:default;user-select:text;-webkit-user-select:text;touch-action:pan-y}
-.pbar{position:sticky;top:0;z-index:2;display:flex;justify-content:space-between;align-items:center;padding:20px 40px;pointer-events:none}
+.pbar{position:sticky;top:0;z-index:2;display:flex;justify-content:space-between;align-items:center;padding:20px 40px;pointer-events:none;background:var(--bg);border-bottom:1px solid transparent;transition:border-color .3s ease}
+.pbar.scrolled{border-bottom-color:var(--line)}
 .tag{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase}
 .tag i{display:block;width:7px;height:7px;background:var(--brand)}
 .pbar .right{display:flex;align-items:center;gap:12px;pointer-events:auto}
@@ -102,8 +105,10 @@ button{font:inherit}
 .prow .head .tag{color:var(--muted)}
 .prow .main{grid-column:span 8;min-width:280px}
 .h2{margin:0;font-family:var(--sans);font-size:30px;font-weight:400;letter-spacing:-.02em;line-height:1.15}
-.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}
-.step{display:flex;flex-direction:column;gap:12px;padding-top:16px;border-top:1px solid var(--fg);min-width:200px}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:auto auto auto;column-gap:32px;row-gap:12px}
+/* subgrid : numero, titre et texte partagent les rangees des trois colonnes. */
+.step{display:grid;grid-row:span 3;grid-template-rows:subgrid;align-content:start;padding-top:16px;border-top:1px solid var(--fg);min-width:200px}
+@supports not (grid-template-rows:subgrid){.step{display:flex;flex-direction:column;gap:12px}.step .st{min-height:2.6em}}
 .step .n{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--accent)}
 .step .st{font-family:var(--sans);font-size:18px;line-height:1.3}
 .step .sd{font-family:var(--serif);font-size:16px;line-height:1.55;color:var(--muted)}
@@ -124,7 +129,8 @@ button{font:inherit}
   .arka-phrase .t{font-size:19px}
   .arka-phrase .s{font-size:14px;margin-top:4px}
   .conv{font-size:24px}
-  .chrome-bot{padding:16px 20px;justify-content:center}
+  .chrome-bot{padding:16px 20px;justify-content:flex-start}
+  .bot-right{margin-right:76px}
   .chrome-bot .hint,.desk-only{display:none}
   .mobile-only{display:flex!important}
   .bot-right{gap:16px}
@@ -133,8 +139,9 @@ button{font:inherit}
   .big{font-size:34px}
   .pbody .inner{padding:0 20px 32px}
   .prow .head,.prow .main{grid-column:span 12;min-width:0}
-  .steps{grid-template-columns:1fr}
-  .step{min-width:0}
+  .steps{grid-template-columns:1fr;grid-template-rows:none;row-gap:32px}
+  .step{display:flex;flex-direction:column;gap:12px;grid-row:auto;min-width:0}
+  .step .st{min-height:0}
 }
 @media (prefers-reduced-motion:reduce){.arka-bob{animation:none}}
 </style>
@@ -192,11 +199,11 @@ button{font:inherit}
         <label class="field">Votre adresse e-mail<input type="email" data-email placeholder="nom@maison.ch" autocomplete="email"></label>
         <label class="field" data-qonly hidden>Votre question<textarea data-msg rows="4"></textarea></label>
         <span class="hintline" data-insonly>Soyez prévenu dès la sortie de l’application.</span>
-        <a class="send" data-send href="mailto:contact@arkawatch.com" aria-disabled="true">Envoyer →</a>
+        <a class="send" data-send href="mailto:contact@arkawatch.com" aria-disabled="true">Envoyer<svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M3 9L9 3M4 3h5v5"/></svg></a>
       </div>
       <div data-sent hidden style="display:flex;flex-direction:column;gap:10px">
         <span style="font-size:15px;line-height:1.5">Merci. Nous revenons vers vous très vite.</span>
-        <span class="mail" style="text-transform:uppercase;letter-spacing:.14em;font-size:10px">contact@arkawatch.com</span>
+        <span class="hintline">contact@arkawatch.com</span>
       </div>
     </div>
   </div>
@@ -384,7 +391,7 @@ button{font:inherit}
     const cl = (v) => Math.max(0, Math.min(1, v)), eo = (v) => 1 - Math.pow(1 - cl(v), 3), io = (v) => cl(v) * cl(v);
     const ta = t - S.pt;
     const tr = (v) => { try { ctx.letterSpacing = v; } catch (err) {} };
-    const cx = w / 2, cy = h / 2, N = 8;
+    const cx = w / 2, cy = h / 2, N = 6;
     const narrow = w < 900;
     const x0 = narrow ? 96 : Math.max(220, w * 0.2), top = Math.max(h * 0.34, 300), bot = h * 0.8;
     if (!S.rings) S.rings = [];
@@ -671,6 +678,8 @@ button{font:inherit}
     const b = e.target.closest('[data-act]');
     if (b && act[b.dataset.act]) act[b.dataset.act]();
   });
+  const pbar = el.partners.querySelector('.pbar');
+  el.partners.addEventListener('scroll', () => pbar.classList.toggle('scrolled', el.partners.scrollTop > 8), { passive: true });
   el.email.addEventListener('input', render);
   el.msg.addEventListener('input', render);
   el.send.addEventListener('click', (e) => {
