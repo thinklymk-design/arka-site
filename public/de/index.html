@@ -17,21 +17,23 @@
 <link rel="alternate" hreflang="x-default" href="https://arkawatch.com/">
 <meta name="theme-color" content="#FFFFFF">
 <script>
-/* Langue du navigateur, sans selecteur : redirige vers /de/ ou /en/ si besoin.
-   ?lang=fr|de|en force et memorise le choix. Les robots restent sur la page demandee. */
+/* Langue du navigateur, sans selecteur. Seule l'adresse d'entree (/) redirige vers /de/ ou
+   /en/ selon le navigateur ; une adresse de langue (/de/, /en/) est toujours respectee.
+   ?lang=fr|de|en force la langue et memorise le choix. Les robots ne sont jamais rediriges. */
 (function () {
   var L = ['fr', 'de', 'en'], cur = 'de', t = null;
+  var go = function (l) { if (l !== cur) location.replace((l === 'fr' ? '/' : '/' + l + '/') + location.hash); };
   try {
     var q = new URLSearchParams(location.search).get('lang');
-    if (q && L.indexOf(q) > -1) { try { localStorage.setItem('arka-lang', q); } catch (e) {} t = q; }
-    if (!t) { try { t = localStorage.getItem('arka-lang'); } catch (e) {} }
-    if (!t) {
-      if (/bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent)) return;
+    if (q && L.indexOf(q) > -1) { try { localStorage.setItem('arka-lang', q); } catch (e) {} return go(q); }
+    if (cur !== 'fr' || /bot|crawl|spider|slurp|lighthouse|preview/i.test(navigator.userAgent)) return;
+    try { t = localStorage.getItem('arka-lang'); } catch (e) {}
+    if (L.indexOf(t) < 0) {
+      t = null;
       var ls = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''];
       for (var i = 0; i < ls.length && !t; i++) { var p = String(ls[i]).slice(0, 2).toLowerCase(); if (L.indexOf(p) > -1) t = p; }
-      t = t || 'en';
     }
-    if (L.indexOf(t) > -1 && t !== cur) location.replace((t === 'fr' ? '/' : '/' + t + '/') + location.hash);
+    go(t || 'en');
   } catch (e) {}
 })();
 </script>

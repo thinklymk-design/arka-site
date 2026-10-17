@@ -25,9 +25,10 @@ Aperçu local : `python3 -m http.server 5500 --directory public`, puis http://lo
 
 ## Langues
 
-Pas de sélecteur : la page suit la langue du navigateur (français, allemand, sinon anglais)
-et redirige vers `/`, `/de/` ou `/en/`. `?lang=fr|de|en` force une langue et la mémorise.
-Les robots ne sont pas redirigés ; les balises `hreflang` relient les trois versions.
+Pas de sélecteur. L'adresse d'entrée `/` suit la langue du navigateur (français, allemand,
+sinon anglais) et redirige vers `/de/` ou `/en/` au besoin ; une adresse de langue (`/de/`,
+`/en/`) est toujours respectée. `?lang=fr|de|en` force une langue et la mémorise. Les robots
+ne sont jamais redirigés ; les balises `hreflang` relient les trois versions.
 
 ## Mettre en ligne (une fois)
 
