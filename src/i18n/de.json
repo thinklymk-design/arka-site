@@ -1,0 +1,109 @@
+{
+  "meta": {
+    "title": "ARKA — Jede Uhr, ihr Kurs",
+    "description": "Ein Wallet für all Ihre Uhren. Der faire Wert Ihrer Sammlung, berechnet aus tatsächlich abgeschlossenen Verkäufen in der Schweiz.",
+    "ogDescription": "Der faire Wert Ihrer Sammlung, berechnet aus tatsächlich abgeschlossenen Verkäufen in der Schweiz.",
+    "ogLocale": "de_CH"
+  },
+  "nav": {
+    "partner": "Partnerhaus werden",
+    "contact": "Kontakt"
+  },
+  "phrases": {
+    "p0t": "Ein Wallet für all Ihre Uhren.",
+    "p0s": "Ihre Sammlung an einem Ort vereint.",
+    "p1t": "Die Entwicklung Ihres Vermögens.",
+    "p1s": "Verfolgen Sie den Wert Ihrer Sammlung über die Zeit.",
+    "p2t": "Der faire Wert.",
+    "p2s": "Basierend auf realen Verkäufen, nicht auf Angebotspreisen.",
+    "p3t": "Schweizer Häuser.",
+    "p3s": "Schweizer Uhrenhäuser bauen den Kurs mit Arka auf.",
+    "p4t": "Ein KI-Assistent, der Ihre Sammlung kennt.",
+    "p4s": "Die ganze Uhrmacherei – nur eine Frage entfernt.",
+    "p5t": "Neutral.",
+    "p5s": "Arka kauft und verkauft keine Uhren.",
+    "p6t": "Eine überprüfbare Methode.",
+    "p6s": "Deterministische, reproduzierbare und protokollierte Berechnung.",
+    "converge": "Jede Uhr, ihr Kurs."
+  },
+  "footer": {
+    "hint": "Entdecken · Klick gedrückt halten, um zu bündeln",
+    "preparing": "Arka in Vorbereitung",
+    "place": "Neuchâtel, Schweiz",
+    "partners": "Partnerhäuser"
+  },
+  "contact": {
+    "kicker": "Kontakt",
+    "title": "Bleiben wir in Kontakt.",
+    "type": "Art der Anfrage",
+    "signup": "Anmelden",
+    "ask": "Frage stellen",
+    "email": "Ihre E-Mail-Adresse",
+    "placeholder": "name@beispiel.ch",
+    "question": "Ihre Frage",
+    "signupHint": "Wir benachrichtigen Sie, sobald die App erscheint.",
+    "send": "Senden",
+    "thanks": "Danke. Wir melden uns in Kürze.",
+    "close": "Schliessen"
+  },
+  "partners": {
+    "tag": "Partnerhäuser",
+    "back": "Zurück zur Konstellation",
+    "backShort": "Zurück",
+    "title": "Der faire Preis entsteht mit Ihnen",
+    "lede": "Wir laden einige Schweizer Uhrenhäuser ein, mit uns den Referenzkurs aufzubauen – auf Grundlage ihrer abgeschlossenen Verkäufe.",
+    "discover": "So funktioniert es",
+    "howTag": "Ablauf",
+    "howTitle": "Drei Schritte, keine Verpflichtung.",
+    "step1t": "Sie teilen Ihre abgeschlossenen Verkäufe.",
+    "step1d": "Referenz, Zustand, Full Set, Datum und bezahlter Preis. In der Form, die Ihnen passt: regelmässiger Export, Datei oder eigener Zugang.",
+    "step2t": "Arka aggregiert und anonymisiert.",
+    "step2d": "Ihre Verkäufe fliessen mit denen der anderen Häuser zusammen. Keiner wird einzeln angezeigt, keine Kundendaten werden verlangt.",
+    "step3t": "Der Arka-Kurs wird veröffentlicht.",
+    "step3d": "Eine deterministische, reproduzierbare und protokollierte Berechnung, Woche für Woche aktualisiert.",
+    "trustTag": "Vertrauen",
+    "trustTitle": "Ihre Daten bleiben Ihre.",
+    "trustP1": "Die geteilten Verkäufe dienen ausschliesslich der Berechnung des Arka-Kurses. Sie werden vor jeder Veröffentlichung aggregiert und niemals weiterverkauft.",
+    "trustP2": "Arka kauft und verkauft keine Uhren. Unsere Kurse spiegeln den Markt – nichts anderes.",
+    "ctaTitle": "Sprechen wir darüber",
+    "ctaLede": "Ein zwanzigminütiges Gespräch oder ein Besuch bei Ihnen – ganz wie es Ihnen passt.",
+    "mailSubject": "Partnerhaus von ARKA werden",
+    "foot": "Aggregierte Daten, niemals weiterverkauft."
+  },
+  "js": {
+    "themeToNight": "Zum Nachtmodus wechseln",
+    "themeToDay": "Zum Tagmodus wechseln",
+    "showAll": "Alles zeigen",
+    "hideAll": "Ausblenden",
+    "preparingAria": "Arka in Vorbereitung: ",
+    "maison": ", bauen Sie den Kurs mit Arka auf.",
+    "subjectQuestion": "Frage – Website ARKA",
+    "subjectSignup": "Anmeldung – ARKA",
+    "bodySignup": "Bitte benachrichtigen Sie mich, sobald die ARKA-App erscheint.",
+    "labels": [
+      "BEZAHLTER PREIS",
+      "ZUSTAND",
+      "FULL SET",
+      "VERKAUFSDATUM",
+      "VERKAUF ABGESCHLOSSEN",
+      "REFERENZ",
+      "BOX · PAPIERE",
+      "JAHRGANG"
+    ],
+    "states": [
+      "NEU",
+      "AUSGEZEICHNET",
+      "SEHR GUT",
+      "GUT"
+    ],
+    "cardTitle": "VERKAUF ABGESCHLOSSEN",
+    "cardState": "ZUSTAND · ",
+    "cardFullSet": "FULL SET · ",
+    "yes": "JA",
+    "no": "NEIN",
+    "cardIn": "→ IN DEN KURS EINGEFLOSSEN",
+    "house": "HAUS ",
+    "quoteTitle": "DER ARKA-KURS",
+    "quoteNote": "BEISPIEL · DETERMINISTISCHE BERECHNUNG"
+  }
+}

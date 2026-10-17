@@ -1,16 +1,33 @@
 # arka-site
 
 Le site vitrine [arkawatch.com](https://arkawatch.com) : une page HTML statique, sans build
-(design « Constellation » : un champ de points à explorer, polices Google Fonts), servie par un conteneur `nginx` derrière un Traefik existant.
+(design « Constellation » : un champ de points à explorer, polices Google Fonts),
+en français, allemand et anglais, servie par un conteneur `nginx` derrière un Traefik existant.
 
 ```
-public/index.html          la page — seul dossier servi
+src/index.html             le gabarit de la page (repères {{section.cle}} à la place des textes)
+src/i18n/fr.json de.json en.json   tous les textes, une langue par fichier
+build.py                   génère public/ à partir du gabarit et des traductions
+public/                    les pages générées (/, /de/, /en/) — seul dossier servi, ne pas éditer
 deploy/docker-compose.yml  le conteneur (lecture seule, 64 Mo, aucun port publié)
 deploy/.env.example        ARKA_DOMAIN=<domaine>
 archive/v1/index.html      la version précédente (hors ligne, gardée pour mémoire)
 ```
 
-Aperçu local : `open public/index.html`.
+## Modifier le site
+
+1. Un texte : le changer dans **les trois** fichiers `src/i18n/*.json` (mêmes clés partout,
+   `build.py` refuse sinon). La mise en page ou le script : `src/index.html`.
+2. `python3 build.py` (Python 3, aucune dépendance), puis vérifier `public/`.
+3. Committer `src/` **et** `public/`, pousser.
+
+Aperçu local : `python3 -m http.server 5500 --directory public`, puis http://localhost:5500.
+
+## Langues
+
+Pas de sélecteur : la page suit la langue du navigateur (français, allemand, sinon anglais)
+et redirige vers `/`, `/de/` ou `/en/`. `?lang=fr|de|en` force une langue et la mémorise.
+Les robots ne sont pas redirigés ; les balises `hreflang` relient les trois versions.
 
 ## Mettre en ligne (une fois)
 
