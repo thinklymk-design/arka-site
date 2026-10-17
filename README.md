@@ -1,12 +1,13 @@
 # arka-site
 
 Le site vitrine [arkawatch.com](https://arkawatch.com) : une page HTML statique, sans build
-ni dépendance, servie par un conteneur `nginx` derrière un Traefik existant.
+(design « Constellation » : un champ de points à explorer, polices Google Fonts), servie par un conteneur `nginx` derrière un Traefik existant.
 
 ```
 public/index.html          la page — seul dossier servi
 deploy/docker-compose.yml  le conteneur (lecture seule, 64 Mo, aucun port publié)
 deploy/.env.example        ARKA_DOMAIN=<domaine>
+archive/v1/index.html      la version précédente (hors ligne, gardée pour mémoire)
 ```
 
 Aperçu local : `open public/index.html`.

@@ -2,475 +2,697 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ARKA — Le prix juste des montres suisses</title>
-<meta name="description" content="La valeur de vos montres, calculée sur des ventes réellement conclues en Suisse. Pas sur des prix affichés. Bientôt sur iPhone et Android.">
-<meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light">
-<meta property="og:title" content="ARKA — Le prix juste des montres suisses">
-<meta property="og:description" content="La valeur de vos montres, calculée sur des ventes réellement conclues en Suisse.">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ARKA — Chaque montre, son cours</title>
+<meta name="description" content="Un wallet pour toutes vos montres. La juste valeur de votre collection, calculée sur des ventes réellement conclues en Suisse.">
+<meta property="og:title" content="ARKA — Chaque montre, son cours">
+<meta property="og:description" content="La juste valeur de votre collection, calculée sur des ventes réellement conclues en Suisse.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://arkawatch.com/">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230E0E0F'/><g stroke='%23fff' stroke-width='2'><path d='M16 7v5'/><path d='M16 20v5'/><path d='M7 16h5'/><path d='M20 16h5'/></g><circle cx='16' cy='16' r='2' fill='%23CE1126'/></svg>">
+<meta name="theme-color" content="#FFFFFF">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230B0B0C'/><g stroke='%23fff' stroke-width='2'><path d='M16 7v5'/><path d='M16 20v5'/><path d='M7 16h5'/><path d='M20 16h5'/></g><circle cx='16' cy='16' r='2' fill='%23E30613'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;500;700&amp;family=Cousine:wght@400;700&amp;family=Source+Serif+4:opsz,wght@8..60,300;400&amp;display=swap" rel="stylesheet">
 <style>
-/* Jetons : palette claire de l'app (apps/mobile/src/shared/theme/palettes.ts). */
+/* Design « Constellation » (Claude Design, Main.dc.html), transposé en page autonome. */
 :root{
-  --ink:#0E0E0F;
-  --white:#FFFFFF;
-  --separator:#E7E5E0;
-  --text-2:#56555B;
-  --text-3:#8A8990;
-  --positive:#1A7340;
-  --positive-surface:#E6F2EA;
+  --sans:'Liberation Sans','Arimo','Helvetica Neue',Helvetica,Arial,sans-serif;
+  --serif:'Utopia','Utopia Std','Source Serif 4',Georgia,serif;
+  --mono:'Liberation Mono','Cousine',ui-monospace,Menlo,monospace;
+  --accent:#E30613;
   --brand:#CE1126;
-  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-  --maxw:1200px;
-  --gutter:clamp(20px,4vw,48px);
-  --ease:cubic-bezier(.22,.61,.36,1);
+  --bg:#FFFFFF;--fg:#0B0B0C;--muted:#55555A;--faint:#6B6B70;--line:rgba(11,11,12,0.22);--veil:rgba(255,255,255,0.72);
 }
 *,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
-body{margin:0;background:var(--white);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
-a{color:inherit}
-img,svg{display:block}
-button,input{font:inherit;color:inherit}
-:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:6px}
-.skip{position:absolute;left:-9999px;top:8px;background:var(--ink);color:var(--white);padding:8px 14px;border-radius:999px;z-index:20}
-.skip:focus{left:8px}
-.wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--gutter)}
-.dot{color:var(--brand)}
-.eyebrow{font-size:14px;font-weight:500;letter-spacing:-.005em;color:var(--text-2);margin:0;display:flex;align-items:center;gap:12px}
-.eyebrow b{font-weight:500;color:var(--brand);font-variant-numeric:tabular-nums}
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+html,body{margin:0;height:100%;background:var(--bg)}
+body{overflow:hidden;-webkit-font-smoothing:antialiased}
+a{color:var(--fg)}a:hover{color:var(--accent)}
+button{font:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+[hidden]{display:none!important}
+.mobile-only{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;margin:0}
+.arka-btn{transition:color .2s ease,border-color .2s ease}
+.arka-btn:hover{color:var(--brand)!important;border-color:var(--brand)!important}
+@keyframes arkaBob{0%,100%{transform:translateY(-2px)}50%{transform:translateY(3px)}}
+.arka-bob{animation:arkaBob 1.6s ease-in-out infinite}
 
-/* --- En-tete ------------------------------------------------------------- */
-.top{position:absolute;inset:0 0 auto;z-index:5}
-.top .wrap{display:flex;align-items:center;justify-content:space-between;height:88px}
-.wordmark{display:inline-flex;line-height:0;text-decoration:none}
-.wordmark svg{height:20px;width:auto}
-.nav{display:flex;align-items:center;gap:clamp(16px,3vw,36px)}
-.nav a{text-decoration:none;font-size:15px}
-.nav .link{color:var(--text-2);transition:color .2s var(--ease)}
-.nav .link:hover{color:var(--ink)}
-.pill{display:inline-flex;align-items:center;gap:12px;background:var(--ink);color:var(--white);border-radius:999px;padding:12px 22px;font-size:15px;text-decoration:none;border:0;cursor:pointer;transition:transform .2s var(--ease),background .2s var(--ease)}
-.pill:hover{background:#2A2A2D}
-.pill:active{transform:translateY(1px)}
-.pill svg{width:14px;height:14px}
+#stage{position:relative;width:100%;height:100vh;height:100dvh;min-height:640px;overflow:hidden;background:var(--bg);color:var(--fg);transition:background .8s ease,color .8s ease;font-family:var(--sans);touch-action:none;user-select:none;-webkit-user-select:none;cursor:crosshair}
+#stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 
-/* --- Hero ---------------------------------------------------------------- */
-.hero{position:relative;min-height:max(760px,min(100vh,940px));overflow:hidden;isolation:isolate}
-.terrain{position:absolute;inset:0;width:100%;height:100%;z-index:-1;
-  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,transparent 34%,#000 62%,#000 92%,transparent 100%);
-          mask-image:linear-gradient(to bottom,transparent 0%,transparent 34%,#000 62%,#000 92%,transparent 100%)}
-.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:24px;align-items:center;min-height:inherit;padding-block:120px 72px}
-.hero-copy{max-width:540px}
-.hero .eyebrow::before{content:"";width:28px;height:1px;background:var(--text-3)}
-h1{font-size:clamp(46px,6.4vw,88px);line-height:.98;letter-spacing:-.045em;font-weight:500;margin:28px 0 0}
-.lead{font-size:clamp(17px,1.5vw,19px);line-height:1.55;color:var(--text-2);margin:28px 0 0;max-width:420px}
-.stores{display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px;margin-top:48px}
-.badges{display:flex;gap:12px}
-.badge{line-height:0;border-radius:9px;cursor:default}
-.badge svg{height:46px;width:auto}
-.soon{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--text-2);margin:0}
-.soon::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ink);animation:blink 2.4s var(--ease) infinite}
-@keyframes blink{50%{opacity:.25}}
+.chrome-top{position:absolute;top:0;left:0;right:0;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;padding:24px 40px;pointer-events:none}
+.logo{display:flex;align-items:center;gap:12px;color:var(--fg)}
+.logo svg{display:block;height:18px;width:auto}
+.nav{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:20px;font-family:var(--serif);font-size:15px}
+.round{pointer-events:auto;width:44px;height:44px;display:flex;align-items:center;justify-content:center;padding:0;background:transparent;color:var(--fg);border:1px solid var(--line);border-radius:50%;cursor:pointer}
+.linkbtn{padding:0;background:transparent;border:0;font:inherit;cursor:pointer;pointer-events:auto;display:flex;align-items:center;gap:6px;min-height:44px;color:var(--fg)}
+.sep{display:block;width:1px;height:18px;background:var(--line)}
+.solid{pointer-events:auto;min-height:44px;padding:0 18px;background:var(--fg);color:var(--bg);border:0;border-radius:999px;font-family:var(--serif);font-size:15px;cursor:pointer}
 
-/* Le telephone : HTML/CSS, fidele aux jetons de l'app. Ce n'est pas une capture. */
-.stage{position:relative;display:flex;justify-content:center;align-items:center;min-height:640px;padding-right:110px}
-.side-label{position:absolute;right:-8px;top:14%;font-size:13px;line-height:1.5;color:var(--text-3);margin:0;max-width:120px}
-.phone-wrap{position:relative;transform:perspective(1800px) rotateY(-16deg) rotateX(6deg) rotateZ(5deg);transform-style:preserve-3d;animation:float 9s ease-in-out infinite}
-@keyframes float{50%{translate:0 -10px}}
-.phone-wrap::after{content:"";position:absolute;left:12%;right:12%;bottom:-34px;height:46px;border-radius:50%;background:radial-gradient(closest-side,rgba(206,17,38,.55),rgba(206,17,38,0));filter:blur(10px);z-index:-1}
-.phone{width:300px;height:620px;border-radius:52px;padding:11px;background:linear-gradient(145deg,#2C2C30,#060607 55%,#1D1D20);box-shadow:inset 0 0 0 1.5px #3A3A3F,10px 14px 0 -3px #141416,40px 60px 80px -30px rgba(14,14,15,.45)}
-.screen{position:relative;height:100%;border-radius:42px;background:var(--white);overflow:hidden;display:flex;flex-direction:column;padding:14px 20px 0}
-.status{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:600;padding:2px 6px 0}
-.status svg{height:11px;width:auto}
-.island{position:absolute;top:11px;left:50%;translate:-50% 0;width:92px;height:27px;border-radius:20px;background:#000}
-.app-bar{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
-.app-bar svg{height:14px;width:auto}
-.app-bar .mini{height:10px}
-.app-bar .more{height:4px}
-.screen h3{font-size:19px;font-weight:600;letter-spacing:-.02em;margin:22px 0 0}
-.screen .label{font-size:11px;color:var(--text-3);margin:14px 0 0}
-.value{font-size:31px;font-weight:600;letter-spacing:-.03em;margin:2px 0 0;font-variant-numeric:tabular-nums}
-.delta{display:flex;align-items:center;gap:10px;margin-top:8px;font-size:11px;color:var(--text-3)}
-.delta b{background:var(--positive-surface);color:var(--positive);font-weight:600;padding:3px 8px;border-radius:999px}
-.chart{margin:18px -4px 0}
-.chart svg{width:100%;height:auto;overflow:visible}
-.chart .line{stroke-dasharray:420;stroke-dashoffset:420;animation:draw 2.2s .5s var(--ease) forwards}
-.chart .end{opacity:0;animation:pop .5s 2.5s var(--ease) forwards}
-.chart .halo{transform-origin:center;transform-box:fill-box;animation:halo 2.4s 3s ease-out infinite;opacity:0}
-@keyframes draw{to{stroke-dashoffset:0}}
-@keyframes pop{to{opacity:1}}
-@keyframes halo{0%{opacity:.5;transform:scale(1)}100%{opacity:0;transform:scale(3.2)}}
-.ranges{display:flex;justify-content:space-between;margin-top:14px}
-.ranges span{font-size:11px;font-weight:500;padding:6px 10px;border-radius:999px;color:var(--text-2)}
-.ranges .on{background:var(--ink);color:var(--white)}
-.tabs{margin:auto -20px 0;border-top:1px solid var(--separator);display:grid;grid-template-columns:repeat(5,1fr);padding:10px 8px 26px;position:relative}
-.tabs div{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:9px;color:var(--text-3)}
-.tabs svg{width:20px;height:20px}
-.tabs .on{color:var(--ink)}
-.tabs::after{content:"";position:absolute;bottom:8px;left:50%;translate:-50% 0;width:110px;height:4px;border-radius:4px;background:var(--ink)}
-.tip{position:absolute;right:-58px;top:33%;background:var(--white);border:1px solid var(--separator);border-radius:14px;padding:10px 14px;box-shadow:0 14px 40px -12px rgba(14,14,15,.25);font-size:11px;color:var(--text-3);opacity:0;translate:0 8px;animation:tip .6s 2.8s var(--ease) forwards;transform:translateZ(40px)}
-.tip strong{display:block;color:var(--ink);font-size:14px;font-weight:600;letter-spacing:-.01em;margin-top:2px}
-.tip em{font-style:normal;color:var(--brand);font-weight:600}
-@keyframes tip{to{opacity:1;translate:0 0}}
+.arka-phrase{position:absolute;pointer-events:none;opacity:0}
+.arka-phrase .t{font-size:24px;font-weight:400;line-height:1.25;letter-spacing:-.01em}
+.arka-phrase .s{margin-top:8px;font-family:var(--serif);font-size:16px;line-height:1.45;color:var(--muted)}
+.conv{position:absolute;left:0;right:0;top:50%;margin-top:34px;text-align:center;opacity:0;pointer-events:none;font-size:30px;font-weight:300;letter-spacing:-.01em}
 
-/* --- Les deux publics ---------------------------------------------------- */
-.principles{border-top:1px solid var(--separator)}
-.principles .wrap{display:grid;grid-template-columns:1fr 1fr;gap:clamp(48px,8vw,128px);padding-block:clamp(96px,11vw,152px)}
-.principles h2{font-size:clamp(28px,3vw,38px);line-height:1.1;letter-spacing:-.03em;font-weight:500;margin:0}
-.principles p{font-size:18px;line-height:1.6;color:var(--text-2);margin:20px 0 0;max-width:420px}
-.duo{border-top:1px solid var(--separator)}
-.duo .wrap{display:grid;grid-template-columns:1fr auto 1fr;padding-block:clamp(104px,12vw,168px)}
-.duo article{max-width:460px;display:flex;flex-direction:column}
-.duo article:last-child{justify-self:end}
-.duo h2{font-size:clamp(32px,3.6vw,46px);line-height:1.06;letter-spacing:-.035em;font-weight:500;margin:28px 0 0}
-.duo p.body{font-size:17px;line-height:1.65;color:var(--text-2);margin:28px 0 0;max-width:400px}
-.axis{position:relative;width:1px;background:var(--separator);margin-inline:clamp(40px,6vw,96px)}
-.action{position:relative;margin-top:auto;padding-top:48px;max-width:400px}
-.waitlist{display:flex;align-items:center;height:58px;border:1px solid var(--separator);border-radius:999px;padding:6px 6px 6px 22px;max-width:400px;transition:border-color .2s var(--ease),box-shadow .2s var(--ease)}
-.waitlist:focus-within{border-color:var(--ink);box-shadow:0 0 0 4px rgba(14,14,15,.06)}
-.waitlist input{flex:1;min-width:0;border:0;outline:0;background:transparent;font-size:15px;padding:10px 0}
-.waitlist input::placeholder{color:var(--text-3)}
-.go{flex:none;width:44px;height:44px;border-radius:50%;border:0;background:var(--ink);color:var(--white);display:grid;place-items:center;cursor:pointer;transition:background .2s var(--ease)}
-.go:hover{background:#2A2A2D}
-.go svg{width:16px;height:16px}
-.feedback{position:absolute;top:calc(100% + 16px);left:0;right:0;font-size:14px;line-height:1.5;color:var(--text-3)}
-.feedback p{margin:0}
-.feedback .error{color:var(--brand)}
-.duo .pill{width:100%;height:58px;justify-content:center;padding:0 22px}
+.chrome-bot{position:absolute;left:0;right:0;bottom:0;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;padding:24px 40px;font-family:var(--serif);font-size:14px;color:var(--faint);pointer-events:none}
+.boot{display:flex;flex-direction:column;align-items:center;gap:10px;opacity:0}
+.ticks{display:flex;align-items:flex-end;gap:3px;height:10px}
+.ticks span{display:block;width:1px}
+.boot .pct{font-family:var(--mono);font-size:11px;color:var(--fg)}
+.bot-right{display:flex;align-items:center;gap:28px;margin-right:64px} /* place pour la bulle de l'assistant */
+.outline{pointer-events:auto;display:flex;align-items:center;justify-content:center;min-width:140px;min-height:44px;padding:0 22px;background:transparent;color:var(--fg);border:1px solid var(--fg);border-radius:2px;font-family:var(--serif);font-size:14px;cursor:pointer}
 
-/* --- Garanties ----------------------------------------------------------- */
-.proof{border-top:1px solid var(--separator)}
-.proof .wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(40px,6vw,96px);padding-block:clamp(88px,10vw,136px)}
-.ico{width:56px;height:56px;border-radius:16px;border:1px solid var(--separator);background:linear-gradient(180deg,#fff,#F7F6F3);display:grid;place-items:center;box-shadow:0 1px 0 #fff inset,0 8px 20px -14px rgba(14,14,15,.25)}
-.ico svg{width:28px;height:28px}
-.proof h3{font-size:18px;font-weight:500;margin:28px 0 0;letter-spacing:-.015em}
-.proof p{font-size:15px;line-height:1.6;color:var(--text-3);margin:10px 0 0;max-width:300px}
+/* Contact */
+.veil{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;background:var(--veil);cursor:default;user-select:text;-webkit-user-select:text;touch-action:auto}
+.dialog{position:relative;width:100%;max-width:400px;padding:32px;background:var(--bg);border:1px solid var(--line);border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.12);display:flex;flex-direction:column;gap:20px}
+.close{position:absolute;top:12px;right:12px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;padding:0;background:transparent;border:0;color:var(--fg);cursor:pointer}
+.kicker{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+.dtitle{font-size:24px;font-weight:300;letter-spacing:-.01em;line-height:1.2}
+.seg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));padding:3px;border:1px solid var(--line);border-radius:999px}
+.seg button{min-height:40px;border:0;border-radius:999px;background:transparent;color:var(--fg);font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.field{display:flex;flex-direction:column;gap:8px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.field input,.field textarea{border:1px solid var(--line);border-radius:12px;background:transparent;color:var(--fg);font-family:var(--sans);font-size:15px;letter-spacing:0;text-transform:none}
+.field input{min-height:44px;padding:0 14px}
+.field textarea{padding:12px 14px;line-height:1.4;resize:vertical}
+.hintline{font-family:var(--serif);font-size:13px;line-height:1.5;color:var(--muted)}
+.send{display:flex;align-items:center;justify-content:center;gap:10px;min-height:48px;border-radius:999px;background:var(--accent);color:#FFFFFF;text-decoration:none;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase}
+.send:hover{color:#FFFFFF}
+.send[aria-disabled="true"]{background:transparent;border:1px solid var(--line);color:var(--muted);pointer-events:none}
 
-/* --- Pied ---------------------------------------------------------------- */
-footer{border-top:1px solid var(--separator)}
-footer .wrap{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;padding-block:64px}
-footer .wordmark svg{height:18px}
-footer .tag{font-size:14px;color:var(--text-3);margin:14px 0 0}
-footer address{font-style:normal;font-size:13px;line-height:1.7;color:var(--text-3);text-align:right}
-footer address a{text-decoration:none}
-footer address a:hover{color:var(--ink)}
+/* Maisons partenaires */
+.partners{position:absolute;inset:0;overflow-y:auto;scroll-behavior:smooth;opacity:0;cursor:default;user-select:text;-webkit-user-select:text;touch-action:pan-y}
+.pbar{position:sticky;top:0;z-index:2;display:flex;justify-content:space-between;align-items:center;padding:20px 40px;pointer-events:none}
+.tag{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase}
+.tag i{display:block;width:7px;height:7px;background:var(--brand)}
+.pbar .right{display:flex;align-items:center;gap:12px;pointer-events:auto}
+.square{pointer-events:auto;display:flex;align-items:center;gap:10px;min-height:44px;padding:0 16px;background:var(--bg);color:var(--fg);border:1px solid var(--fg);border-radius:2px;font-family:var(--serif);font-size:14px;cursor:pointer}
+.phero{position:relative;height:calc(100vh - 150px);height:calc(100dvh - 150px);min-height:520px;margin-top:-84px;pointer-events:none}
+.phero .copy{position:absolute;left:40px;top:110px;max-width:520px;display:flex;flex-direction:column;gap:14px}
+.big{margin:0;font-family:var(--sans);font-size:44px;font-weight:400;letter-spacing:-.02em;line-height:1.05}
+.big b{font-weight:inherit;color:var(--brand)}
+.lede{margin:0;font-family:var(--serif);font-size:17px;line-height:1.5;color:var(--muted)}
+.phero .down{position:absolute;left:0;right:0;bottom:24px;display:flex;justify-content:center}
+.phero .down button{pointer-events:auto;display:flex;align-items:center;gap:12px;min-height:48px;padding:0 22px;background:var(--bg);color:var(--fg);border:1px solid var(--fg);border-radius:2px;font-family:var(--serif);font-size:15px;cursor:pointer}
+.pbody{position:relative;background:var(--bg)}
+.pbody .inner{max-width:1120px;margin:0 auto;padding:0 40px 40px}
+.prow{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:24px;padding:72px 0;border-top:1px solid var(--line)}
+.prow .head{grid-column:span 4;min-width:220px;display:flex;flex-direction:column;gap:14px}
+.prow .head .tag{color:var(--muted)}
+.prow .main{grid-column:span 8;min-width:280px}
+.h2{margin:0;font-family:var(--sans);font-size:30px;font-weight:400;letter-spacing:-.02em;line-height:1.15}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}
+.step{display:flex;flex-direction:column;gap:12px;padding-top:16px;border-top:1px solid var(--fg);min-width:200px}
+.step .n{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--accent)}
+.step .st{font-family:var(--sans);font-size:18px;line-height:1.3}
+.step .sd{font-family:var(--serif);font-size:16px;line-height:1.55;color:var(--muted)}
+.para{margin:0 0 18px;font-family:var(--serif);font-size:18px;line-height:1.6;max-width:640px}
+.pcta{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:32px;padding:88px 0 72px;border-top:1px solid var(--fg)}
+.pcta .l{display:flex;flex-direction:column;gap:14px;max-width:560px}
+.pcta .r{display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+.pcta a.arka-btn{display:flex;align-items:center;gap:12px;min-height:48px;padding:0 24px;border:1px solid var(--fg);border-radius:2px;color:var(--fg);text-decoration:none;font-family:var(--serif);font-size:16px}
+.mail{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--muted)}
+.pfoot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;padding-top:20px;border-top:1px solid var(--line);font-family:var(--serif);font-size:14px;color:var(--faint)}
 
-/* --- Entree en scene ----------------------------------------------------- */
-.rise{opacity:0;translate:0 14px;animation:rise .9s var(--ease) forwards}
-.rise:nth-child(2){animation-delay:.08s}.rise:nth-child(3){animation-delay:.16s}
-.rise:nth-child(4){animation-delay:.24s}.rise:nth-child(5){animation-delay:.32s}
-@keyframes rise{to{opacity:1;translate:0 0}}
-
-/* --- Ecrans etroits ------------------------------------------------------ */
-@media (max-width:1280px){
-  .side-label{display:none}
+/* Ecrans etroits : les phrases s'alignent a gauche, plus petites. */
+@media (max-width:760px){
+  .chrome-top{padding:16px 20px;gap:10px}
+  .nav{gap:12px;font-size:14px}
+  .nav .linkbtn,.nav .sep{display:none}
+  .arka-phrase{left:20px!important;right:20px;max-width:none!important}
+  .arka-phrase .t{font-size:19px}
+  .arka-phrase .s{font-size:14px;margin-top:4px}
+  .conv{font-size:24px}
+  .chrome-bot{padding:16px 20px;justify-content:center}
+  .chrome-bot .hint,.desk-only{display:none}
+  .mobile-only{display:flex!important}
+  .bot-right{gap:16px}
+  .pbar{padding:16px 20px}
+  .phero .copy{left:20px;right:20px}
+  .big{font-size:34px}
+  .pbody .inner{padding:0 20px 32px}
+  .prow .head,.prow .main{grid-column:span 12;min-width:0}
+  .steps{grid-template-columns:1fr}
+  .step{min-width:0}
 }
-@media (max-width:980px){
-  .hero{min-height:0}
-  .hero .wrap{grid-template-columns:1fr;padding-block:120px 64px;gap:56px}
-  .stage{min-height:600px}
-  .stage{padding-right:0}
-  .tip{right:-18px}
-  .principles .wrap{grid-template-columns:1fr}
-  .duo .wrap{grid-template-columns:1fr;gap:96px}
-  .duo article:last-child{justify-self:start}
-  .feedback{position:static;margin-top:16px}
-  .axis{height:1px;width:auto;margin:0}
-  .proof .wrap{grid-template-columns:1fr;gap:56px}
-}
-@media (max-width:560px){
-  .top .wrap{height:72px}
-  .nav .link{display:none}
-  .pill{padding:10px 16px;font-size:14px}
-  .stage{min-height:520px}
-  .phone-wrap{transform:none;scale:.84}
-  .phone{box-shadow:inset 0 0 0 1.5px #3A3A3F,0 40px 70px -30px rgba(14,14,15,.45)}
-  .tip{right:-6px}
-  footer .wrap{flex-direction:column;align-items:flex-start}
-  footer address{text-align:left}
-}
-@media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition:none!important}
-  html{scroll-behavior:auto}
-}
+@media (prefers-reduced-motion:reduce){.arka-bob{animation:none}}
 </style>
 </head>
 <body>
-<svg aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden">
-  <!-- Badges officiels fournis par Apple et Google, inlines tels quels. -->
-  <symbol id="badge-appstore" viewBox="0 0 135 40">
+<div id="stage">
+  <canvas aria-hidden="true"></canvas>
 
-<path fill="#FFF" d="M134.032 35.268a3.83 3.83 0 0 1-3.834 3.83H4.729a3.835 3.835 0 0 1-3.839-3.83V4.725A3.84 3.84 0 0 1 4.729.89h125.468a3.834 3.834 0 0 1 3.834 3.835l.001 30.543z"/>
+  <header class="chrome-top" data-chrome>
+    <div class="logo"><svg role="img" aria-label="ARKA" viewBox="189 400 218 35.5"><path fill="currentColor" fill-rule="evenodd" d="M 233.914062 434.792969 L 229.960938 434.75 L 228.167969 434.773438 L 227.804688 434.6875 L 227.453125 434.363281 L 226.539062 432.851562 L 226.199219 432.207031 L 224.9375 430.050781 L 224.1875 428.824219 L 223.738281 427.964844 L 222.265625 425.523438 L 221.242188 423.726562 L 220.679688 422.648438 L 220.382812 422.21875 L 219.6875 421.011719 L 219.132812 420.136719 L 217.992188 418.046875 L 217.003906 416.398438 L 216.402344 415.246094 L 216.070312 414.746094 L 215.527344 413.738281 L 214.003906 411.222656 L 213.363281 409.996094 L 212.984375 409.425781 L 212.425781 408.421875 L 212.214844 408.203125 L 212 408.125 L 211.855469 408.160156 L 211.660156 408.347656 L 210.835938 409.714844 L 208.964844 413.089844 L 207.839844 414.886719 L 206.035156 418.085938 L 204.851562 420.0625 L 204.183594 421.28125 L 203.546875 422.289062 L 202.984375 423.367188 L 202.546875 424.015625 L 200.960938 426.816406 L 200.539062 427.464844 L 199.929688 428.628906 L 199.476562 429.332031 L 198.671875 430.765625 L 197.457031 432.707031 L 196.839844 433.921875 L 196.480469 434.4375 L 196.191406 434.675781 L 195.761719 434.769531 L 190.230469 434.78125 L 189.941406 434.753906 L 189.726562 434.671875 L 189.628906 434.578125 L 189.582031 434.363281 L 189.691406 434 L 190.113281 433.210938 L 190.558594 432.5625 L 191.605469 430.839844 L 192.363281 429.472656 L 192.703125 428.972656 L 193.855469 427.03125 L 194.191406 426.386719 L 196.480469 422.621094 L 197.269531 421.164062 L 197.761719 420.417969 L 198.402344 419.273438 L 198.832031 418.625 L 200.472656 415.824219 L 200.859375 415.246094 L 202.601562 412.226562 L 203.039062 411.582031 L 204.542969 408.925781 L 205.132812 407.992188 L 205.675781 407.035156 L 206.363281 405.976562 L 207.832031 403.335938 L 209.550781 400.660156 L 209.84375 400.472656 L 210.417969 400.417969 L 213.867188 400.472656 L 214.082031 400.519531 L 214.296875 400.628906 L 214.585938 400.933594 L 214.964844 401.597656 L 215.816406 402.890625 L 217.957031 406.625 L 218.578125 407.558594 L 220.285156 410.503906 L 220.675781 411.007812 L 220.90625 411.484375 L 221.890625 413.089844 L 223.308594 415.609375 L 223.667969 416.109375 L 224.410156 417.402344 L 224.882812 418.121094 L 226.351562 420.707031 L 227.164062 422 L 229.386719 425.820312 L 231.039062 428.511719 L 231.5625 429.472656 L 232.203125 430.480469 L 232.800781 431.558594 L 233.160156 432.058594 L 233.714844 433.066406 L 234.34375 434.074219 L 234.460938 434.363281 L 234.417969 434.605469 L 234.203125 434.757812 Z M 282.125 434.71875 L 281.839844 434.753906 L 275.945312 434.765625 L 275.589844 434.703125 L 275.300781 434.535156 L 274.855469 434.074219 L 272.898438 431.558594 L 272.265625 430.839844 L 269.597656 427.390625 L 268.203125 425.738281 L 266.140625 423.152344 L 265.457031 422.1875 L 264.8125 421.378906 L 264.59375 421.179688 L 264.378906 421.0625 L 264.089844 420.984375 L 263.734375 420.960938 L 254.894531 420.980469 L 254.605469 421.015625 L 254.347656 421.140625 L 254.191406 421.355469 L 254.148438 421.644531 L 254.167969 431.703125 L 254.152344 434 L 254.085938 434.363281 L 253.960938 434.550781 L 253.816406 434.65625 L 253.386719 434.746094 L 248.785156 434.753906 L 248.496094 434.710938 L 248.269531 434.578125 L 248.113281 434.289062 L 248.066406 433.855469 L 248.0625 409.425781 L 248.074219 401.234375 L 248.132812 400.804688 L 248.277344 400.589844 L 248.496094 400.476562 L 248.859375 400.433594 L 257.699219 400.472656 L 269.910156 400.4375 L 270.628906 400.46875 L 273.070312 400.824219 L 274.007812 401.015625 L 274.726562 401.257812 L 276.019531 401.855469 L 276.734375 402.242188 L 277.8125 403.070312 L 278.25 403.464844 L 279.109375 404.398438 L 279.667969 405.1875 L 280.015625 405.761719 L 280.480469 406.914062 L 281.015625 408.421875 L 281.207031 410.363281 L 281.195312 411.152344 L 281.015625 412.949219 L 280.738281 413.667969 L 280.539062 414.382812 L 280.152344 415.394531 L 279.632812 416.324219 L 278.835938 417.402344 L 277.742188 418.507812 L 276.730469 419.273438 L 275.804688 419.746094 L 274.910156 420.136719 L 273.789062 420.527344 L 272.066406 420.855469 L 271.863281 420.996094 L 271.820312 421.210938 L 271.859375 421.355469 L 271.996094 421.570312 L 273.648438 423.492188 L 275.441406 425.742188 L 276.089844 426.480469 L 277.8125 428.589844 L 278.5 429.472656 L 278.96875 429.976562 L 279.53125 430.765625 L 280.089844 431.414062 L 280.550781 432.058594 L 281.273438 432.921875 L 282.277344 434.289062 L 282.316406 434.429688 L 282.296875 434.578125 Z M 332.347656 434.730469 L 324.949219 434.746094 L 324.445312 434.671875 L 324.015625 434.476562 L 323.441406 434.066406 L 320.566406 431.535156 L 317.472656 428.976562 L 314.445312 426.3125 L 312.640625 424.804688 L 311.035156 423.367188 L 310.144531 422.652344 L 308.421875 421.109375 L 307.71875 420.566406 L 306.695312 419.691406 L 306.03125 419.058594 L 304.472656 417.710938 L 304.109375 417.441406 L 303.894531 417.359375 L 303.753906 417.382812 L 303.660156 417.476562 L 303.605469 417.617188 L 303.589844 417.832031 L 303.644531 420.417969 L 303.675781 431.917969 L 303.644531 433.714844 L 303.558594 434.363281 L 303.464844 434.542969 L 303.320312 434.667969 L 303.105469 434.746094 L 302.816406 434.769531 L 298.507812 434.753906 L 298.007812 434.675781 L 297.730469 434.503906 L 297.578125 434.214844 L 297.542969 433.855469 L 297.601562 422.359375 L 297.558594 414.53125 L 297.566406 401.167969 L 297.601562 400.804688 L 297.726562 400.589844 L 298.007812 400.453125 L 298.363281 400.410156 L 302.964844 400.425781 L 303.191406 400.445312 L 303.394531 400.515625 L 303.582031 400.734375 L 303.617188 401.019531 L 303.65625 407.128906 L 303.628906 410.433594 L 303.652344 415.460938 L 303.679688 415.714844 L 303.753906 415.875 L 303.824219 415.9375 L 303.96875 415.957031 L 304.257812 415.851562 L 304.757812 415.480469 L 313.238281 408.695312 L 314.097656 408.054688 L 317.574219 405.1875 L 319.488281 403.734375 L 321.214844 402.3125 L 323.441406 400.574219 L 323.65625 400.488281 L 324.015625 400.453125 L 330.125 400.421875 L 331.773438 400.4375 L 331.988281 400.476562 L 332.132812 400.558594 L 332.191406 400.734375 L 332.042969 400.949219 L 331.519531 401.308594 L 329.476562 402.964844 L 327.46875 404.46875 L 326.957031 404.898438 L 326.242188 405.421875 L 325.664062 405.910156 L 324.875 406.476562 L 324.015625 407.175781 L 323.511719 407.523438 L 321.5 409.125 L 319.703125 410.457031 L 318.839844 411.160156 L 316.902344 412.601562 L 314.824219 414.242188 L 311.835938 416.46875 L 311.632812 416.6875 L 311.550781 416.96875 L 311.628906 417.1875 L 311.871094 417.441406 L 313.882812 419.007812 L 315.738281 420.566406 L 316.328125 420.992188 L 317.050781 421.644531 L 317.621094 422.058594 L 318.410156 422.742188 L 319.144531 423.292969 L 322.183594 425.808594 L 322.722656 426.214844 L 323.367188 426.777344 L 325.511719 428.46875 L 326.25 429.113281 L 327.820312 430.375 L 328.46875 430.972656 L 330.480469 432.566406 L 331.773438 433.660156 L 332.515625 434.363281 L 332.578125 434.503906 L 332.5625 434.59375 L 332.496094 434.679688 Z M 390.835938 434.726562 L 390.621094 434.78125 L 389.832031 434.789062 L 384.941406 434.742188 L 384.511719 434.671875 L 384.339844 434.578125 L 384.1875 434.429688 L 383.5625 433.5 L 381.90625 430.550781 L 381.472656 429.902344 L 381.027344 429.042969 L 379.84375 426.953125 L 379.453125 426.386719 L 378.90625 425.359375 L 378.261719 424.308594 L 376.808594 421.644531 L 376.394531 421.023438 L 374.851562 418.265625 L 374.359375 417.476562 L 373.652344 416.109375 L 373.109375 415.246094 L 372.449219 414.027344 L 371.257812 412.011719 L 369.441406 408.710938 L 369.136719 408.308594 L 368.992188 408.207031 L 368.847656 408.171875 L 368.625 408.28125 L 368.261719 408.78125 L 367.328125 410.503906 L 366.910156 411.136719 L 366.453125 412.011719 L 365.726562 413.164062 L 364.238281 415.824219 L 363.953125 416.253906 L 363.316406 417.453125 L 362.710938 418.410156 L 362.332031 419.199219 L 360.808594 421.710938 L 359.152344 424.660156 L 358.777344 425.234375 L 358.128906 426.453125 L 357.546875 427.390625 L 356.878906 428.683594 L 356.5625 429.132812 L 356.046875 430.121094 L 354.535156 432.5625 L 353.859375 433.855469 L 353.402344 434.476562 L 353.113281 434.699219 L 352.757812 434.769531 L 347.152344 434.761719 L 346.863281 434.722656 L 346.722656 434.65625 L 346.609375 434.503906 L 346.585938 434.363281 L 346.703125 434 L 347.390625 432.921875 L 348.015625 431.738281 L 348.660156 430.6875 L 349.273438 429.546875 L 349.835938 428.683594 L 350.558594 427.390625 L 351.347656 426.097656 L 351.785156 425.449219 L 352.273438 424.515625 L 352.964844 423.4375 L 353.570312 422.289062 L 353.945312 421.710938 L 354.324219 420.996094 L 354.769531 420.351562 L 355.410156 419.128906 L 355.980469 418.265625 L 356.617188 417.042969 L 357.03125 416.46875 L 358.144531 414.578125 L 358.589844 413.738281 L 359.019531 413.089844 L 359.652344 411.945312 L 360.3125 410.933594 L 361.195312 409.425781 L 361.660156 408.5625 L 362.035156 407.992188 L 362.722656 406.769531 L 363.328125 405.835938 L 364.589844 403.605469 L 365.421875 402.3125 L 366.1875 400.988281 L 366.550781 400.578125 L 366.765625 400.476562 L 366.984375 400.433594 L 370.5 400.425781 L 370.789062 400.4375 L 371.003906 400.5 L 371.292969 400.722656 L 371.625 401.167969 L 372.066406 401.957031 L 372.398438 402.460938 L 373.667969 404.613281 L 374.269531 405.761719 L 374.886719 406.71875 L 376.351562 409.285156 L 376.695312 409.789062 L 377.257812 410.867188 L 378.851562 413.453125 L 379.410156 414.542969 L 380.363281 416.183594 L 380.992188 417.171875 L 381.601562 418.265625 L 381.980469 418.839844 L 383.449219 421.429688 L 384.09375 422.433594 L 384.683594 423.582031 L 385.0625 424.15625 L 386.652344 426.886719 L 387.070312 427.53125 L 387.675781 428.625 L 388.269531 429.546875 L 390.132812 432.707031 L 390.996094 434.289062 L 391.019531 434.429688 L 390.996094 434.578125 Z M 271.011719 415.675781 L 271.851562 415.582031 L 272.570312 415.394531 L 273.433594 414.917969 L 274.078125 414.464844 L 274.511719 414.09375 L 274.941406 413.515625 L 275.183594 413.023438 L 275.441406 412.28125 L 275.71875 411.082031 L 275.746094 410.652344 L 275.6875 410.21875 L 275.34375 408.925781 L 274.996094 408.132812 L 274.523438 407.484375 L 273.933594 406.984375 L 273.21875 406.503906 L 272.640625 406.25 L 271.851562 406.027344 L 269.835938 405.839844 L 254.894531 405.855469 L 254.679688 405.882812 L 254.464844 405.964844 L 254.246094 406.191406 L 254.171875 406.410156 L 254.152344 406.625 L 254.148438 415.03125 L 254.222656 415.394531 L 254.316406 415.539062 L 254.464844 415.652344 L 254.679688 415.726562 L 254.964844 415.742188 L 266.246094 415.742188 Z M 271.011719 415.675781"></path><path fill="#CE1126" d="M 397.519531 426.3125 L 406.140625 426.3125 L 406.140625 434.933594 L 397.519531 434.933594 Z M 397.519531 426.3125"></path></svg></div>
+    <div class="nav">
+      <button type="button" class="round" data-stop data-act="theme" aria-label="Passer en mode nuit">
+        <svg data-if="light" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+        <svg data-if="dark" hidden width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg>
+      </button>
+      <button type="button" class="linkbtn" data-stop data-act="partners">Devenir maison partenaire<svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M3 9L9 3M4 3h5v5"/></svg></button>
+      <span class="sep" aria-hidden="true"></span>
+      <button type="button" class="solid" data-stop data-act="contact">Nous contacter</button>
+    </div>
+  </header>
 
-<path fill="#A6A6A6" d="M130.198 39.989H4.729A4.73 4.73 0 0 1 0 35.268V4.726A4.733 4.733 0 0 1 4.729 0h125.468a4.735 4.735 0 0 1 4.729 4.726v30.542c.002 2.604-2.123 4.721-4.728 4.721z"/>
+  <h1 class="sr">ARKA — Chaque montre, son cours</h1>
+  <div class="arka-phrase" style="left:7%;top:22%;max-width:320px"><div class="t">Un wallet pour toutes vos montres.</div><div class="s">Votre collection réunie en un seul espace.</div></div>
+  <div class="arka-phrase" style="left:58%;top:14%;max-width:320px"><div class="t">L’évolution de votre patrimoine.</div><div class="s">Suivez la valeur de votre collection dans le temps.</div></div>
+  <div class="arka-phrase" style="left:32%;top:30%;max-width:300px"><div class="t">La juste valeur.</div><div class="s">Basée sur des ventes réelles, pas sur des prix affichés.</div></div>
+  <div class="arka-phrase" style="left:73%;top:40%;max-width:260px"><div class="t">Maisons suisses.</div><div class="s" data-p6text>Des maisons suisses construisent la cote avec Arka.</div></div>
+  <div class="arka-phrase" style="left:6%;top:56%;max-width:320px"><div class="t">Un assistant IA qui connaît votre collection.</div><div class="s">Toute l’horlogerie à portée de question.</div></div>
+  <div class="arka-phrase" style="left:62%;top:70%;max-width:320px"><div class="t">Neutre.</div><div class="s">Arka n’achète et ne vend aucune montre.</div></div>
+  <div class="arka-phrase" style="left:22%;top:79%;max-width:340px"><div class="t">Une méthode vérifiable.</div><div class="s">Calcul déterministe, reproductible et journalisé.</div></div>
 
-<path d="M134.032 35.268a3.83 3.83 0 0 1-3.834 3.83H4.729a3.835 3.835 0 0 1-3.839-3.83V4.725A3.84 3.84 0 0 1 4.729.89h125.468a3.834 3.834 0 0 1 3.834 3.835l.001 30.543z"/>
+  <div class="conv" aria-hidden="true">Chaque montre, son cours.</div>
 
-<path fill="#FFF" d="M30.128 19.784c-.029-3.223 2.639-4.791 2.761-4.864-1.511-2.203-3.853-2.504-4.676-2.528-1.967-.207-3.875 1.177-4.877 1.177-1.022 0-2.565-1.157-4.228-1.123-2.14.033-4.142 1.272-5.24 3.196-2.266 3.923-.576 9.688 1.595 12.859 1.086 1.554 2.355 3.287 4.016 3.226 1.625-.066 2.232-1.035 4.193-1.035 1.943 0 2.513 1.035 4.207.996 1.744-.027 2.842-1.56 3.89-3.127 1.255-1.779 1.759-3.533 1.779-3.623-.04-.014-3.386-1.292-3.42-5.154zM26.928 10.306c.874-1.093 1.472-2.58 1.306-4.089-1.265.056-2.847.875-3.758 1.944-.806.942-1.526 2.486-1.34 3.938 1.421.106 2.88-.717 3.792-1.793z"/>
+  <footer class="chrome-bot" data-chrome>
+    <span class="hint" data-hint>Explorez · Maintenez le clic pour converger</span>
+    <div class="boot" data-boot>
+      <div class="ticks" role="img" aria-label="Arka en préparation" data-ticks></div>
+      <div style="display:flex;align-items:baseline;gap:10px"><span>Arka en préparation</span><span class="pct" data-pct>0 %</span></div>
+    </div>
+    <div class="bot-right">
+      <button type="button" class="outline arka-btn" data-stop data-act="all" aria-pressed="false">Tout révéler</button>
+      <span class="desk-only">Neuchâtel, Suisse</span>
+      <button type="button" class="linkbtn mobile-only" data-stop data-act="partners">Maisons partenaires<svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M3 9L9 3M4 3h5v5"/></svg></button>
+    </div>
+  </footer>
 
-
-
-
-
-<g fill="#FFF">
-
-<path d="M53.665 31.504h-2.271l-1.244-3.909h-4.324l-1.185 3.909H42.43l4.285-13.308h2.646l4.304 13.308zm-3.89-5.549L48.65 22.48c-.119-.355-.343-1.191-.671-2.507h-.04c-.132.566-.343 1.402-.632 2.507l-1.106 3.475h3.574zM64.663 26.588c0 1.632-.443 2.922-1.33 3.869-.794.843-1.781 1.264-2.958 1.264-1.271 0-2.185-.453-2.74-1.361v5.035h-2.132V25.062c0-1.025-.027-2.076-.079-3.154h1.875l.119 1.521h.04c.711-1.146 1.79-1.719 3.238-1.719 1.132 0 2.077.447 2.833 1.342.755.897 1.134 2.075 1.134 3.536zm-2.172.078c0-.934-.21-1.704-.632-2.311-.461-.631-1.08-.947-1.856-.947-.526 0-1.004.176-1.431.523-.428.35-.708.807-.839 1.373a2.784 2.784 0 0 0-.099.649v1.601c0 .697.214 1.286.642 1.768.428.48.984.721 1.668.721.803 0 1.428-.311 1.875-.928.448-.619.672-1.435.672-2.449zM75.7 26.588c0 1.632-.443 2.922-1.33 3.869-.795.843-1.781 1.264-2.959 1.264-1.271 0-2.185-.453-2.74-1.361v5.035h-2.132V25.062c0-1.025-.027-2.076-.079-3.154h1.875l.119 1.521h.04c.71-1.146 1.789-1.719 3.238-1.719 1.131 0 2.076.447 2.834 1.342.754.897 1.134 2.075 1.134 3.536zm-2.173.078c0-.934-.211-1.704-.633-2.311-.461-.631-1.078-.947-1.854-.947-.526 0-1.004.176-1.433.523-.428.35-.707.807-.838 1.373-.065.264-.1.479-.1.649v1.601c0 .697.215 1.286.641 1.768.428.479.984.721 1.67.721.804 0 1.429-.311 1.875-.928.448-.619.672-1.435.672-2.449zM88.04 27.771c0 1.133-.396 2.054-1.183 2.765-.866.776-2.075 1.165-3.625 1.165-1.432 0-2.58-.276-3.446-.829l.493-1.777c.935.554 1.962.83 3.08.83.804 0 1.429-.182 1.875-.543.447-.362.673-.846.673-1.45 0-.541-.187-.994-.554-1.363-.369-.368-.979-.711-1.836-1.026-2.33-.869-3.496-2.14-3.496-3.812 0-1.092.412-1.986 1.234-2.685.822-.698 1.912-1.047 3.268-1.047 1.211 0 2.22.211 3.021.632l-.535 1.738c-.754-.408-1.605-.612-2.557-.612-.752 0-1.342.185-1.764.553-.355.329-.535.73-.535 1.206 0 .525.205.961.613 1.303.354.315 1 .658 1.934 1.026 1.146.462 1.988 1 2.527 1.618.543.618.813 1.389.813 2.308zM95.107 23.508h-2.35v4.659c0 1.185.414 1.776 1.244 1.776.381 0 .697-.032.947-.099l.059 1.619c-.42.157-.973.236-1.658.236-.842 0-1.5-.257-1.975-.771-.473-.514-.711-1.375-.711-2.587v-4.837h-1.4v-1.6h1.4v-1.757l2.094-.632v2.389h2.35v1.604zM105.689 26.627c0 1.475-.422 2.686-1.264 3.633-.881.975-2.053 1.461-3.514 1.461-1.41 0-2.531-.467-3.367-1.4-.836-.935-1.254-2.113-1.254-3.534 0-1.487.432-2.705 1.293-3.652.863-.948 2.025-1.422 3.486-1.422 1.408 0 2.539.468 3.395 1.402.818.906 1.225 2.076 1.225 3.512zm-2.21.049c0-.879-.19-1.633-.571-2.264-.447-.762-1.087-1.143-1.916-1.143-.854 0-1.509.381-1.955 1.143-.382.631-.572 1.398-.572 2.304 0 .88.19 1.636.572 2.265.461.762 1.104 1.143 1.937 1.143.815 0 1.454-.389 1.916-1.162.392-.646.589-1.405.589-2.286zM112.622 23.783a3.71 3.71 0 0 0-.672-.059c-.75 0-1.33.282-1.738.85-.354.5-.532 1.132-.532 1.895v5.035h-2.132V24.93a67.43 67.43 0 0 0-.062-3.021h1.857l.078 1.836h.059c.226-.631.58-1.14 1.066-1.521a2.578 2.578 0 0 1 1.541-.514c.197 0 .375.014.533.039l.002 2.034zM122.157 26.252a5 5 0 0 1-.078.967h-6.396c.024.948.334 1.674.928 2.174.539.446 1.236.67 2.092.67.947 0 1.811-.15 2.588-.453l.334 1.479c-.908.396-1.98.593-3.217.593-1.488 0-2.656-.438-3.506-1.312-.848-.875-1.273-2.051-1.273-3.524 0-1.446.395-2.651 1.186-3.612.828-1.026 1.947-1.539 3.355-1.539 1.383 0 2.43.513 3.141 1.539.563.813.846 1.821.846 3.018zm-2.033-.553c.015-.633-.125-1.178-.414-1.639-.369-.594-.937-.89-1.698-.89-.697 0-1.265.289-1.697.869-.355.461-.566 1.015-.631 1.658l4.44.002z"/>
-
-</g>
-
-<g fill="#FFF">
-
-<path d="M45.211 13.491c-.593 0-1.106-.029-1.533-.078V6.979a11.606 11.606 0 0 1 1.805-.136c2.445 0 3.571 1.203 3.571 3.164 0 2.262-1.33 3.484-3.843 3.484zm.358-5.823c-.33 0-.611.02-.844.068v4.891c.126.02.368.029.708.029 1.602 0 2.514-.912 2.514-2.62 0-1.523-.825-2.368-2.378-2.368zM52.563 13.54c-1.378 0-2.271-1.029-2.271-2.426 0-1.456.912-2.494 2.349-2.494 1.358 0 2.271.98 2.271 2.417 0 1.474-.941 2.503-2.349 2.503zm.04-4.154c-.757 0-1.242.708-1.242 1.698 0 .971.495 1.679 1.232 1.679s1.232-.757 1.232-1.699c0-.96-.485-1.678-1.222-1.678zM62.77 8.717l-1.475 4.716h-.961l-.611-2.048a15.53 15.53 0 0 1-.379-1.523h-.02c-.077.514-.223 1.029-.378 1.523l-.65 2.048h-.971l-1.388-4.716h1.077l.534 2.242c.126.534.232 1.038.32 1.514h.02c.077-.397.203-.893.388-1.504l.67-2.251h.854l.641 2.203c.155.534.281 1.058.379 1.553h.028c.068-.485.175-1 .32-1.553l.573-2.203 1.029-.001zM68.2 13.433h-1.048v-2.708c0-.834-.32-1.252-.951-1.252-.621 0-1.048.534-1.048 1.155v2.805h-1.048v-3.368c0-.417-.01-.864-.039-1.349h.922l.049.728h.029c.282-.504.854-.824 1.495-.824.99 0 1.64.757 1.64 1.989l-.001 2.824zM71.09 13.433h-1.049v-6.88h1.049v6.88zM74.911 13.54c-1.377 0-2.271-1.029-2.271-2.426 0-1.456.912-2.494 2.348-2.494 1.359 0 2.271.98 2.271 2.417.001 1.474-.941 2.503-2.348 2.503zm.039-4.154c-.757 0-1.242.708-1.242 1.698 0 .971.496 1.679 1.231 1.679.738 0 1.232-.757 1.232-1.699.001-.96-.483-1.678-1.221-1.678zM81.391 13.433l-.076-.543h-.028c-.32.437-.787.65-1.379.65-.845 0-1.445-.592-1.445-1.388 0-1.164 1.009-1.766 2.756-1.766v-.087c0-.621-.329-.932-.979-.932-.465 0-.873.117-1.232.35l-.213-.689c.436-.272.98-.408 1.619-.408 1.232 0 1.854.65 1.854 1.951v1.737c0 .476.021.845.068 1.126l-.945-.001zm-.144-2.349c-1.164 0-1.748.282-1.748.951 0 .495.301.737.719.737.533 0 1.029-.407 1.029-.96v-.728zM87.357 13.433l-.049-.757h-.029c-.301.572-.807.864-1.514.864-1.137 0-1.979-1-1.979-2.407 0-1.475.873-2.514 2.065-2.514.631 0 1.078.213 1.33.641h.021V6.553h1.049v5.609c0 .456.011.883.039 1.271h-.933zm-.155-2.775c0-.66-.437-1.223-1.104-1.223-.777 0-1.252.689-1.252 1.659 0 .951.493 1.602 1.231 1.602.659 0 1.125-.573 1.125-1.252v-.786zM94.902 13.54c-1.377 0-2.27-1.029-2.27-2.426 0-1.456.912-2.494 2.348-2.494 1.359 0 2.271.98 2.271 2.417.001 1.474-.94 2.503-2.349 2.503zm.039-4.154c-.756 0-1.241.708-1.241 1.698 0 .971.495 1.679 1.231 1.679.738 0 1.232-.757 1.232-1.699.002-.96-.483-1.678-1.222-1.678zM102.887 13.433h-1.049v-2.708c0-.834-.32-1.252-.951-1.252-.621 0-1.047.534-1.047 1.155v2.805h-1.049v-3.368c0-.417-.01-.864-.039-1.349h.922l.049.728h.029c.281-.504.854-.825 1.494-.825.99 0 1.641.757 1.641 1.989v2.825zM109.938 9.503h-1.153v2.29c0 .583.202.874.61.874.185 0 .34-.02.465-.049l.029.796c-.203.078-.475.117-.813.117-.826 0-1.32-.456-1.32-1.65V9.503h-.688v-.786h.688v-.864l1.029-.311v1.174h1.153v.787zM115.486 13.433h-1.047v-2.688c0-.844-.319-1.271-.951-1.271-.543 0-1.049.369-1.049 1.116v2.843h-1.047v-6.88h1.047v2.833h.021c.33-.514.808-.767 1.418-.767.998 0 1.608.776 1.608 2.009v2.805zM121.17 11.327h-3.145c.02.893.611 1.397 1.486 1.397.465 0 .893-.078 1.271-.223l.163.728c-.446.194-.971.291-1.582.291-1.475 0-2.348-.932-2.348-2.377 0-1.446.894-2.533 2.23-2.533 1.205 0 1.961.893 1.961 2.242a2.02 2.02 0 0 1-.036.475zm-.961-.747c0-.728-.367-1.242-1.037-1.242-.602 0-1.078.524-1.146 1.242h2.183z"/>
-
-</g>
-
-</symbol>
-  <symbol id="badge-googleplay" viewBox="0 0 180 53.333"><path id="path11" d="m173.33 53.333h-166.66c-3.6666 0-6.6665-2.9999-6.6665-6.6665v-39.999c0-3.6666 2.9999-6.6665 6.6665-6.6665h166.66c3.6666 0 6.6665 2.9999 6.6665 6.6665v39.999c0 3.6666-2.9999 6.6665-6.6665 6.6665" fill="#100f0d" stroke-width=".13333"/><path id="path13" d="m173.33 1e-3h-166.66c-3.6666 0-6.6665 2.9999-6.6665 6.6665v39.999c0 3.6666 2.9999 6.6665 6.6665 6.6665h166.66c3.6666 0 6.6665-2.9999 6.6665-6.6665v-39.999c0-3.6666-2.9999-6.6665-6.6665-6.6665zm0 1.0661c3.0879 0 5.5999 2.5125 5.5999 5.6004v39.999c0 3.0879-2.5119 5.6004-5.5999 5.6004h-166.66c-3.0879 0-5.5993-2.5125-5.5993-5.6004v-39.999c0-3.0879 2.5114-5.6004 5.5993-5.6004h166.66" fill="#a2a2a1" stroke-width=".13333"/><path id="path35" d="m142.58 40h2.4879v-16.669h-2.4879zm22.409-10.664-2.8519 7.2264h-0.0853l-2.9599-7.2264h-2.6799l4.4399 10.1-2.5319 5.6185h2.5946l6.8412-15.718zm-14.11 8.7706c-0.81331 0-1.9506-0.40786-1.9506-1.4156 0-1.2865 1.416-1.7797 2.6373-1.7797 1.0933 0 1.6093 0.23546 2.2733 0.55732-0.19333 1.5442-1.5226 2.6379-2.9599 2.6379zm0.30133-9.1352c-1.8013 0-3.6666 0.79371-4.4386 2.5521l2.208 0.92184c0.47198-0.92184 1.3506-1.2218 2.2733-1.2218 1.2866 0 2.5946 0.77131 2.6159 2.1442v0.17133c-0.45066-0.25733-1.416-0.64318-2.5946-0.64318-2.3813 0-4.8039 1.3077-4.8039 3.7524 0 2.2302 1.952 3.6671 4.1386 3.6671 1.672 0 2.5959-0.75054 3.1732-1.6301h0.0867v1.2874h2.4026v-6.391c0-2.9593-2.2106-4.6103-5.0612-4.6103zm-15.376 2.3937h-3.5386v-5.7133h3.5386c1.86 0 2.9159 1.5396 2.9159 2.8566 0 1.2917-1.056 2.8567-2.9159 2.8567zm-0.064-8.0337h-5.9614v16.669h2.4869v-6.3149h3.4746c2.7573 0 5.4679-1.9958 5.4679-5.1765 0-3.1801-2.7106-5.1769-5.4679-5.1769zm-32.507 14.778c-1.7188 0-3.1573-1.4396-3.1573-3.415 0-1.9984 1.4385-3.4583 3.1573-3.4583 1.6969 0 3.0286 1.46 3.0286 3.4583 0 1.9754-1.3317 3.415-3.0286 3.415zm2.8567-7.8403h-0.086c-0.55826-0.66572-1.6328-1.2672-2.9853-1.2672-2.8359 0-5.4348 2.4921-5.4348 5.6925 0 3.1786 2.5989 5.6488 5.4348 5.6488 1.3525 0 2.427-0.6016 2.9853-1.2885h0.086v0.81558c0 2.1703-1.1598 3.3296-3.0286 3.3296-1.5245 0-2.4697-1.0953-2.8567-2.0188l-2.1691 0.90206c0.62238 1.503 2.2759 3.351 5.0259 3.351 2.9218 0 5.392-1.7188 5.392-5.9077v-10.181h-2.3634zm4.0822 9.7304h2.4906v-16.669h-2.4906zm6.164-5.4988c-0.0641-2.1911 1.6978-3.3078 2.9645-3.3078 0.98851 0 1.8254 0.49425 2.1057 1.2026zm7.7326-1.8906c-0.47238-1.2666-1.9114-3.6082-4.8541-3.6082-2.9218 0-5.3488 2.2983-5.3488 5.6707 0 3.1791 2.4062 5.6707 5.6275 5.6707 2.5989 0 4.1031-1.589 4.7264-2.513l-1.9333-1.289c-0.64465 0.94531-1.5249 1.5682-2.7931 1.5682-1.2666 0-2.1692-0.58012-2.7483-1.7186l7.5815-3.1359zm-60.409-1.8682v2.4057h5.7565c-0.17186 1.3532-0.62292 2.3411-1.3104 3.0286-0.83798 0.83745-2.1483 1.7614-4.4462 1.7614-3.5443 0-6.315-2.8567-6.315-6.4009s2.7707-6.4013 6.315-6.4013c1.9118 0 3.3077 0.75198 4.3388 1.7186l1.6974-1.6973c-1.4396-1.3745-3.351-2.427-6.0362-2.427-4.8552 0-8.9363 3.9524-8.9363 8.807 0 4.8541 4.0811 8.8066 8.9363 8.8066 2.6202 0 4.5967-0.85932 6.143-2.4702 1.5896-1.5896 2.0838-3.8234 2.0838-5.628 0-0.55785-0.04333-1.0734-0.1292-1.5032zm14.772 7.3675c-1.7188 0-3.201-1.4177-3.201-3.4368 0-2.0406 1.4822-3.4364 3.201-3.4364 1.7181 0 3.2003 1.3958 3.2003 3.4364 0 2.0191-1.4822 3.4368-3.2003 3.4368zm0-9.1075c-3.137 0-5.6927 2.3842-5.6927 5.6707 0 3.265 2.5557 5.6707 5.6927 5.6707 3.1358 0 5.692-2.4057 5.692-5.6707 0-3.2865-2.5562-5.6707-5.692-5.6707zm12.417 9.1075c-1.7176 0-3.2003-1.4177-3.2003-3.4368 0-2.0406 1.4828-3.4364 3.2003-3.4364 1.7188 0 3.2005 1.3958 3.2005 3.4364 0 2.0191-1.4817 3.4368-3.2005 3.4368zm0-9.1075c-3.1358 0-5.6915 2.3842-5.6915 5.6707 0 3.265 2.5557 5.6707 5.6915 5.6707 3.137 0 5.6927-2.4057 5.6927-5.6707 0-3.2865-2.5557-5.6707-5.6927-5.6707" fill="#fff" stroke-width=".13333"/><path id="path37" d="m27.622 25.899-14.194 15.066c5.34e-4 0.0031 0.0016 0.0057 0.0021 0.0089 0.43532 1.636 1.9296 2.8406 3.703 2.8406 0.70892 0 1.3745-0.19166 1.9453-0.52812l0.04533-0.02656 15.978-9.22-7.479-8.141" fill="#eb3131" stroke-width=".13333"/><path id="path39" d="m41.983 23.334-0.0136-0.0093-6.8982-3.999-7.7717 6.9156 7.7987 7.7977 6.8618-3.9592c1.203-0.64945 2.0197-1.9177 2.0197-3.3802 0-1.452-0.80571-2.7139-1.9968-3.3655" fill="#f6b60b" stroke-width=".13333"/><path id="path41" d="m13.426 12.37c-0.08533 0.31466-0.13018 0.64425-0.13018 0.98651v26.623c0 0.34162 0.04432 0.67233 0.13072 0.98587l14.684-14.681-14.684-13.914" fill="#5778c5" stroke-width=".13333"/><path id="path43" d="m27.727 26.668 7.3473-7.3451-15.96-9.2534c-0.58012-0.34746-1.2572-0.54799-1.9817-0.54799-1.7734 0-3.2697 1.2068-3.7051 2.8447-5.34e-4 0.0016-5.34e-4 0.0027-5.34e-4 0.0041l14.3 14.298" fill="#3bad49" stroke-width=".13333"/><path id="path33" d="m63.193 13.042h-3.8895v0.96251h2.9146c-0.0792 0.78545-0.39172 1.4021-0.91878 1.85-0.52705 0.44799-1.2 0.67292-1.9958 0.67292-0.87291 0-1.6125-0.30413-2.2186-0.90824-0.59385-0.61665-0.89584-1.3792-0.89584-2.2979 0-0.91864 0.30199-1.6812 0.89584-2.2978 0.60612-0.60412 1.3457-0.90624 2.2186-0.90624 0.44799 0 0.87504 0.07707 1.2666 0.24586 0.39172 0.16866 0.70625 0.40412 0.95211 0.70625l0.73958-0.73958c-0.33546-0.38132-0.76038-0.67292-1.2876-0.88544-0.52705-0.21253-1.077-0.31453-1.6708-0.31453-1.1645 0-2.1519 0.40412-2.9582 1.2104-0.80625 0.80825-1.2104 1.8041-1.2104 2.9811 0 1.177 0.40412 2.175 1.2104 2.9813 0.80625 0.80611 1.7937 1.2104 2.9582 1.2104 1.2229 0 2.1979-0.39172 2.9479-1.1876 0.66038-0.66238 0.99784-1.5582 0.99784-2.679 0-0.1896-0.02293-0.39172-0.05627-0.60425zm1.5068-3.7332v8.0249h4.6852v-0.98544h-3.654v-2.5457h3.2958v-0.96251h-3.2958v-2.5437h3.654v-0.98758zm11.255 0.98758v-0.98758h-5.5145v0.98758h2.2417v7.0373h1.0312v-7.0373zm4.9925-0.98758h-1.0312v8.0249h1.0312zm6.8066 0.98758v-0.98758h-5.5144v0.98758h2.2415v7.0373h1.0312v-7.0373zm10.406 0.05626c-0.79585-0.81877-1.7708-1.2229-2.9354-1.2229-1.1666 0-2.1415 0.40412-2.9374 1.2104-0.79585 0.79585-1.1874 1.7937-1.1874 2.9811s0.39159 2.1854 1.1874 2.9813c0.79585 0.80611 1.7708 1.2104 2.9374 1.2104 1.1541 0 2.1395-0.40426 2.9354-1.2104 0.79585-0.79585 1.1874-1.7938 1.1874-2.9813 0-1.177-0.39159-2.1729-1.1874-2.9686zm-5.1332 0.67078c0.59372-0.60412 1.3229-0.90624 2.1978-0.90624 0.87291 0 1.6021 0.30213 2.1854 0.90624 0.59372 0.59372 0.88531 1.3686 0.88531 2.2978 0 0.93131-0.29159 1.7041-0.88531 2.2979-0.58332 0.60412-1.3125 0.90824-2.1854 0.90824-0.87491 0-1.6041-0.30413-2.1978-0.90824-0.58132-0.60625-0.87291-1.3666-0.87291-2.2979 0-0.92918 0.29159-1.6916 0.87291-2.2978zm8.7706 1.3125-0.0437-1.548h0.0437l4.0791 6.5457h1.077v-8.0249h-1.0312v4.6957l0.0437 1.548h-0.0437l-3.8999-6.2437h-1.2562v8.0249h1.0312z" fill="#fff" stroke="#fff" stroke-miterlimit="10" stroke-width=".26666"/></symbol>
-</svg>
-<a class="skip" href="#main">Aller au contenu</a>
-
-<header class="top">
-  <div class="wrap">
-    <a class="wordmark" href="#main" aria-label="ARKA, accueil">
-      <svg viewBox="0 0 442 100" aria-hidden="true"><g fill="none" stroke="#0E0E0F" stroke-width="9"><path d="M0 100 L39 0 L78 100"/><path d="M118.5 0 V100"/><path d="M118.5 4.5 H154 C176 4.5 176 49 154 49 H118.5"/><path d="M148 49 L184 100"/><path d="M224.5 0 V100"/><path d="M280 0 L226 55"/><path d="M238 42 L284 100"/><path d="M320 100 L359 0 L398 100"/></g><rect x="422" y="80" width="20" height="20" fill="#CE1126"/></svg>
-    </a>
-    <nav class="nav" aria-label="Principale">
-      <a class="link" href="#maisons">Partenaires</a>
-      <a class="pill" href="mailto:contact@arkawatch.com">Nous contacter
-        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5 4h5v5"/></svg></a>
-    </nav>
+  <div class="veil" data-contact hidden>
+    <div class="dialog" role="dialog" aria-modal="true" aria-label="Nous contacter">
+      <button type="button" class="close" data-act="contact-close" aria-label="Fermer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      <div style="display:flex;flex-direction:column;gap:8px"><span class="kicker">Contact</span><span class="dtitle">Restons en contact.</span></div>
+      <div data-notsent style="display:flex;flex-direction:column;gap:16px">
+        <div class="seg" role="group" aria-label="Type de demande">
+          <button type="button" data-act="mode-ins" aria-pressed="true">S’inscrire</button>
+          <button type="button" data-act="mode-q" aria-pressed="false">Poser une question</button>
+        </div>
+        <label class="field">Votre adresse e-mail<input type="email" data-email placeholder="nom@maison.ch" autocomplete="email"></label>
+        <label class="field" data-qonly hidden>Votre question<textarea data-msg rows="4"></textarea></label>
+        <span class="hintline" data-insonly>Soyez prévenu dès la sortie de l’application.</span>
+        <a class="send" data-send href="mailto:contact@arkawatch.com" aria-disabled="true">Envoyer →</a>
+      </div>
+      <div data-sent hidden style="display:flex;flex-direction:column;gap:10px">
+        <span style="font-size:15px;line-height:1.5">Merci. Nous revenons vers vous très vite.</span>
+        <span class="mail" style="text-transform:uppercase;letter-spacing:.14em;font-size:10px">contact@arkawatch.com</span>
+      </div>
+    </div>
   </div>
-</header>
 
-<main id="main">
-  <section class="hero" aria-labelledby="titre">
-    <canvas class="terrain" aria-hidden="true"></canvas>
-    <div class="wrap">
-      <div class="hero-copy">
-        <p class="eyebrow rise">Indice horloger suisse</p>
-        <h1 id="titre" class="rise">Le prix juste<br>des montres<br>suisses<span class="dot">.</span></h1>
-        <p class="lead rise">La valeur de vos montres, calculée sur des ventes réellement conclues en Suisse. Pas sur des prix affichés.</p>
-        <div class="stores rise">
-          <div class="badges">
-            <div class="badge" role="img" aria-label="App Store : bientôt disponible"><svg viewBox="0 0 135 40" aria-hidden="true"><use href="#badge-appstore"/></svg></div>
-            <div class="badge" role="img" aria-label="Google Play : bientôt disponible"><svg viewBox="0 0 180 53.333" aria-hidden="true"><use href="#badge-googleplay"/></svg></div>
+  <div class="partners" data-partners hidden>
+    <div class="pbar">
+      <span class="tag"><i></i>Maisons partenaires</span>
+      <div class="right">
+        <button type="button" class="round" data-act="theme" aria-label="Passer en mode nuit">
+          <svg data-if="light" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+          <svg data-if="dark" hidden width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg>
+        </button>
+        <button type="button" class="square" data-act="partners-close"><span class="desk-only">Retour à la constellation</span><span class="mobile-only">Retour</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
+      </div>
+    </div>
+    <div class="phero">
+      <div class="copy">
+        <h2 class="big">Le prix juste se construit avec vous<b>.</b></h2>
+        <p class="lede">Nous invitons quelques maisons suisses à bâtir avec nous la cote de référence, à partir de leurs ventes conclues.</p>
+      </div>
+      <div class="down"><button type="button" class="arka-btn" data-act="scroll-down">Découvrir comment ça fonctionne<svg class="arka-bob" width="12" height="14" viewBox="0 0 12 14" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M6 1v11M1.5 7.5L6 12l4.5-4.5"/></svg></button></div>
+    </div>
+    <div class="pbody">
+      <div class="inner">
+        <section class="prow">
+          <div class="head"><span class="tag"><i></i>Fonctionnement</span><h3 class="h2">Trois étapes, aucune contrainte.</h3></div>
+          <div class="main"><div class="steps">
+            <div class="step"><span class="n">01</span><span class="st">Vous partagez vos ventes conclues.</span><span class="sd">Référence, état, full set, date et prix payé. Sous la forme qui vous convient : export régulier, fichier ou accès dédié.</span></div>
+            <div class="step"><span class="n">02</span><span class="st">Arka agrège et anonymise.</span><span class="sd">Vos ventes rejoignent celles des autres maisons. Aucune n’est affichée individuellement, aucune donnée client n’est demandée.</span></div>
+            <div class="step"><span class="n">03</span><span class="st">La cote Arka est publiée.</span><span class="sd">Un calcul déterministe, reproductible et journalisé, mis à jour semaine après semaine.</span></div>
+          </div></div>
+        </section>
+        <section class="prow">
+          <div class="head"><span class="tag"><i></i>Confiance</span><h3 class="h2">Vos données restent les vôtres.</h3></div>
+          <div class="main">
+            <p class="para">Les ventes partagées servent uniquement au calcul de la cote Arka. Elles sont agrégées avant toute publication et ne sont jamais revendues.</p>
+            <p class="para">Arka n’achète et ne vend aucune montre. Nos cotes reflètent le marché, rien d’autre.</p>
           </div>
-          <p class="soon">Bientôt disponible</p>
-        </div>
-      </div>
-
-      <div class="stage">
-        <p class="side-label" aria-hidden="true">Évolution d’un patrimoine horloger</p>
-        <div class="phone-wrap" role="img" aria-label="Aperçu de l’app ARKA : une collection estimée à 166’750 francs, en hausse de 8,2 % sur un an.">
-          <div class="phone" aria-hidden="true">
-            <div class="screen">
-              <div class="island"></div>
-              <div class="status"><span>9:41</span>
-                <svg viewBox="0 0 54 11"><g fill="#0E0E0F"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/><path d="M27 2.2c2 0 3.8.8 5.1 2l1-1A8.6 8.6 0 0 0 27 .8a8.6 8.6 0 0 0-6.1 2.4l1 1A7.2 7.2 0 0 1 27 2.2Zm0 3.2c1.1 0 2.1.4 2.9 1.1l1-1A5.6 5.6 0 0 0 27 4a5.6 5.6 0 0 0-3.9 1.5l1 1c.8-.7 1.8-1.1 2.9-1.1Zm0 3.1c-.5 0-.9.2-1.2.5L27 10.2l1.2-1.2c-.3-.3-.7-.5-1.2-.5Z"/><rect x="37" y="1" width="15" height="9" rx="2.5" fill="none" stroke="#0E0E0F" opacity=".4"/><rect x="38.5" y="2.5" width="11" height="6" rx="1.3"/><rect x="52.6" y="4" width="1.4" height="3" rx=".7" opacity=".4"/></g></svg>
-              </div>
-              <div class="app-bar">
-                <svg viewBox="0 0 18 14" fill="none" stroke="#0E0E0F" stroke-width="1.6"><path d="M1 2h16M1 7h16M1 12h11"/></svg>
-                <svg class="mini" viewBox="0 0 442 100"><g fill="none" stroke="#0E0E0F" stroke-width="11"><path d="M0 100 L39 0 L78 100"/><path d="M118.5 0 V100"/><path d="M118.5 5.5 H154 C176 5.5 176 49 154 49 H118.5"/><path d="M148 49 L184 100"/><path d="M224.5 0 V100"/><path d="M280 0 L226 55"/><path d="M238 42 L284 100"/><path d="M320 100 L359 0 L398 100"/></g><rect x="422" y="80" width="20" height="20" fill="#CE1126"/></svg>
-                <svg class="more" viewBox="0 0 18 4" fill="#0E0E0F"><circle cx="2" cy="2" r="1.6"/><circle cx="9" cy="2" r="1.6"/><circle cx="16" cy="2" r="1.6"/></svg>
-              </div>
-              <h3>Ma collection</h3>
-              <p class="label">Valeur totale</p>
-              <p class="value">CHF <span data-count="166750">166’750</span></p>
-              <div class="delta"><b>+8,2 %</b><span>Depuis 1 an</span></div>
-              <div class="chart">
-                <svg viewBox="0 0 260 150">
-                  <defs><linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0E0E0F" stop-opacity=".08"/><stop offset="1" stop-color="#0E0E0F" stop-opacity="0"/></linearGradient></defs>
-                  <g stroke="#E7E5E0" stroke-width="1"><path d="M0 20H260M0 60H260M0 100H260"/></g>
-                  <path d="M10 112 L48 98 L86 101 L124 86 L162 80 L200 72 L238 46 L238 132 L10 132 Z" fill="url(#area)"/>
-                  <path class="line" d="M10 112 L48 98 L86 101 L124 86 L162 80 L200 72 L238 46" fill="none" stroke="#0E0E0F" stroke-width="1.8" stroke-linejoin="round"/>
-                  <g fill="#0E0E0F"><circle cx="10" cy="112" r="2.6"/><circle cx="48" cy="98" r="2.6"/><circle cx="86" cy="101" r="2.6"/><circle cx="124" cy="86" r="2.6"/><circle cx="162" cy="80" r="2.6"/><circle cx="200" cy="72" r="2.6"/></g>
-                  <g class="end"><circle class="halo" cx="238" cy="46" r="5" fill="#CE1126"/><circle cx="238" cy="46" r="4.2" fill="#CE1126" stroke="#fff" stroke-width="2"/></g>
-                  <g font-size="8" fill="#8A8990" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,sans-serif"><text x="10" y="147">2020</text><text x="48" y="147">2021</text><text x="86" y="147">2022</text><text x="124" y="147">2023</text><text x="162" y="147">2024</text><text x="200" y="147">2025</text><text x="238" y="147" fill="#0E0E0F" font-weight="600">2026</text></g>
-                </svg>
-              </div>
-              <div class="ranges"><span class="on">1A</span><span>3A</span><span>5A</span><span>10A</span><span>MAX</span></div>
-              <div class="tabs">
-                <div class="on"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="14" height="14" rx="4" fill="currentColor"/><circle cx="10" cy="10" r="3" stroke="#fff"/></svg>Collection</div>
-                <div><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="9" r="5.5"/><path d="m13 13 4 4"/></svg>Recherche</div>
-                <div><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="14" height="14" rx="4"/><circle cx="10" cy="10" r="3"/></svg>Photo</div>
-                <div><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10" cy="10" r="7"/><path d="M10 6.5v4l2.5 1.5"/></svg>Assistant</div>
-                <div><svg viewBox="0 0 20 20" fill="currentColor"><circle cx="4.5" cy="10" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="15.5" cy="10" r="1.5"/></svg>Plus</div>
-              </div>
-            </div>
+        </section>
+        <section class="pcta">
+          <div class="l"><h3 class="big">Parlons-en<b>.</b></h3><p class="lede">Un appel de vingt minutes ou un passage chez vous, selon ce qui vous arrange.</p></div>
+          <div class="r">
+            <a href="mailto:contact@arkawatch.com?subject=Devenir%20maison%20partenaire%20ARKA" class="arka-btn">Devenir maison partenaire<svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M3 9L9 3M4 3h5v5"/></svg></a>
+            <span class="mail">contact@arkawatch.com</span>
           </div>
-          <div class="tip" aria-hidden="true">2026<strong>CHF 166’750</strong><em>+8,2 %</em></div>
-        </div>
+        </section>
+        <div class="pfoot"><span>Données agrégées, jamais revendues.</span><span>Neuchâtel, Suisse</span></div>
       </div>
     </div>
-  </section>
-
-  <section class="principles" aria-label="Nos principes">
-    <div class="wrap">
-      <div><h2>Ventes réelles<span class="dot">.</span></h2><p>Le prix payé, pas le prix demandé. Chaque cote part de transactions conclues.</p></div>
-      <div><h2>Neutre<span class="dot">.</span></h2><p>Arka n’achète et ne vend aucune montre. Nos cotes reflètent le marché, rien d’autre.</p></div>
-    </div>
-  </section>
-
-  <section class="duo" aria-label="Pour qui">
-    <div class="wrap">
-      <article id="collectionneurs">
-        <p class="eyebrow"><b>01</b>— Pour les collectionneurs</p>
-        <h2>Suivez la valeur<br>de votre collection<span class="dot">.</span></h2>
-        <p class="body">Ajoutez vos montres et voyez ce qu’elles valent vraiment. Soyez prévenu dès la sortie de l’application.</p>
-        <div class="action">
-          <form class="waitlist" id="waitlist" novalidate>
-            <label class="sr" for="email">Votre adresse e-mail</label>
-            <input id="email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="Votre adresse e-mail" required>
-            <button class="go" type="submit" aria-label="Me prévenir de la sortie"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 8h12M9 3l5 5-5 5"/></svg></button>
-          </form>
-          <div class="feedback" aria-live="polite">
-            <p class="error" hidden>Cette adresse ne semble pas valide.</p>
-          </div>
-        </div>
-      </article>
-
-      <div class="axis" aria-hidden="true"></div>
-
-      <article id="maisons">
-        <p class="eyebrow"><b>02</b>— Pour les maisons horlogères</p>
-        <h2>Le prix juste<br>se construit avec vous<span class="dot">.</span></h2>
-        <p class="body">Nous invitons quelques maisons suisses à bâtir avec nous la cote de référence, à partir de leurs ventes. Aucune donnée client, aucune vente affichée sous votre nom.</p>
-        <div class="action">
-          <a class="pill" href="mailto:contact@arkawatch.com?subject=Devenir%20maison%20partenaire%20ARKA">Devenir maison partenaire
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M2 8h12M9 3l5 5-5 5"/></svg></a>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <section class="proof" aria-label="Nos engagements">
-    <div class="wrap">
-      <div>
-        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#0E0E0F" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"><path d="M12 2.8 4.6 5.7v5.4c0 4.6 3.1 8.5 7.4 10 4.3-1.5 7.4-5.4 7.4-10V5.7L12 2.8Z"/><circle cx="12" cy="10.6" r="1.9"/><path d="M12 12.5v3.3"/></svg></span>
-        <h3>Données privées</h3>
-        <p>Aucune information sur vos clients ne quitte votre maison.</p>
-      </div>
-      <div>
-        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#0E0E0F" stroke-width="1.4" stroke-linecap="round"><path d="M6 5.5C11 6.5 11.5 12 16 12M6 12h10M6 18.5c5-1 5.5-6.5 10-6.5"/><circle cx="4.4" cy="5.5" r="1.6" fill="#0E0E0F" stroke="none"/><circle cx="4.4" cy="12" r="1.6" fill="#0E0E0F" stroke="none"/><circle cx="4.4" cy="18.5" r="1.6" fill="#0E0E0F" stroke="none"/><circle cx="18.8" cy="12" r="2.8"/><circle cx="18.8" cy="12" r="1.1" fill="#CE1126" stroke="none"/></svg></span>
-        <h3>Données agrégées</h3>
-        <p>Les ventes sont intégrées à la cote, aucune n’est affichée individuellement.</p>
-      </div>
-      <div>
-        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#0E0E0F" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"><path d="M12 2.4 14.1 4.18 16.8 3.69 17.73 6.27 20.31 7.2 19.82 9.9 21.6 12 19.82 14.1 20.31 16.8 17.73 17.73 16.8 20.31 14.1 19.82 12 21.6 9.9 19.82 7.2 20.31 6.27 17.73 3.69 16.8 4.18 14.1 2.4 12 4.18 9.9 3.69 7.2 6.27 6.27 7.2 3.69 9.9 4.18Z"/><path d="m8.6 12.2 2.3 2.3 4.6-4.8"/></svg></span>
-        <h3>Méthode vérifiable</h3>
-        <p>Chaque cote sort d’un calcul déterministe : reproductible et journalisé.</p>
-      </div>
-    </div>
-  </section>
-</main>
-
-<footer>
-  <div class="wrap">
-    <div>
-      <a class="wordmark" href="#main" aria-label="ARKA, haut de page">
-        <svg viewBox="0 0 442 100" aria-hidden="true"><g fill="none" stroke="#0E0E0F" stroke-width="9"><path d="M0 100 L39 0 L78 100"/><path d="M118.5 0 V100"/><path d="M118.5 4.5 H154 C176 4.5 176 49 154 49 H118.5"/><path d="M148 49 L184 100"/><path d="M224.5 0 V100"/><path d="M280 0 L226 55"/><path d="M238 42 L284 100"/><path d="M320 100 L359 0 L398 100"/></g><rect x="422" y="80" width="20" height="20" fill="#CE1126"/></svg>
-      </a>
-      <p class="tag">Chaque montre, son cours.</p>
-    </div>
-    <address>Neuchâtel, Suisse<br><a href="mailto:contact@arkawatch.com">contact@arkawatch.com</a><br>© <span id="year">2026</span> Arka</address>
   </div>
-</footer>
+</div>
 
 <script>
+/* Logique reprise du composant Constellation (Main.dc.html) : memes calculs,
+   rendu DOM direct a la place du moteur de gabarits de Claude Design. */
 (() => {
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  document.getElementById('year').textContent = new Date().getFullYear();
+  const PROPS = { accent: '#E30613', density: 1500, lens: 170, theme: 'auto', maison: '', progression: 40 };
+  const SANS = "'Liberation Sans', 'Arimo', 'Helvetica Neue', Helvetica, Arial, sans-serif";
+  const MONO = "'Liberation Mono', 'Cousine', ui-monospace, Menlo, monospace";
+  const P = [[0.07, 0.22, 150], [0.58, 0.14, 140], [0.32, 0.30, 140], [0.73, 0.40, 100], [0.06, 0.56, 150], [0.62, 0.70, 150], [0.22, 0.79, 160]];
 
-  /* Liste d'attente : pas de backend. Le formulaire ouvre un e-mail prerempli
-     vers contact@arkawatch.com dans la messagerie du visiteur. */
-  const form = document.getElementById('waitlist');
-  const action = form.closest('.action');
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const email = form.email.value.trim();
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
-      action.querySelector('.error').removeAttribute('hidden');
-      form.email.focus();
-      return;
+  const root = document.getElementById('stage');
+  const $ = (s) => root.querySelector(s);
+  const $$ = (s) => Array.from(root.querySelectorAll(s));
+  const el = {
+    cv: $('canvas'), chrome: $$('[data-chrome]'), phrases: $$('.arka-phrase'), conv: $('.conv'),
+    hint: $('[data-hint]'), boot: $('[data-boot]'), ticks: $('[data-ticks]'), pct: $('[data-pct]'),
+    all: $('[data-act="all"]'), themeBtns: $$('[data-act="theme"]'), p6: $('[data-p6text]'),
+    contact: $('[data-contact]'), notsent: $('[data-notsent]'), sent: $('[data-sent]'),
+    modeIns: $('[data-act="mode-ins"]'), modeQ: $('[data-act="mode-q"]'), qonly: $('[data-qonly]'), insonly: $('[data-insonly]'),
+    email: $('[data-email]'), msg: $('[data-msg]'), send: $('[data-send]'),
+    partners: $('[data-partners]')
+  };
+  for (let i = 0; i < 40; i++) el.ticks.appendChild(document.createElement('span'));
+
+  const S = {
+    mouse: { x: 0, y: 0, active: false, last: -1e9 },
+    lx: 0, ly: 0, ls: 0, c: 0, down: false,
+    mem: [0, 0, 0, 0, 0, 0, 0], shown: [0, 0, 0, 0, 0, 0, 0, 0, 0.55, 0, 0],
+    touched: false, all: false, ae: 0
+  };
+  try { const q = new URLSearchParams(location.search).get('m'); if (q) S.urlMaison = q; } catch (e) {}
+
+  function pal() {
+    if (S.autoDark === undefined) {
+      let d = false;
+      try { d = matchMedia('(prefers-color-scheme: dark)').matches; } catch (e) {}
+      const hr = new Date().getHours();
+      S.autoDark = d || hr >= 19 || hr < 7;
     }
-    const subject = encodeURIComponent('Liste d’attente ARKA');
-    const body = encodeURIComponent(`Prévenez-moi à la sortie de l’app ARKA.\n\n${email}`);
-    location.href = `mailto:contact@arkawatch.com?subject=${subject}&body=${body}`;
-  });
-  form.email.addEventListener('input', () => action.querySelector('.error').setAttribute('hidden', ''));
-
-
-  /* La valeur se compte une fois, a l'entree. */
-  const value = document.querySelector('[data-count]');
-  if (!reduce) {
-    const target = +value.dataset.count, t0 = performance.now() + 500, d = 1800;
-    const fmt = (n) => Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '’');
-    const tick = (now) => {
-      const p = Math.min(Math.max((now - t0) / d, 0), 1);
-      value.textContent = fmt(target * (0.9 + 0.1 * (1 - Math.pow(1 - p, 3))));
-      if (p < 1) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
+    const mode = PROPS.theme;
+    const dark = S.override != null ? S.override : mode === 'nuit' ? true : mode === 'clair' ? false : S.autoDark;
+    return dark
+      ? { dark: true, bg: '#0A0A0B', fg: '#F2F2F0', muted: '#A3A3A9', faint: '#8C8C92', line: 'rgba(242,242,240,0.28)' }
+      : { dark: false, bg: '#FFFFFF', fg: '#0B0B0C', muted: '#55555A', faint: '#6B6B70', line: 'rgba(11,11,12,0.22)' };
   }
 
-  /* Le terrain : une grille de points en perspective et une houle lente. */
-  const canvas = document.querySelector('.terrain');
-  const ctx = canvas.getContext('2d');
-  const ROWS = 40, Z0 = 1.1, Z1 = 7.5;
-  let COLS = 120;
-  let w = 0, h = 0, dpr = 1, raf = 0, visible = true;
-
-  const height = (x, z, t) =>
-    0.34 * Math.sin(x * 1.7 + t * 0.35) * Math.cos(z * 0.8 - t * 0.22) +
-    0.22 * Math.sin((x + z) * 1.15 + t * 0.27) +
-    0.18 * x;
-
+  const ctx = el.cv.getContext('2d');
   function resize() {
-    dpr = Math.min(devicePixelRatio || 1, 2);
-    w = canvas.clientWidth; h = canvas.clientHeight;
-    COLS = w < 700 ? 64 : 120;
-    canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const r = el.cv.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    S.w = r.width; S.h = r.height; S.dpr = dpr;
+    el.cv.width = Math.round(r.width * dpr); el.cv.height = Math.round(r.height * dpr);
+    const area = Math.min(1.4, (r.width * r.height) / (1440 * 900));
+    const n = Math.max(200, Math.round(PROPS.density * area));
+    if (!S.dots || S.dots.length !== n || Math.abs((S.seedW || 0) - r.width) > 120) seed(n);
   }
-
-  function project(c, r, t) {
-    const z = Z0 + (r / (ROWS - 1)) * (Z1 - Z0);
-    const x = (c / (COLS - 1) - 0.5) * 3.4 * (z / Z0) * 0.55;
-    const y = height(x, z, t);
-    const f = Math.min(w, 1400) * 0.62;
-    return {
-      sx: w * 0.5 + (x / z) * f,
-      sy: h * 0.6 + ((1.25 - y) / z) * f * 0.5,
-      z
-    };
+  function seed(n) {
+    const labels = ['PRIX PAYÉ', 'ÉTAT', 'FULL SET', 'DATE DE VENTE', 'VENTE CONCLUE', 'RÉFÉRENCE', 'BOÎTE · PAPIERS', 'ANNÉE'];
+    const etats = ['NEUF', 'EXCELLENT', 'TRÈS BON', 'BON'];
+    S.labels = labels; S.lw = null; S.seedW = S.w;
+    S.dots = [];
+    for (let i = 0; i < n; i++) {
+      S.dots.push({
+        hx: Math.random(), hy: Math.random(),
+        ph: Math.random() * 6.283, sp: 0.00015 + Math.random() * 0.00035,
+        r: 0.6 + Math.random() * 1.1, dl: Math.random(),
+        lab: Math.random() < 0.1 ? Math.floor(Math.random() * labels.length) : -1,
+        rev: false, on: false, bd: 0,
+        et: etats[Math.floor(Math.random() * etats.length)], fs: Math.random() < 0.6, src: 1 + Math.floor(Math.random() * 9)
+      });
+    }
+    for (const d of S.dots) d.bd = Math.hypot(d.hx - 0.5, d.hy - 0.5) / 0.71 * 1500 + Math.random() * 600;
+    const W = S.w || 1440, H = S.h || 900;
+    const area = Math.min(1, (W * H) / (1440 * 900));
+    const maxL = Math.round(5 + 9 * area);
+    const pool = S.dots.filter((d) => d.lab >= 0);
+    const picked = [];
+    let next = Math.floor(Math.random() * labels.length);
+    for (let tries = 0; tries < 800 && picked.length < maxL && pool.length; tries++) {
+      const d = pool[Math.floor(Math.random() * pool.length)];
+      if (d.rev) continue;
+      const x = d.hx * W, y = d.hy * H;
+      if (x < 40 || x > W - 170 || y < 100 || y > H - 100) continue;
+      let ok = true;
+      for (const p of picked) {
+        const dx = (x - p.hx * W) / 200, dy = (y - p.hy * H) / 70;
+        if (dx * dx + dy * dy < 1) { ok = false; break; }
+      }
+      if (!ok) continue;
+      d.rev = true; d.lab = next; next = (next + 1) % labels.length;
+      picked.push(d);
+    }
   }
-
-  function frame(now) {
-    const t = reduce ? 4 : now / 1000;
-    ctx.clearRect(0, 0, w, h);
-    for (let r = ROWS - 1; r >= 0; r--) {
-      for (let c = 0; c < COLS; c++) {
-        const p = project(c, r, t);
-        if (p.sx < -4 || p.sx > w + 4 || p.sy > h + 4) continue;
-        const k = 1 - (p.z - Z0) / (Z1 - Z0);
-        const s = 0.6 + 1.3 * k;
-        ctx.fillStyle = `rgba(14,14,15,${0.06 + 0.4 * k * k})`;
-        ctx.fillRect(p.sx - s / 2, p.sy - s / 2, s, s);
+  function label(d, a, rects, fg, accent) {
+    const txt = S.labels[d.lab];
+    const tw = S.lw[d.lab];
+    const box = [d.x - 5, d.y - 22, 32 + tw, 27];
+    for (const r of rects) if (box[0] < r[0] + r[2] && box[0] + box[2] > r[0] && box[1] < r[1] + r[3] && box[1] + box[3] > r[1]) return false;
+    rects.push(box);
+    ctx.globalAlpha = a;
+    ctx.strokeStyle = accent; ctx.fillStyle = fg; ctx.lineWidth = 0.8;
+    ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d.x + 12, d.y - 12); ctx.lineTo(d.x + 22, d.y - 12); ctx.stroke();
+    ctx.fillText(txt, d.x + 26, d.y - 9);
+    ctx.beginPath(); ctx.arc(d.x, d.y, 3, 0, 6.283); ctx.stroke();
+    return true;
+  }
+  function card(d, a, rects, p, accent) {
+    const bx = d.x + 22, by = d.y - 58, bw = 176, bh = 78;
+    rects.push([d.x - 5, by, bw + 30, bh + 60]);
+    ctx.globalAlpha = a;
+    ctx.strokeStyle = accent; ctx.lineWidth = 0.8;
+    ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(bx, by + bh); ctx.stroke();
+    ctx.beginPath(); ctx.arc(d.x, d.y, 3.5, 0, 6.283); ctx.stroke();
+    ctx.fillStyle = p.bg; ctx.globalAlpha = a * 0.94;
+    ctx.fillRect(bx, by, bw, bh);
+    ctx.globalAlpha = a; ctx.strokeStyle = p.line;
+    ctx.strokeRect(bx + 0.5, by + 0.5, bw - 1, bh - 1);
+    ctx.fillStyle = accent; ctx.fillRect(bx + 12, by + 14, 5, 5);
+    ctx.fillStyle = p.fg; ctx.fillText('VENTE CONCLUE', bx + 24, by + 19);
+    ctx.fillStyle = p.muted;
+    ctx.fillText('ÉTAT · ' + d.et, bx + 12, by + 38);
+    ctx.fillText('FULL SET · ' + (d.fs ? 'OUI' : 'NON'), bx + 12, by + 53);
+    ctx.fillText('→ INTÉGRÉE À LA COTE', bx + 12, by + 68);
+  }
+  function pCurve(x0, y0, x1, y1, u) {
+    const c1x = x0 + (x1 - x0) * 0.5, c1y = y0, c2x = x0 + (x1 - x0) * 0.62, c2y = y1, v = 1 - u;
+    return [v * v * v * x0 + 3 * v * v * u * c1x + 3 * v * u * u * c2x + u * u * u * x1, v * v * v * y0 + 3 * v * v * u * c1y + 3 * v * u * u * c2y + u * u * u * y1];
+  }
+  function drawPartners(t, w, h, p, accent, pa) {
+    try { drawPartnersInner(t, w, h, p, accent, pa); } catch (err) { if (!S.pErr) { S.pErr = true; console.error('ARKA partners', err); } }
+    ctx.globalAlpha = 1; ctx.textAlign = 'left';
+  }
+  function drawPartnersInner(t, w, h, p, accent, pa) {
+    const cl = (v) => Math.max(0, Math.min(1, v)), eo = (v) => 1 - Math.pow(1 - cl(v), 3), io = (v) => cl(v) * cl(v);
+    const ta = t - S.pt;
+    const tr = (v) => { try { ctx.letterSpacing = v; } catch (err) {} };
+    const cx = w / 2, cy = h / 2, N = 8;
+    const narrow = w < 900;
+    const x0 = narrow ? 96 : Math.max(220, w * 0.2), top = Math.max(h * 0.34, 300), bot = h * 0.8;
+    if (!S.rings) S.rings = [];
+    for (let i = 0; i < N; i++) {
+      const y = top + (bot - top) * i / (N - 1);
+      const ap = eo((ta - 250 - i * 90) / 600) * pa;
+      if (ap <= 0) continue;
+      ctx.globalAlpha = ap; ctx.fillStyle = p.fg; ctx.strokeStyle = p.fg; ctx.lineWidth = 0.8;
+      ctx.beginPath(); ctx.arc(x0, y, 2.2, 0, 6.283); ctx.fill();
+      ctx.globalAlpha = ap * 0.5; ctx.beginPath(); ctx.arc(x0, y, 6, 0, 6.283); ctx.stroke();
+      ctx.globalAlpha = ap; ctx.textAlign = 'right'; tr('1.2px');
+      ctx.font = 'italic 500 9px ' + MONO; ctx.fillStyle = p.fg;
+      ctx.fillText('MAISON ' + String(i + 1).padStart(2, '0'), x0 - 16, y + 3);
+      const lp = eo((ta - 650 - i * 90) / 1200);
+      if (lp > 0) {
+        ctx.globalAlpha = 0.24 * pa; ctx.strokeStyle = p.fg; ctx.lineWidth = 0.7;
+        ctx.beginPath();
+        const SEG = 60;
+        for (let k = 0; k <= SEG * lp; k++) { const q = pCurve(x0 + 8, y, cx - 12, cy, k / SEG); k ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1]); }
+        ctx.stroke();
+      }
+      if (ta > 2000) {
+        const per = 3400, ph = ((ta - 2000 + i * 425) % per) / per, travel = 0.55;
+        const d = (S.pFlags = S.pFlags || []);
+        if (ph < travel) {
+          const u = io(ph / travel), q = pCurve(x0 + 8, y, cx - 12, cy, u), q2 = pCurve(x0 + 8, y, cx - 12, cy, Math.max(0, u - 0.05));
+          ctx.globalAlpha = 0.9 * pa; ctx.strokeStyle = p.fg; ctx.lineWidth = 1.1;
+          ctx.beginPath(); ctx.moveTo(q2[0], q2[1]); ctx.lineTo(q[0], q[1]); ctx.stroke();
+          ctx.fillStyle = p.fg; ctx.beginPath(); ctx.arc(q[0], q[1], 1.6, 0, 6.283); ctx.fill();
+          d[i] = false;
+        } else if (!d[i]) { d[i] = true; S.rings.push(t); }
       }
     }
-    if (!reduce && visible) raf = requestAnimationFrame(frame);
+    S.rings = S.rings.filter((r0) => t - r0 < 1200);
+    for (const r0 of S.rings) {
+      const q = (t - r0) / 1200;
+      ctx.globalAlpha = (1 - q) * 0.35 * pa; ctx.strokeStyle = accent; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.arc(cx, cy, 6 + 34 * eo(q), 0, 6.283); ctx.stroke();
+    }
+    const L = Math.min(w * 0.17, 230), le = eo((ta - 1900) / 700);
+    if (le > 0) {
+      ctx.globalAlpha = pa; ctx.strokeStyle = accent; ctx.lineWidth = 1.2;
+      ctx.beginPath(); ctx.moveTo(cx + 12, cy); ctx.lineTo(cx + 12 + (L - 12) * le, cy); ctx.stroke();
+      const sp = (t * 0.0006) % 1;
+      ctx.globalAlpha = le * pa * 0.9 * Math.sin(Math.PI * sp); ctx.fillStyle = accent;
+      ctx.fillRect(cx + 12 + (L - 12) * sp - 1.5, cy - 1.5, 3, 3);
+    }
+    const ve = eo((ta - 2400) / 800) * pa;
+    if (ve > 0) {
+      const ex = cx + L;
+      ctx.globalAlpha = ve; ctx.strokeStyle = accent; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.arc(ex, cy, 4, 0, 6.283); ctx.stroke();
+      // Ecran etroit : la cote passe sous le point, sinon elle sort a droite.
+      const small = w < 600, vx = small ? cx - 40 : ex + 18, vy = small ? cy + 70 : cy;
+      ctx.textAlign = 'left'; tr('1.6px'); ctx.font = 'italic 500 9px ' + MONO; ctx.fillStyle = accent;
+      ctx.fillText('LA COTE ARKA', vx, vy - 22);
+      tr('-0.5px'); ctx.font = 'italic 400 ' + (small ? 28 : 34) + 'px ' + SANS; ctx.fillStyle = p.fg;
+      ctx.fillText('CHF 29’809', vx, vy + 14);
+      ctx.globalAlpha = ve * 0.9; tr('1.4px'); ctx.font = 'italic 500 8px ' + MONO; ctx.fillStyle = p.muted;
+      ctx.fillText('EXEMPLE · CALCUL DÉTERMINISTE', vx, vy + 36);
+    }
+    tr('0px'); ctx.textAlign = 'left';
   }
 
+  function frame(t) {
+    if (!S.w) return;
+    const w = S.w, h = S.h, dpr = S.dpr;
+    const R = PROPS.lens;
+    const accent = PROPS.accent;
+    const p = pal(), fg = p.fg;
+    if (S.t0 == null) S.t0 = t;
+    const B = Math.max(0, Math.min(1, (t - S.t0 - 2600) / 900));
+    const m = S.mouse;
+    const live = m.active && t - m.last < 2600;
+    const tour = P[Math.floor(Math.max(0, t - S.t0 - 3000) / 3400) % 7];
+    const tx = live ? m.x : tour[0] * w + tour[2];
+    const ty = live ? m.y : tour[1] * h + 30;
+    const f = live ? 0.16 : 0.04;
+    S.lx += (tx - S.lx) * f; S.ly += (ty - S.ly) * f;
+    S.ls += ((live ? 1 : 0.75) * B - S.ls) * 0.05;
+    S.c += ((S.down ? 1 : 0) - S.c) * (S.down ? 0.03 : 0.05);
+    S.ae += ((S.all ? 1 : 0) - S.ae) * 0.04;
+    S.pa = (S.pa || 0) + ((S.pOpen ? 1 : 0) - (S.pa || 0)) * 0.05;
+    const pa = S.pa;
+    const ae = S.ae * (1 - pa), c = S.c, cx = w / 2, cy = h / 2, lx = S.lx, ly = S.ly, ls = S.ls * (1 - pa);
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+    ctx.font = '500 9px ' + MONO;
+    if (!S.lw) S.lw = S.labels.map((s) => ctx.measureText(s).width);
+
+    const near = [];
+    for (let i = 0; i < S.dots.length; i++) {
+      const d = S.dots[i];
+      let x = d.hx * w + Math.sin(t * d.sp + d.ph) * 7;
+      let y = d.hy * h + Math.cos(t * d.sp * 0.8 + d.ph) * 7;
+      const bt = t - S.t0 - 500 - d.bd;
+      if (bt < 0) { d.x = cx; d.y = cy; d.k = 0; continue; }
+      const bb = Math.min(1, bt / 1100), eb = 1 - Math.pow(1 - bb, 3);
+      if (bb < 1) { x = cx + (x - cx) * eb; y = cy + (y - cy) * eb; }
+      const dx = x - lx, dy = y - ly, dist = Math.sqrt(dx * dx + dy * dy);
+      let k = dist < R ? (1 - dist / R) * ls : 0;
+      if (k > 0) { const g = 0.28 * k * k; x += dx * g; y += dy * g; }
+      let e = Math.min(1, Math.max(0, c * 1.5 - d.dl * 0.5));
+      e = e * e * (3 - 2 * e);
+      if (e > 0) {
+        const ox = x - cx, oy = y - cy, a = (1 - e) * e * 1.6;
+        const rx = ox * Math.cos(a) - oy * Math.sin(a), ry = ox * Math.sin(a) + oy * Math.cos(a);
+        x = cx + rx * (1 - e); y = cy + ry * (1 - e);
+        k *= (1 - e);
+      }
+      d.x = x; d.y = y; d.k = k;
+      if (d.lab >= 0 && k < 0.25) d.on = false;
+      if (e > 0.6) { ctx.fillStyle = accent; ctx.globalAlpha = 0.25 + 0.5 * e; }
+      else { ctx.fillStyle = fg; ctx.globalAlpha = (p.dark ? 0.14 : 0.2) - 0.07 * ae + 0.7 * k + (d.rev ? 0.6 * ae : 0); }
+      if (bb < 1) ctx.globalAlpha *= 0.3 + 0.7 * bb;
+      if (pa > 0) ctx.globalAlpha *= 1 - 0.62 * pa;
+      const rr = d.r * (1 + 0.9 * k);
+      ctx.fillRect(x - rr / 2, y - rr / 2, rr, rr);
+      if (k > 0.12 && near.length < 120) near.push(d);
+    }
+
+    ctx.lineWidth = 0.6; ctx.strokeStyle = fg;
+    const md = R * 0.32;
+    for (let i = 0; i < near.length; i++) {
+      for (let j = i + 1; j < near.length; j++) {
+        const a = near[i], b = near[j];
+        const dx = a.x - b.x, dy = a.y - b.y, dd = dx * dx + dy * dy;
+        if (dd < md * md) {
+          ctx.globalAlpha = (1 - Math.sqrt(dd) / md) * 0.32 * Math.min(a.k, b.k) * 2;
+          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+        }
+      }
+    }
+
+    const rects = [];
+    if (!S.pbT || t - S.pbT > 400) {
+      S.pbT = t;
+      try {
+        const rr0 = el.cv.getBoundingClientRect();
+        S.pboxes = el.phrases.map((ph) => {
+          let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+          ph.querySelectorAll('div').forEach((c2) => { const r = c2.getBoundingClientRect(); if (r.width) { x0 = Math.min(x0, r.left); y0 = Math.min(y0, r.top); x1 = Math.max(x1, r.left + r.width); y1 = Math.max(y1, r.top + r.height); } });
+          if (x0 === Infinity) { const r = ph.getBoundingClientRect(); x0 = r.left; y0 = r.top; x1 = r.right; y1 = r.bottom; }
+          return [x0 - rr0.left - 14, y0 - rr0.top - 12, x1 - x0 + 28, y1 - y0 + 24];
+        });
+      } catch (err) { S.pboxes = []; }
+    }
+    const sh = S.shown || [];
+    (S.pboxes || []).forEach((b, i) => { if ((sh[i] || 0) > 0.04) rects.push(b); });
+    const hit = (bx) => rects.some((r) => bx[0] < r[0] + r[2] && bx[0] + bx[2] > r[0] && bx[1] < r[1] + r[3] && bx[1] + bx[3] > r[1]);
+    {
+      const lab = near.filter((d) => d.lab >= 0 && d.k > 0.3).sort((a, b) => b.k - a.k);
+      if (lab.length && lab[0].k > 0.7 && c < 0.2) {
+        const d = lab.shift();
+        if (!hit([d.x - 5, d.y - 58, 206, 138])) card(d, Math.min(1, (d.k - 0.7) / 0.15), rects, p, accent);
+      }
+      for (const d of lab) label(d, Math.min(1, (d.k - 0.3) * 2.2), rects, fg, accent);
+      if (ae > 0.01) {
+        const ge = Math.max(0, 1 - c * 1.6);
+        for (const d of S.dots) if (d.rev && d.k < 0.3) label(d, ae * 0.85 * ge, rects, fg, accent);
+      }
+    }
+
+    ctx.font = '500 9px ' + MONO;
+    const ra = 0.08 * ls * (1 - c);
+    if (ra > 0.005) {
+      ctx.globalAlpha = ra; ctx.strokeStyle = fg; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.arc(lx, ly, R, 0, 6.283); ctx.stroke();
+      ctx.globalAlpha = ra * 4; ctx.fillStyle = p.muted;
+      ctx.fillText('X ' + (lx / w).toFixed(3) + '   Y ' + (ly / h).toFixed(3), lx + R * 0.72, ly + R * 0.78);
+    }
+
+    if (pa > 0.005) drawPartners(t, w, h, p, accent, pa);
+
+    const pulse = B < 1 ? ((t - S.t0) * 0.0012) % 1 : 0.5 + 0.5 * Math.sin(t * 0.003);
+    ctx.globalAlpha = 1; ctx.fillStyle = accent;
+    ctx.beginPath(); ctx.arc(cx, cy, 3 + 3 * c, 0, 6.283); ctx.fill();
+    ctx.globalAlpha = (0.15 + 0.25 * c) * (1 - pulse) * (1 - pa);
+    ctx.strokeStyle = accent; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.arc(cx, cy, 6 + 22 * pulse + 20 * c, 0, 6.283); ctx.stroke();
+    ctx.globalAlpha = 1;
+
+    const ce = c * c * (3 - 2 * c);
+    const next = [];
+    for (let i = 0; i < 7; i++) {
+      const px = P[i][0] * w + P[i][2], py = P[i][1] * h + 30;
+      const dd = Math.hypot(px - lx, py - ly);
+      const o = Math.max(0, Math.min(1, (R * 1.25 - dd) / (R * 0.6))) * ls;
+      S.mem[i] = Math.max(S.mem[i] - 0.0012, o * 0.16);
+      next.push(Math.max(o, S.mem[i], ae) * (1 - ce) * (1 - pa));
+    }
+    next.push(Math.max(0, (c - 0.55) / 0.45));
+    next.push(S.touched ? 0.35 : 0.55 + 0.25 * Math.sin(t * 0.002));
+    const pb = Math.max(0, Math.min(1, (t - S.t0 - 3000) / 1800));
+    next.push(1 - Math.pow(1 - pb, 3));
+    next.push(pa);
+    let changed = false;
+    for (let i = 0; i < next.length; i++) if (Math.abs(next[i] - S.shown[i]) > 0.012) { changed = true; break; }
+    if (changed) { S.shown = next.map((v) => Math.round(v * 1000) / 1000); render(); }
+  }
+
+  /* --- Rendu DOM (remplace renderVals + gabarits) --- */
+  let lastTicks = '';
+  function render() {
+    const s = S.shown;
+    const p = pal();
+    const st = root.style;
+    st.setProperty('--bg', p.bg); st.setProperty('--fg', p.fg); st.setProperty('--muted', p.muted);
+    st.setProperty('--faint', p.faint); st.setProperty('--line', p.line);
+    st.setProperty('--veil', p.dark ? 'rgba(10,10,11,0.72)' : 'rgba(255,255,255,0.72)');
+    document.documentElement.style.background = p.bg;
+    for (const b of el.themeBtns) {
+      b.setAttribute('aria-label', p.dark ? 'Passer en mode jour' : 'Passer en mode nuit');
+      b.querySelector('[data-if="light"]').toggleAttribute('hidden', p.dark); // SVG : pas de propriete .hidden
+      b.querySelector('[data-if="dark"]').toggleAttribute('hidden', !p.dark);
+    }
+    el.phrases.forEach((ph, i) => { ph.style.opacity = s[i]; });
+    el.conv.style.opacity = s[7];
+    el.hint.style.opacity = s[8];
+    const prog = Math.max(0, Math.min(100, PROPS.progression));
+    el.boot.style.opacity = Math.min(1, (s[9] || 0) * 3);
+    const pct = Math.round(prog * (s[9] || 0)) + ' %';
+    el.pct.textContent = pct;
+    el.ticks.setAttribute('aria-label', 'Arka en préparation : ' + pct);
+    const N = 40, fN = Math.round(N * prog / 100 * (s[9] || 0));
+    const key = fN + (p.dark ? 'd' : 'l');
+    if (key !== lastTicks) {
+      lastTicks = key;
+      Array.from(el.ticks.children).forEach((sp, i) => {
+        sp.style.height = (i % 5 === 0 ? 10 : 6) + 'px';
+        sp.style.background = i < fN - 1 ? p.fg : i === fN - 1 ? PROPS.accent : (p.dark ? p.line : 'rgba(14,14,15,0.36)');
+      });
+    }
+    const pa = s[10] || 0;
+    const chromeO = Math.round((1 - pa) * 1000) / 1000;
+    el.chrome.forEach((c) => { c.style.opacity = chromeO; });
+    el.all.textContent = S.all ? 'Masquer' : 'Tout révéler';
+    el.all.setAttribute('aria-pressed', S.all ? 'true' : 'false');
+    el.partners.hidden = !(S.pOpen || pa > 0.01);
+    el.partners.style.opacity = pa;
+    el.contact.hidden = !S.cOpen;
+    el.sent.hidden = !S.cSent; el.notsent.hidden = !!S.cSent;
+    const q = S.cMode === 'q';
+    el.modeIns.setAttribute('aria-pressed', q ? 'false' : 'true');
+    el.modeQ.setAttribute('aria-pressed', q ? 'true' : 'false');
+    el.qonly.hidden = !q; el.insonly.hidden = q;
+    const em = el.email.value.trim(), mg = el.msg.value.trim();
+    const can = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em) && (!q || mg.length > 2);
+    const subj = q ? 'Question — site ARKA' : 'Inscription — ARKA';
+    const body = q ? mg + '\n\n' + em : 'Merci de me prévenir à la sortie de l’application ARKA.\n\n' + em;
+    el.send.href = 'mailto:contact@arkawatch.com?subject=' + encodeURIComponent(subj) + '&body=' + encodeURIComponent(body);
+    el.send.setAttribute('aria-disabled', can ? 'false' : 'true');
+    el.send.tabIndex = can ? 0 : -1;
+  }
+
+  /* --- Interactions --- */
+  const pos = (e) => {
+    const r = el.cv.getBoundingClientRect();
+    S.mouse.x = e.clientX - r.left; S.mouse.y = e.clientY - r.top;
+    S.mouse.active = true; S.mouse.last = performance.now();
+  };
+  root.addEventListener('pointermove', (e) => { pos(e); S.touched = true; });
+  root.addEventListener('pointerdown', (e) => { pos(e); S.down = true; S.touched = true; });
+  root.addEventListener('pointerup', () => { S.down = false; });
+  root.addEventListener('pointercancel', () => { S.down = false; });
+  root.addEventListener('pointerleave', () => { S.down = false; S.mouse.active = false; });
+  const stop = (e) => e.stopPropagation();
+  $$('[data-stop]').forEach((b) => b.addEventListener('pointerdown', stop));
+  [el.contact, el.partners].forEach((o) => { o.addEventListener('pointerdown', stop); o.addEventListener('pointermove', stop); });
+
+  const act = {
+    theme: () => { S.override = !pal().dark; render(); },
+    all: () => { S.all = !S.all; S.touched = true; render(); },
+    partners: () => { S.pFlags = []; S.rings = []; S.pOpen = true; S.pt = performance.now(); S.down = false; S.cOpen = false; render(); },
+    'partners-close': () => { S.pOpen = false; render(); },
+    'scroll-down': () => el.partners.scrollTo({ top: el.partners.clientHeight - 150, behavior: 'smooth' }),
+    contact: () => { S.cOpen = true; S.down = false; render(); setTimeout(() => el.email.focus(), 50); },
+    'contact-close': () => { S.cOpen = false; S.cSent = false; render(); },
+    'mode-ins': () => { S.cMode = 'ins'; render(); },
+    'mode-q': () => { S.cMode = 'q'; render(); }
+  };
+  root.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-act]');
+    if (b && act[b.dataset.act]) act[b.dataset.act]();
+  });
+  el.email.addEventListener('input', render);
+  el.msg.addEventListener('input', render);
+  el.send.addEventListener('click', (e) => {
+    if (el.send.getAttribute('aria-disabled') === 'true') { e.preventDefault(); return; }
+    setTimeout(() => { S.cSent = true; render(); }, 300);
+  });
+  el.contact.addEventListener('click', (e) => { if (e.target === el.contact) act['contact-close'](); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if (S.cOpen) act['contact-close']();
+    else if (S.pOpen) act['partners-close']();
+  });
+
+  const raw = (PROPS.maison || S.urlMaison || '').trim();
+  const maison = raw ? raw.charAt(0).toUpperCase() + raw.slice(1) : '';
+  if (maison) el.p6.textContent = maison + ', construisez la cote avec Arka.';
+
+  new ResizeObserver(resize).observe(el.cv);
   resize();
-  addEventListener('resize', () => { resize(); if (reduce) frame(0); });
-  new IntersectionObserver(([e]) => {
-    visible = e.isIntersecting;
-    cancelAnimationFrame(raf);
-    if (visible || reduce) raf = requestAnimationFrame(frame);
-  }).observe(canvas);
+  render();
+  const loop = (t) => { try { frame(t); } catch (err) { if (!S.errLogged) { S.errLogged = true; console.error('ARKA frame', err); } } requestAnimationFrame(loop); };
+  requestAnimationFrame(loop);
 })();
 </script>
 <!-- Assistant ARKA (widget Botello). -->
