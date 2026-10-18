@@ -7,7 +7,8 @@ en français, allemand et anglais, servie par un conteneur `nginx` derrière un 
 ```
 src/index.html             le gabarit de la page (repères {{section.cle}} à la place des textes)
 src/i18n/fr.json de.json en.json   tous les textes, une langue par fichier
-build.py                   génère public/ à partir du gabarit et des traductions
+src/static/                icônes, image de partage, robots.txt, manifeste — copiés dans public/
+build.py                   génère public/ (pages, copie de src/static/, sitemap.xml)
 public/                    les pages générées (/, /de/, /en/) — seul dossier servi, ne pas éditer
 deploy/docker-compose.yml  le conteneur (lecture seule, 64 Mo, aucun port publié)
 deploy/.env.example        ARKA_DOMAIN=<domaine>
@@ -29,6 +30,14 @@ Pas de sélecteur. L'adresse d'entrée `/` suit la langue du navigateur (frança
 sinon anglais) et redirige vers `/de/` ou `/en/` au besoin ; une adresse de langue (`/de/`,
 `/en/`) est toujours respectée. `?lang=fr|de|en` force une langue et la mémorise. Les robots
 ne sont jamais redirigés ; les balises `hreflang` relient les trois versions.
+
+## Référencement
+
+Chaque page déclare son icône (`favicon.ico` 16–48 px, `favicon.svg`, `apple-touch-icon.png`),
+son image de partage (`og-image.png`, 1200×630) et des données structurées schema.org
+(`Organization` et `WebSite`, nom « ARKA », autre nom « Arkawatch »). `robots.txt` pointe vers
+`sitemap.xml`, régénéré à chaque `build.py`. Les icônes viennent de `brand/svg/arka-icon-flat.svg`
+et `arka-lockup-horizontal-notagline.svg` du dépôt ARKA.
 
 ## Mettre en ligne (une fois)
 

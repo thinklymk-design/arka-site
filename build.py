@@ -8,12 +8,15 @@ Le gabarit contient des repères :
   {{url:section.cle}}  texte encodé pour une URL (objet d'un mailto)
   {{js}}               la section « js » du JSON, pour le script de la page
   {{lang}} {{pageUrl}} {{hreflang}}
+src/static/ est copié tel quel dans public/ ; public/sitemap.xml est généré.
 Aucune dépendance : bibliothèque standard de Python uniquement.
 """
 import html
 import json
 import re
+import shutil
 import sys
+from datetime import date
 from pathlib import Path
 from urllib.parse import quote
 
@@ -84,6 +87,18 @@ def main():
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(page)
         print(f'{lang}: public/{sub}index.html')
+
+    # Fichiers fixes (icônes, image de partage, robots.txt…) : copiés tels quels à la racine.
+    for f in sorted((ROOT / 'src/static').iterdir()):
+        shutil.copy(f, ROOT / 'public' / f.name)
+    # Plan du site pour les moteurs de recherche, avec les trois langues liées entre elles.
+    alts = ''.join(f'<xhtml:link rel="alternate" hreflang="{l}" href="{SITE}/{p}"/>' for l, p in LANGS.items())
+    urls = ''.join(f'<url><loc>{SITE}/{p}</loc><lastmod>{date.today()}</lastmod>{alts}</url>' for p in LANGS.values())
+    (ROOT / 'public/sitemap.xml').write_text(
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">'
+        f'{urls}</urlset>\n')
+    print('public/: icônes, robots.txt, sitemap.xml')
 
 
 if __name__ == '__main__':
