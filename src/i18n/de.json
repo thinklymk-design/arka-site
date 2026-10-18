@@ -54,7 +54,7 @@
     "lede": "Wir laden einige Schweizer Uhrenhäuser ein, mit uns den Referenzkurs aufzubauen – auf Grundlage ihrer abgeschlossenen Verkäufe.",
     "discover": "So funktioniert es",
     "howTag": "Ablauf",
-    "howTitle": "Drei Schritte, keine Verpflichtung.",
+    "howTitle": "In drei Schritten.",
     "step1t": "Sie teilen Ihre abgeschlossenen Verkäufe.",
     "step1d": "Referenz, Zustand, Full Set, Datum und bezahlter Preis. In der Form, die Ihnen passt: regelmässiger Export, Datei oder eigener Zugang.",
     "step2t": "Arka aggregiert und anonymisiert.",
@@ -104,6 +104,6 @@
     "cardIn": "→ IN DEN KURS EINGEFLOSSEN",
     "house": "HAUS ",
     "quoteTitle": "DER ARKA-KURS",
-    "quoteNote": "BEISPIEL · DETERMINISTISCHE BERECHNUNG"
+    "quoteNote": "BEISPIEL · ARKA-KURS"
   }
 }

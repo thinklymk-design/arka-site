@@ -54,7 +54,7 @@
     "lede": "We are inviting a few Swiss houses to build the reference index with us, based on their closed sales.",
     "discover": "See how it works",
     "howTag": "How it works",
-    "howTitle": "Three steps, no strings attached.",
+    "howTitle": "In three steps.",
     "step1t": "You share your closed sales.",
     "step1d": "Reference, condition, full set, date and price paid. In whatever form suits you: regular export, file or dedicated access.",
     "step2t": "Arka aggregates and anonymises.",
@@ -80,8 +80,22 @@
     "subjectQuestion": "Question — ARKA website",
     "subjectSignup": "Sign-up — ARKA",
     "bodySignup": "Please let me know when the ARKA app launches.",
-    "labels": ["PRICE PAID", "CONDITION", "FULL SET", "SALE DATE", "SALE CLOSED", "REFERENCE", "BOX · PAPERS", "YEAR"],
-    "states": ["NEW", "EXCELLENT", "VERY GOOD", "GOOD"],
+    "labels": [
+      "PRICE PAID",
+      "CONDITION",
+      "FULL SET",
+      "SALE DATE",
+      "SALE CLOSED",
+      "REFERENCE",
+      "BOX · PAPERS",
+      "YEAR"
+    ],
+    "states": [
+      "NEW",
+      "EXCELLENT",
+      "VERY GOOD",
+      "GOOD"
+    ],
     "cardTitle": "SALE CLOSED",
     "cardState": "CONDITION · ",
     "cardFullSet": "FULL SET · ",
@@ -90,6 +104,6 @@
     "cardIn": "→ INCLUDED IN THE INDEX",
     "house": "HOUSE ",
     "quoteTitle": "THE ARKA INDEX",
-    "quoteNote": "EXAMPLE · DETERMINISTIC CALCULATION"
+    "quoteNote": "EXAMPLE · ARKA INDEX"
   }
 }

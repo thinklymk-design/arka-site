@@ -261,7 +261,7 @@ button{font:inherit}
     <div class="pbody">
       <div class="inner">
         <section class="prow">
-          <div class="head"><span class="tag"><i></i>Fonctionnement</span><h3 class="h2">Trois étapes, aucune contrainte.</h3></div>
+          <div class="head"><span class="tag"><i></i>Fonctionnement</span><h3 class="h2">En trois étapes.</h3></div>
           <div class="main"><div class="steps">
             <div class="step"><span class="n">01</span><span class="st">Vous partagez vos ventes conclues.</span><span class="sd">Référence, état, full set, date et prix payé. Sous la forme qui vous convient : export régulier, fichier ou accès dédié.</span></div>
             <div class="step"><span class="n">02</span><span class="st">Arka agrège et anonymise.</span><span class="sd">Vos ventes rejoignent celles des autres maisons. Aucune n’est affichée individuellement, aucune donnée client n’est demandée.</span></div>
@@ -292,7 +292,7 @@ button{font:inherit}
 /* Logique reprise du composant Constellation (Main.dc.html) : memes calculs,
    rendu DOM direct a la place du moteur de gabarits de Claude Design. */
 (() => {
-  const T = {"themeToNight": "Passer en mode nuit", "themeToDay": "Passer en mode jour", "showAll": "Tout révéler", "hideAll": "Masquer", "preparingAria": "Arka en préparation : ", "maison": ", construisez la cote avec Arka.", "subjectQuestion": "Question — site ARKA", "subjectSignup": "Inscription — ARKA", "bodySignup": "Merci de me prévenir à la sortie de l’application ARKA.", "labels": ["PRIX PAYÉ", "ÉTAT", "FULL SET", "DATE DE VENTE", "VENTE CONCLUE", "RÉFÉRENCE", "BOÎTE · PAPIERS", "ANNÉE"], "states": ["NEUF", "EXCELLENT", "TRÈS BON", "BON"], "cardTitle": "VENTE CONCLUE", "cardState": "ÉTAT · ", "cardFullSet": "FULL SET · ", "yes": "OUI", "no": "NON", "cardIn": "→ INTÉGRÉE À LA COTE", "house": "MAISON ", "quoteTitle": "LA COTE ARKA", "quoteNote": "EXEMPLE · CALCUL DÉTERMINISTE"};
+  const T = {"themeToNight": "Passer en mode nuit", "themeToDay": "Passer en mode jour", "showAll": "Tout révéler", "hideAll": "Masquer", "preparingAria": "Arka en préparation : ", "maison": ", construisez la cote avec Arka.", "subjectQuestion": "Question — site ARKA", "subjectSignup": "Inscription — ARKA", "bodySignup": "Merci de me prévenir à la sortie de l’application ARKA.", "labels": ["PRIX PAYÉ", "ÉTAT", "FULL SET", "DATE DE VENTE", "VENTE CONCLUE", "RÉFÉRENCE", "BOÎTE · PAPIERS", "ANNÉE"], "states": ["NEUF", "EXCELLENT", "TRÈS BON", "BON"], "cardTitle": "VENTE CONCLUE", "cardState": "ÉTAT · ", "cardFullSet": "FULL SET · ", "yes": "OUI", "no": "NON", "cardIn": "→ INTÉGRÉE À LA COTE", "house": "MAISON ", "quoteTitle": "LA COTE ARKA", "quoteNote": "EXEMPLE · COTE ARKA"};
   const PROPS = { accent: '#E30613', density: 1500, lens: 170, theme: 'auto', maison: '', progression: 40 };
   const SANS = "'Liberation Sans', 'Arimo', 'Helvetica Neue', Helvetica, Arial, sans-serif";
   const MONO = "'Liberation Mono', 'Cousine', ui-monospace, Menlo, monospace";
@@ -529,7 +529,7 @@ button{font:inherit}
       ctx.textAlign = 'left'; tr('1.6px'); ctx.font = 'italic 500 9px ' + MONO; ctx.fillStyle = accent;
       ctx.fillText(T.quoteTitle, vx, vy - 22);
       tr('-0.5px'); ctx.font = 'italic 400 ' + (small ? 28 : 34) + 'px ' + SANS; ctx.fillStyle = p.fg;
-      ctx.fillText('CHF 29’809', vx, vy + 14);
+      ctx.fillText('CHF 28’000', vx, vy + 14);
       ctx.globalAlpha = ve * 0.9; tr('1.4px'); ctx.font = 'italic 500 8px ' + MONO; ctx.fillStyle = p.muted;
       ctx.fillText(T.quoteNote, vx, vy + 36);
     }

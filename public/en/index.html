@@ -261,7 +261,7 @@ button{font:inherit}
     <div class="pbody">
       <div class="inner">
         <section class="prow">
-          <div class="head"><span class="tag"><i></i>How it works</span><h3 class="h2">Three steps, no strings attached.</h3></div>
+          <div class="head"><span class="tag"><i></i>How it works</span><h3 class="h2">In three steps.</h3></div>
           <div class="main"><div class="steps">
             <div class="step"><span class="n">01</span><span class="st">You share your closed sales.</span><span class="sd">Reference, condition, full set, date and price paid. In whatever form suits you: regular export, file or dedicated access.</span></div>
             <div class="step"><span class="n">02</span><span class="st">Arka aggregates and anonymises.</span><span class="sd">Your sales join those of the other houses. None is shown individually, and no customer data is ever requested.</span></div>
@@ -292,7 +292,7 @@ button{font:inherit}
 /* Logique reprise du composant Constellation (Main.dc.html) : memes calculs,
    rendu DOM direct a la place du moteur de gabarits de Claude Design. */
 (() => {
-  const T = {"themeToNight": "Switch to night mode", "themeToDay": "Switch to day mode", "showAll": "Reveal all", "hideAll": "Hide", "preparingAria": "Arka in progress: ", "maison": ", build the index with Arka.", "subjectQuestion": "Question — ARKA website", "subjectSignup": "Sign-up — ARKA", "bodySignup": "Please let me know when the ARKA app launches.", "labels": ["PRICE PAID", "CONDITION", "FULL SET", "SALE DATE", "SALE CLOSED", "REFERENCE", "BOX · PAPERS", "YEAR"], "states": ["NEW", "EXCELLENT", "VERY GOOD", "GOOD"], "cardTitle": "SALE CLOSED", "cardState": "CONDITION · ", "cardFullSet": "FULL SET · ", "yes": "YES", "no": "NO", "cardIn": "→ INCLUDED IN THE INDEX", "house": "HOUSE ", "quoteTitle": "THE ARKA INDEX", "quoteNote": "EXAMPLE · DETERMINISTIC CALCULATION"};
+  const T = {"themeToNight": "Switch to night mode", "themeToDay": "Switch to day mode", "showAll": "Reveal all", "hideAll": "Hide", "preparingAria": "Arka in progress: ", "maison": ", build the index with Arka.", "subjectQuestion": "Question — ARKA website", "subjectSignup": "Sign-up — ARKA", "bodySignup": "Please let me know when the ARKA app launches.", "labels": ["PRICE PAID", "CONDITION", "FULL SET", "SALE DATE", "SALE CLOSED", "REFERENCE", "BOX · PAPERS", "YEAR"], "states": ["NEW", "EXCELLENT", "VERY GOOD", "GOOD"], "cardTitle": "SALE CLOSED", "cardState": "CONDITION · ", "cardFullSet": "FULL SET · ", "yes": "YES", "no": "NO", "cardIn": "→ INCLUDED IN THE INDEX", "house": "HOUSE ", "quoteTitle": "THE ARKA INDEX", "quoteNote": "EXAMPLE · ARKA INDEX"};
   const PROPS = { accent: '#E30613', density: 1500, lens: 170, theme: 'auto', maison: '', progression: 40 };
   const SANS = "'Liberation Sans', 'Arimo', 'Helvetica Neue', Helvetica, Arial, sans-serif";
   const MONO = "'Liberation Mono', 'Cousine', ui-monospace, Menlo, monospace";
@@ -529,7 +529,7 @@ button{font:inherit}
       ctx.textAlign = 'left'; tr('1.6px'); ctx.font = 'italic 500 9px ' + MONO; ctx.fillStyle = accent;
       ctx.fillText(T.quoteTitle, vx, vy - 22);
       tr('-0.5px'); ctx.font = 'italic 400 ' + (small ? 28 : 34) + 'px ' + SANS; ctx.fillStyle = p.fg;
-      ctx.fillText('CHF 29’809', vx, vy + 14);
+      ctx.fillText('CHF 28’000', vx, vy + 14);
       ctx.globalAlpha = ve * 0.9; tr('1.4px'); ctx.font = 'italic 500 8px ' + MONO; ctx.fillStyle = p.muted;
       ctx.fillText(T.quoteNote, vx, vy + 36);
     }

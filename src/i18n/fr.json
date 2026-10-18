@@ -54,7 +54,7 @@
     "lede": "Nous invitons quelques maisons suisses à bâtir avec nous la cote de référence, à partir de leurs ventes conclues.",
     "discover": "Découvrir comment ça fonctionne",
     "howTag": "Fonctionnement",
-    "howTitle": "Trois étapes, aucune contrainte.",
+    "howTitle": "En trois étapes.",
     "step1t": "Vous partagez vos ventes conclues.",
     "step1d": "Référence, état, full set, date et prix payé. Sous la forme qui vous convient : export régulier, fichier ou accès dédié.",
     "step2t": "Arka agrège et anonymise.",
@@ -80,8 +80,22 @@
     "subjectQuestion": "Question — site ARKA",
     "subjectSignup": "Inscription — ARKA",
     "bodySignup": "Merci de me prévenir à la sortie de l’application ARKA.",
-    "labels": ["PRIX PAYÉ", "ÉTAT", "FULL SET", "DATE DE VENTE", "VENTE CONCLUE", "RÉFÉRENCE", "BOÎTE · PAPIERS", "ANNÉE"],
-    "states": ["NEUF", "EXCELLENT", "TRÈS BON", "BON"],
+    "labels": [
+      "PRIX PAYÉ",
+      "ÉTAT",
+      "FULL SET",
+      "DATE DE VENTE",
+      "VENTE CONCLUE",
+      "RÉFÉRENCE",
+      "BOÎTE · PAPIERS",
+      "ANNÉE"
+    ],
+    "states": [
+      "NEUF",
+      "EXCELLENT",
+      "TRÈS BON",
+      "BON"
+    ],
     "cardTitle": "VENTE CONCLUE",
     "cardState": "ÉTAT · ",
     "cardFullSet": "FULL SET · ",
@@ -90,6 +104,6 @@
     "cardIn": "→ INTÉGRÉE À LA COTE",
     "house": "MAISON ",
     "quoteTitle": "LA COTE ARKA",
-    "quoteNote": "EXEMPLE · CALCUL DÉTERMINISTE"
+    "quoteNote": "EXEMPLE · COTE ARKA"
   }
 }

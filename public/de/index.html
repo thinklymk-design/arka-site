@@ -261,7 +261,7 @@ button{font:inherit}
     <div class="pbody">
       <div class="inner">
         <section class="prow">
-          <div class="head"><span class="tag"><i></i>Ablauf</span><h3 class="h2">Drei Schritte, keine Verpflichtung.</h3></div>
+          <div class="head"><span class="tag"><i></i>Ablauf</span><h3 class="h2">In drei Schritten.</h3></div>
           <div class="main"><div class="steps">
             <div class="step"><span class="n">01</span><span class="st">Sie teilen Ihre abgeschlossenen Verkäufe.</span><span class="sd">Referenz, Zustand, Full Set, Datum und bezahlter Preis. In der Form, die Ihnen passt: regelmässiger Export, Datei oder eigener Zugang.</span></div>
             <div class="step"><span class="n">02</span><span class="st">Arka aggregiert und anonymisiert.</span><span class="sd">Ihre Verkäufe fliessen mit denen der anderen Häuser zusammen. Keiner wird einzeln angezeigt, keine Kundendaten werden verlangt.</span></div>
@@ -292,7 +292,7 @@ button{font:inherit}
 /* Logique reprise du composant Constellation (Main.dc.html) : memes calculs,
    rendu DOM direct a la place du moteur de gabarits de Claude Design. */
 (() => {
-  const T = {"themeToNight": "Zum Nachtmodus wechseln", "themeToDay": "Zum Tagmodus wechseln", "showAll": "Alles zeigen", "hideAll": "Ausblenden", "preparingAria": "Arka in Vorbereitung: ", "maison": ", bauen Sie den Kurs mit Arka auf.", "subjectQuestion": "Frage – Website ARKA", "subjectSignup": "Anmeldung – ARKA", "bodySignup": "Bitte benachrichtigen Sie mich, sobald die ARKA-App erscheint.", "labels": ["BEZAHLTER PREIS", "ZUSTAND", "FULL SET", "VERKAUFSDATUM", "VERKAUF ABGESCHLOSSEN", "REFERENZ", "BOX · PAPIERE", "JAHRGANG"], "states": ["NEU", "AUSGEZEICHNET", "SEHR GUT", "GUT"], "cardTitle": "VERKAUF ABGESCHLOSSEN", "cardState": "ZUSTAND · ", "cardFullSet": "FULL SET · ", "yes": "JA", "no": "NEIN", "cardIn": "→ IN DEN KURS EINGEFLOSSEN", "house": "HAUS ", "quoteTitle": "DER ARKA-KURS", "quoteNote": "BEISPIEL · DETERMINISTISCHE BERECHNUNG"};
+  const T = {"themeToNight": "Zum Nachtmodus wechseln", "themeToDay": "Zum Tagmodus wechseln", "showAll": "Alles zeigen", "hideAll": "Ausblenden", "preparingAria": "Arka in Vorbereitung: ", "maison": ", bauen Sie den Kurs mit Arka auf.", "subjectQuestion": "Frage – Website ARKA", "subjectSignup": "Anmeldung – ARKA", "bodySignup": "Bitte benachrichtigen Sie mich, sobald die ARKA-App erscheint.", "labels": ["BEZAHLTER PREIS", "ZUSTAND", "FULL SET", "VERKAUFSDATUM", "VERKAUF ABGESCHLOSSEN", "REFERENZ", "BOX · PAPIERE", "JAHRGANG"], "states": ["NEU", "AUSGEZEICHNET", "SEHR GUT", "GUT"], "cardTitle": "VERKAUF ABGESCHLOSSEN", "cardState": "ZUSTAND · ", "cardFullSet": "FULL SET · ", "yes": "JA", "no": "NEIN", "cardIn": "→ IN DEN KURS EINGEFLOSSEN", "house": "HAUS ", "quoteTitle": "DER ARKA-KURS", "quoteNote": "BEISPIEL · ARKA-KURS"};
   const PROPS = { accent: '#E30613', density: 1500, lens: 170, theme: 'auto', maison: '', progression: 40 };
   const SANS = "'Liberation Sans', 'Arimo', 'Helvetica Neue', Helvetica, Arial, sans-serif";
   const MONO = "'Liberation Mono', 'Cousine', ui-monospace, Menlo, monospace";
@@ -529,7 +529,7 @@ button{font:inherit}
       ctx.textAlign = 'left'; tr('1.6px'); ctx.font = 'italic 500 9px ' + MONO; ctx.fillStyle = accent;
       ctx.fillText(T.quoteTitle, vx, vy - 22);
       tr('-0.5px'); ctx.font = 'italic 400 ' + (small ? 28 : 34) + 'px ' + SANS; ctx.fillStyle = p.fg;
-      ctx.fillText('CHF 29’809', vx, vy + 14);
+      ctx.fillText('CHF 28’000', vx, vy + 14);
       ctx.globalAlpha = ve * 0.9; tr('1.4px'); ctx.font = 'italic 500 8px ' + MONO; ctx.fillStyle = p.muted;
       ctx.fillText(T.quoteNote, vx, vy + 36);
     }
