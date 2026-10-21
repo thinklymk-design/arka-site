@@ -95,6 +95,9 @@ button{font:inherit}
 .arka-phrase{position:absolute;pointer-events:none;opacity:0;will-change:opacity}
 .arka-phrase .t{font-size:24px;font-weight:400;line-height:1.25;letter-spacing:-.01em}
 .arka-phrase .s{margin-top:8px;font-family:var(--serif);font-size:16px;line-height:1.45;color:var(--muted)}
+.story{display:none;position:absolute;left:20px;right:20px;gap:4px;pointer-events:none}
+.story i{flex:1;height:2px;background:var(--line);overflow:hidden;border-radius:1px}
+.story b{display:block;height:100%;width:0;background:var(--fg)}
 .conv{position:absolute;left:0;right:0;top:50%;margin-top:34px;text-align:center;opacity:0;pointer-events:none;font-size:30px;font-weight:300;letter-spacing:-.01em}
 
 .chrome-bot{position:absolute;left:0;right:0;bottom:0;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;padding:24px 40px;font-family:var(--serif);font-size:14px;color:var(--faint);pointer-events:none}
@@ -168,11 +171,12 @@ button{font:inherit}
   .nav{gap:12px;font-size:14px}
   .nav .linkbtn,.nav .sep{display:none}
   .arka-phrase{left:20px!important;right:20px;max-width:none!important}
+  /* Mode story : une phrase a la fois, des barres de progression en haut, pas de « Tout reveler ». */
+  .story{display:flex}
+  .bot-right .outline{display:none}
   .field input,.field textarea{font-size:16px} /* sous 16 px, iOS zoome sur le champ */
-  #stage.tight .arka-phrase .t{font-size:17px}
-  #stage.tight .arka-phrase .s{font-size:13px;margin-top:2px}
-  .arka-phrase .t{font-size:19px}
-  .arka-phrase .s{font-size:14px;margin-top:4px}
+  .arka-phrase .t{font-size:24px;line-height:1.2}
+  .arka-phrase .s{font-size:16px;margin-top:8px}
   .conv{font-size:24px}
   .chrome-bot{padding:16px 20px;justify-content:flex-start}
   .bot-right{margin-right:76px}
@@ -220,6 +224,7 @@ button{font:inherit}
   <div class="arka-phrase" style="left:62%;top:70%;max-width:320px"><div class="t">Neutre.</div><div class="s">Arka n’achète et ne vend aucune montre.</div></div>
   <div class="arka-phrase" style="left:22%;top:79%;max-width:340px"><div class="t">Une méthode vérifiable.</div><div class="s">Calcul déterministe, reproductible et journalisé.</div></div>
 
+  <div class="story" aria-hidden="true"><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i></div>
   <div class="conv" aria-hidden="true">Chaque montre, son cours.</div>
 
   <footer class="chrome-bot" data-chrome>
@@ -331,7 +336,7 @@ button{font:inherit}
     contact: $('[data-contact]'), notsent: $('[data-notsent]'), sent: $('[data-sent]'),
     modeIns: $('[data-act="mode-ins"]'), modeQ: $('[data-act="mode-q"]'), qonly: $('[data-qonly]'), insonly: $('[data-insonly]'),
     email: $('[data-email]'), msg: $('[data-msg]'), send: $('[data-send]'),
-    partners: $('[data-partners]')
+    partners: $('[data-partners]'), story: $('.story'), storyBars: $$('.story b')
   };
   for (let i = 0; i < 40; i++) el.ticks.appendChild(document.createElement('span'));
 
@@ -370,9 +375,11 @@ button{font:inherit}
     layoutPhrases();
     measurePhrases();
   }
-  // Mobile : les phrases s'empilent dans l'ordre de lecture, regulierement espacees entre
-  // l'en-tete et le pied, au lieu des positions en % du bureau (qui se chevauchent).
+  // Ecran etroit = mode story : une phrase a la fois, posee en bas au-dessus du pied, avec des
+  // barres de progression sous l'en-tete. Les positions en % du bureau n'ont pas la place ici.
   const NARROW = matchMedia('(max-width:760px)');
+  const STORY_PTS = [[0.30, 0.34], [0.68, 0.30], [0.46, 0.46], [0.26, 0.50], [0.70, 0.48], [0.40, 0.26], [0.60, 0.40]];
+  const guided = () => TOUCH.matches || NARROW.matches;
   // Ecran tactile : pas de loupe a suivre au doigt (le doigt cache ce qu'il revele). La visite
   // avance seule, toucher l'ecran passe a la phrase suivante ; apres la 7e, les points convergent.
   const TOUCH = matchMedia('(hover: none) and (pointer: coarse)');
@@ -385,26 +392,15 @@ button{font:inherit}
   }
   function layoutPhrases() {
     el.phrases.forEach((ph) => { if (!ph.dataset.top) ph.dataset.top = ph.style.top; });
-    root.classList.remove('tight');
     if (!NARROW.matches) { el.phrases.forEach((ph) => { ph.style.top = ph.dataset.top; }); return; }
     const sr = root.getBoundingClientRect();
-    const top0 = el.chrome[0].getBoundingClientRect().bottom - sr.top + 8;
-    const bottom = el.chrome[1].getBoundingClientRect().top - sr.top - 12;
-    const order = el.phrases.slice().sort((a, b) => parseFloat(a.dataset.top) - parseFloat(b.dataset.top));
-    for (let pass = 0; pass < 2; pass++) {
-      const hs = order.map((ph) => ph.offsetHeight);
-      const total = hs.reduce((a, b) => a + b, 0);
-      const gap = Math.min(28, (bottom - top0 - total) / (order.length - 1));
-      if (gap < 6 && pass === 0) { root.classList.add('tight'); continue; }
-      let y = top0;
-      order.forEach((ph, i) => { ph.style.top = Math.round(y) + 'px'; y += hs[i] + Math.max(4, gap); });
-      break;
-    }
+    el.story.style.top = Math.round(el.chrome[0].getBoundingClientRect().bottom - sr.top + 4) + 'px';
+    const bottom = el.chrome[1].getBoundingClientRect().top - sr.top - 28;
+    el.phrases.forEach((ph) => { ph.style.top = Math.round(bottom - ph.offsetHeight) + 'px'; });
   }
   // Point d'ancrage de chaque phrase : la loupe s'y arrete pendant la visite guidee et la revele.
   function anchor(i, w, h) {
-    const b = NARROW.matches && S.pboxes && S.pboxes[i];
-    if (b) return [b[0] + Math.min(b[2], 240) / 2, b[1] + b[3] / 2];
+    if (NARROW.matches) return [STORY_PTS[i][0] * w, STORY_PTS[i][1] * h];
     return [P[i][0] * w + P[i][2], P[i][1] * h + 30];
   }
   // Boites des phrases (pour que les etiquettes ne les recouvrent pas). Elles ne bougent
@@ -580,7 +576,7 @@ button{font:inherit}
     const ease = (f) => 1 - Math.pow(1 - f, k60);
     const B = Math.max(0, Math.min(1, (t - S.t0 - 2600) / 900));
     const m = S.mouse;
-    const touch = TOUCH.matches;
+    const touch = guided(), story = NARROW.matches;
     const live = !touch && m.active && t - m.last < 2600;
     if (touch && !S.pOpen && !S.cOpen) {
       if (S.tNext == null) { S.ti = 0; S.phase = 'tour'; S.tNext = S.t0 + 3000 + STEP; }
@@ -686,15 +682,34 @@ button{font:inherit}
 
     const ce = c * c * (3 - 2 * c);
     const next = [];
-    for (let i = 0; i < 7; i++) {
-      const [px, py] = anchor(i, w, h);
-      const dd = Math.hypot(px - lx, py - ly);
-      const o = Math.max(0, Math.min(1, (R * 1.25 - dd) / (R * 0.6))) * ls;
-      S.mem[i] = Math.max(S.mem[i] - 0.0012 * k60, o * 0.16);
-      next.push(Math.max(o, S.mem[i], ae) * (1 - ce) * (1 - pa));
+    if (story) {
+      // Une seule phrase : l'ancienne s'efface vite, la nouvelle n'entre qu'une fois la place libre.
+      const sv = (S.sv = S.sv || [0, 0, 0, 0, 0, 0, 0]);
+      const active = S.phase === 'conv' ? -1 : (S.ti || 0);
+      const others = Math.max(...sv.map((v, i) => (i === active ? 0 : v)));
+      for (let i = 0; i < 7; i++) {
+        const target = i === active && others < 0.12 ? B : 0;
+        sv[i] += (target - sv[i]) * ease(i === active ? 0.09 : 0.22);
+        next.push(sv[i] * (1 - ce) * (1 - pa));
+      }
+      // Barres de progression : pleines avant, en cours pour la phrase affichee, vides apres.
+      const run = S.tNext != null ? Math.max(0, Math.min(1, 1 - (S.tNext - t) / STEP)) : 0;
+      el.storyBars.forEach((b, i) => {
+        const v = S.phase === 'conv' || i < (S.ti || 0) ? 100 : i === (S.ti || 0) ? Math.round(run * 100) : 0;
+        if (b._w !== v) { b._w = v; b.style.width = v + '%'; }
+      });
+      setOp(el.story, Math.round((1 - pa) * B * 100) / 100);
+    } else {
+      for (let i = 0; i < 7; i++) {
+        const [px, py] = anchor(i, w, h);
+        const dd = Math.hypot(px - lx, py - ly);
+        const o = Math.max(0, Math.min(1, (R * 1.25 - dd) / (R * 0.6))) * ls;
+        S.mem[i] = Math.max(S.mem[i] - 0.0012 * k60, o * 0.16);
+        next.push(Math.max(o, S.mem[i], ae) * (1 - ce) * (1 - pa));
+      }
     }
     next.push(Math.max(0, (c - 0.55) / 0.45));
-    next.push(S.touched ? 0.35 : 0.55 + 0.25 * Math.sin(t * 0.002));
+    next.push(S.touched ? (story ? 0 : 0.35) : 0.55 + 0.25 * Math.sin(t * 0.002));
     const pb = Math.max(0, Math.min(1, (t - S.t0 - 3000) / 1800));
     next.push(1 - Math.pow(1 - pb, 3));
     next.push(pa);
@@ -767,15 +782,15 @@ button{font:inherit}
     S.mouse.x = e.clientX - r.left; S.mouse.y = e.clientY - r.top;
     S.mouse.active = true; S.mouse.last = performance.now();
   };
-  root.addEventListener('pointermove', (e) => { if (TOUCH.matches) return; pos(e); S.touched = true; });
+  root.addEventListener('pointermove', (e) => { if (guided()) return; pos(e); S.touched = true; });
   root.addEventListener('pointerdown', (e) => {
-    if (TOUCH.matches) { if (S.tNext != null) { S.touched = true; advance(performance.now()); } return; }
+    if (guided()) { if (S.tNext != null) { S.touched = true; advance(performance.now()); } return; }
     pos(e); S.down = true; S.touched = true;
   });
-  root.addEventListener('pointerup', () => { if (!TOUCH.matches) S.down = false; });
-  root.addEventListener('pointercancel', () => { if (!TOUCH.matches) S.down = false; });
-  root.addEventListener('pointerleave', () => { if (!TOUCH.matches) { S.down = false; S.mouse.active = false; } });
-  if (TOUCH.matches) el.hint.textContent = T.hintTouch;
+  root.addEventListener('pointerup', () => { if (!guided()) S.down = false; });
+  root.addEventListener('pointercancel', () => { if (!guided()) S.down = false; });
+  root.addEventListener('pointerleave', () => { if (!guided()) { S.down = false; S.mouse.active = false; } });
+  if (guided()) el.hint.textContent = T.hintTouch;
   const stop = (e) => e.stopPropagation();
   $$('[data-stop]').forEach((b) => b.addEventListener('pointerdown', stop));
   [el.contact, el.partners].forEach((o) => { o.addEventListener('pointerdown', stop); o.addEventListener('pointermove', stop); });
