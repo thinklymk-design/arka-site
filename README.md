@@ -24,6 +24,15 @@ archive/v1/index.html      la version précédente (hors ligne, gardée pour mé
 
 Aperçu local : `python3 -m http.server 5500 --directory public`, puis http://localhost:5500.
 
+## Mobile
+
+Sous 760 px de large, la page affiche `#mob` : un film qui défile (un message par écran,
+animations en points, inscription en bas), repris de la maquette « La vraie valeur de
+votre montre ». La scène du bureau (`#stage`) n'y sert plus qu'à porter la page partenaires
+et la fenêtre de contact ; sa constellation ne se dessine que quand la page partenaires est
+ouverte. Textes dans la section `mobile` des JSON. L'inscription ouvre pour l'instant un
+e-mail prérempli (HubSpot à brancher plus tard).
+
 ## Langues
 
 Pas de sélecteur. L'adresse d'entrée `/` suit la langue du navigateur (français, allemand,
