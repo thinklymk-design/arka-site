@@ -389,7 +389,19 @@ button{font:inherit}
   }
   function layoutPhrases() {
     el.phrases.forEach((ph) => { if (!ph.dataset.top) ph.dataset.top = ph.style.top; });
-    if (!NARROW.matches) { el.phrases.forEach((ph) => { ph.style.top = ph.dataset.top; }); return; }
+    if (!NARROW.matches) {
+      // Positions du bureau ; sur un ecran bas, une phrase qui toucherait l'en-tete descend
+      // juste en dessous, une qui deborderait sur le pied remonte juste au-dessus.
+      el.phrases.forEach((ph) => { ph.style.top = ph.dataset.top; });
+      const sr = root.getBoundingClientRect();
+      const ceil = el.chrome[0].getBoundingClientRect().bottom + 8, floor = el.chrome[1].getBoundingClientRect().top - 12;
+      el.phrases.forEach((ph) => {
+        const r = ph.getBoundingClientRect();
+        if (r.top < ceil) ph.style.top = Math.round(ceil - sr.top) + 'px';
+        else if (r.bottom > floor) ph.style.top = Math.round(floor - r.height - sr.top) + 'px';
+      });
+      return;
+    }
     const sr = root.getBoundingClientRect();
     el.story.style.top = Math.round(el.chrome[0].getBoundingClientRect().bottom - sr.top + 4) + 'px';
     const bottom = el.chrome[1].getBoundingClientRect().top - sr.top - 28;
