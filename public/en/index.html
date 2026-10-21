@@ -195,10 +195,99 @@ button{font:inherit}
   .step{display:flex;flex-direction:column;gap:12px;grid-row:auto;min-width:0}
   .step .st{min-height:0}
 }
+/* --- Page mobile (ecrans etroits) : film qui defile, un message par ecran. ---
+   Classes prefixees m- et regles limitees a #mob pour ne rien toucher du bureau. */
+#mob{display:none}
+@media (max-width:760px){
+  html{scroll-snap-type:y proximity}
+  html,body{height:auto}
+  body{overflow:visible;overflow-x:clip}
+  html.lock,html.lock body{overflow:hidden}
+  #mob{display:block;background:#fff;color:#0E0E0F;font-family:var(--sans);letter-spacing:-.01em;
+    --m-fg:#0E0E0F;--m-muted:#6E6E73;--m-faint:#A1A1A6;--m-red:#CE1126;--m-line:rgba(14,14,15,.1)}
+  /* La scene du bureau ne sert plus qu'a porter la page partenaires et la fenetre de contact. */
+  #stage{position:fixed;inset:0;height:100dvh;min-height:0;z-index:40;background:transparent;pointer-events:none;cursor:default}
+  #stage>canvas,#stage>.chrome-top,#stage>.arka-phrase,#stage>.conv,#stage>.chrome-bot,#stage>.story{display:none}
+  #stage.p-open{background:var(--bg)}
+  #stage.p-open>canvas{display:block}
+  #stage .veil,#stage .partners{pointer-events:auto}
+
+  #mob .m-snap{position:absolute;left:0;width:1px;height:1px;scroll-snap-align:start;pointer-events:none}
+  #mob .m-end{scroll-snap-align:start}
+  #mob .m-nav{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:calc(14px + env(safe-area-inset-top)) 20px 12px}
+  #mob .m-nav svg{height:13px;width:auto;display:block;color:var(--m-fg)}
+  #mob .m-pill{display:inline-flex;align-items:center;min-height:34px;padding:0 15px;border-radius:999px;background:var(--m-fg);color:#fff;font-size:14px;font-weight:500;text-decoration:none}
+  #mob .m-film{position:relative;height:calc(6 * 95svh + 100svh)}
+  #mob .m-stage{position:sticky;top:0;height:100svh;overflow:hidden;touch-action:pan-y}
+  #mob .m-stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+  #mob .m-cap{position:absolute;left:22px;right:22px;top:calc(13svh + env(safe-area-inset-top));max-width:500px;margin:0 auto;pointer-events:none;will-change:opacity,transform;opacity:0}
+  #mob .k{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--m-muted);display:flex;align-items:center;gap:10px}
+  #mob .k::before{content:"";width:6px;height:6px;background:var(--m-red);display:block}
+  #mob .m-cap h2{margin:16px 0 0;font-weight:400;letter-spacing:-.015em;line-height:1.2;font-size:29px;max-width:12em}
+  #mob .m-cap h2.m-h0{font-size:31px;max-width:11em}
+  #mob .m-cap h2.num{font-size:46px;letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums}
+  #mob .num small{font-size:.36em;font-weight:400;color:var(--m-muted);letter-spacing:0;margin-right:6px;vertical-align:1em}
+  #mob .m-cap p{margin:10px 0 0;font-family:var(--serif);font-size:16px;line-height:1.45;color:var(--m-muted);letter-spacing:0;max-width:20em}
+  #mob .ln{margin-top:14px;display:flex;flex-direction:column;gap:7px;font-family:var(--serif);font-size:16px;color:var(--m-muted)}
+  #mob .ln span{display:flex;align-items:center;gap:10px}
+  #mob .ln span::before{content:"";width:4px;height:4px;border-radius:50%;background:var(--m-fg);display:block}
+  #mob .m-cue{position:absolute;left:0;right:0;bottom:calc(26px + env(safe-area-inset-bottom));display:flex;flex-direction:column;align-items:center;gap:10px;font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--m-faint);pointer-events:none}
+  #mob .m-cue i{display:block;width:1px;height:34px;background:linear-gradient(var(--m-faint),rgba(161,161,166,0));animation:mcue 1.8s ease-in-out infinite}
+  #mob .m-barlab{position:absolute;left:8%;right:8%;display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--m-fg);opacity:0;pointer-events:none}
+  #mob .m-barlab span:last-child{color:var(--m-red)}
+  #mob .m-rail{position:absolute;right:14px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:9px}
+  #mob .m-rail b{width:4px;height:4px;border-radius:50%;background:rgba(14,14,15,.18);transition:background .3s,transform .3s}
+  #mob .m-rail b.a{background:var(--m-red);transform:scale(1.5)}
+  #mob .m-end{position:relative;padding:12svh 22px calc(96px + env(safe-area-inset-bottom));max-width:540px;margin:0 auto}
+  #mob .m-end h2{margin:16px 0 0;font-size:29px;font-weight:400;letter-spacing:-.015em;line-height:1.2}
+  #mob .m-end p{margin:10px 0 0;font-family:var(--serif);font-size:16px;line-height:1.45;color:var(--m-muted)}
+  #mob .m-form{margin-top:28px;display:flex;flex-direction:column;gap:10px}
+  #mob .m-form input{width:100%;min-height:56px;border-radius:16px;border:0;background:#F5F5F7;color:var(--m-fg);padding:0 18px;font-family:var(--sans);font-size:17px;outline:none}
+  #mob .m-form input:focus{box-shadow:inset 0 0 0 1.5px var(--m-fg)}
+  #mob .m-btn{display:flex;align-items:center;justify-content:center;min-height:56px;border-radius:16px;background:var(--m-fg);color:#fff;font-size:17px;font-weight:500;text-decoration:none}
+  #mob .m-btn[aria-disabled="true"]{opacity:.3;pointer-events:none}
+  #mob .m-legal{font-size:12.5px;line-height:1.5;color:var(--m-faint);margin-top:12px}
+  #mob .m-foot{margin-top:64px;border-top:1px solid var(--m-line);padding-top:22px;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--m-muted)}
+  #mob .m-foot button{padding:0;border:0;background:none;font:inherit;color:var(--m-fg);cursor:pointer}
+}
+@keyframes mcue{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 @media (prefers-reduced-motion:reduce){.arka-bob{animation:none}}
 </style>
 </head>
 <body>
+<div id="mob">
+  <nav class="m-nav"><span class="m-logo"></span><a class="m-pill" href="#rejoindre">Get notified</a></nav>
+  <section class="m-film" id="m-film">
+    <span class="m-snap" style="top:calc(0 * 95svh)"></span><span class="m-snap" style="top:calc(1 * 95svh)"></span>
+    <span class="m-snap" style="top:calc(2 * 95svh)"></span><span class="m-snap" style="top:calc(3 * 95svh)"></span>
+    <span class="m-snap" style="top:calc(4 * 95svh)"></span><span class="m-snap" style="top:calc(5 * 95svh)"></span>
+    <span class="m-snap" style="top:calc(6 * 95svh)"></span>
+    <div class="m-stage">
+      <canvas id="m-cv" aria-hidden="true"></canvas>
+      <div class="m-cap" data-k="0"><span class="k">Arka · Switzerland</span><h2 class="m-h0">The true value of your watch.</h2><p>Calculated from sales actually closed in Switzerland.</p></div>
+      <div class="m-cap" data-k="1"><span class="k">01 · Scan</span><h2>Scan your watch.</h2><p>Artificial intelligence recognises it for you.</p></div>
+      <div class="m-cap" data-k="2"><span class="k">02 · Identification</span><h2>Identified down to the reference.</h2><p>Each watch is recognised by its exact reference.</p></div>
+      <div class="m-cap" data-k="3"><span class="k">03 · Arka index</span><h2 class="num"><small>CHF</small><span id="m-num">0</span></h2><p>Its value, calculated from sales actually closed. Never from asking prices.</p></div>
+      <div class="m-cap" data-k="4"><span class="k">04 · Collection</span><h2>Your collection, over time.</h2><p>Track the value of each watch, month after month.</p></div>
+      <div class="m-cap" data-k="5"><span class="k">05 · Commitment</span><h2>A 100% free app.</h2><div class="ln"><span>Your data protected</span><span>No watch bought or sold</span><span>Designed in Neuchâtel</span></div></div>
+      <div class="m-cap" data-k="6"><span class="k">Under construction</span><h2>More features are coming soon.</h2><p>Arka is being built, step by step.</p></div>
+      <div class="m-barlab" id="m-barlab"><span>Arka</span><span id="m-pct">0 %</span></div>
+      <div class="m-cue" id="m-cue"><i></i>Scroll</div>
+      <div class="m-rail" id="m-rail"><b></b><b></b><b></b><b></b><b></b><b></b><b></b></div>
+    </div>
+  </section>
+  <section class="m-end" id="rejoindre">
+    <span class="k">Launch</span>
+    <h2>Be among the first.</h2>
+    <p>One email only: the day Arka opens.</p>
+    <div class="m-form">
+      <input id="m-em" type="email" inputmode="email" autocomplete="email" placeholder="Email address" aria-label="Your email address">
+      <a class="m-btn" id="m-go" href="#" aria-disabled="true">Notify me</a>
+    </div>
+    <p class="m-legal">Your address is only used to tell you about the launch. It is never sold or shared.</p>
+    <div class="m-foot"><span>Neuchâtel, Switzerland</span><button type="button" data-act="partners">Watch houses</button></div>
+  </section>
+</div>
 <div id="stage">
   <canvas aria-hidden="true"></canvas>
 
@@ -355,7 +444,7 @@ button{font:inherit}
       const hr = new Date().getHours();
       S.autoDark = d || hr >= 19 || hr < 7;
     }
-    const mode = PROPS.theme;
+    const mode = matchMedia('(max-width:760px)').matches && S.override == null ? 'clair' : PROPS.theme; // page mobile : toujours claire
     const dark = S.override != null ? S.override : mode === 'nuit' ? true : mode === 'clair' ? false : S.autoDark;
     return dark
       ? { dark: true, bg: '#0A0A0B', fg: '#F2F2F0', muted: '#A3A3A9', faint: '#8C8C92', line: 'rgba(242,242,240,0.28)' }
@@ -579,6 +668,12 @@ button{font:inherit}
 
   function frame(t) {
     if (!S.w) return;
+    // Page mobile : la constellation ne sert qu'a la page partenaires ; sinon, rien a dessiner.
+    if (NARROW.matches && !S.pOpen && (S.pa || 0) < 0.01) {
+      if (!S.idle) { S.idle = true; S.pa = 0; ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, el.cv.width, el.cv.height); }
+      S.tPrev = t; return;
+    }
+    S.idle = false;
     const w = S.w, h = S.h, dpr = S.dpr;
     const R = PROPS.lens;
     const accent = PROPS.accent;
@@ -772,6 +867,8 @@ button{font:inherit}
     el.all.textContent = S.all ? T.hideAll : T.showAll;
     el.all.setAttribute('aria-pressed', S.all ? 'true' : 'false');
     el.partners.hidden = !(S.pOpen || pa > 0.01);
+    root.classList.toggle('p-open', !!S.pOpen || pa > 0.01);
+    document.documentElement.classList.toggle('lock', NARROW.matches && (!!S.pOpen || !!S.cOpen));
     setOp(el.partners, pa);
     el.contact.hidden = !S.cOpen;
     el.sent.hidden = !S.cSent; el.notsent.hidden = !!S.cSent;
@@ -818,10 +915,10 @@ button{font:inherit}
     'mode-ins': () => { S.cMode = 'ins'; render(); },
     'mode-q': () => { S.cMode = 'q'; render(); }
   };
-  root.addEventListener('click', (e) => {
+  [root, document.getElementById('mob')].forEach((n) => n.addEventListener('click', (e) => {
     const b = e.target.closest('[data-act]');
     if (b && act[b.dataset.act]) act[b.dataset.act]();
-  });
+  }));
   const pbar = el.partners.querySelector('.pbar');
   el.partners.addEventListener('scroll', () => pbar.classList.toggle('scrolled', el.partners.scrollTop > 8), { passive: true });
   el.email.addEventListener('input', render);
@@ -847,6 +944,177 @@ button{font:inherit}
   render();
   const loop = (t) => { try { frame(t); } catch (err) { if (!S.errLogged) { S.errLogged = true; console.error('ARKA frame', err); } } requestAnimationFrame(loop); };
   requestAnimationFrame(loop);
+})();
+</script>
+<script>
+(() => {
+  // Page mobile (maquette « La vraie valeur de votre montre ») : ne tourne que sur ecran etroit.
+  const NARROW = matchMedia('(max-width:760px)');
+  const T = {"themeToNight": "Switch to night mode", "themeToDay": "Switch to day mode", "showAll": "Reveal all", "hideAll": "Hide", "preparingAria": "Arka in progress: ", "maison": ", build the index with Arka.", "subjectQuestion": "Question — ARKA website", "subjectSignup": "Sign-up — ARKA", "bodySignup": "Please let me know when the ARKA app launches.", "labels": ["PRICE PAID", "CONDITION", "FULL SET", "SALE DATE", "SALE CLOSED", "REFERENCE", "BOX · PAPERS", "YEAR"], "states": ["NEW", "EXCELLENT", "VERY GOOD", "GOOD"], "cardTitle": "SALE CLOSED", "cardState": "CONDITION · ", "cardFullSet": "FULL SET · ", "yes": "YES", "no": "NO", "cardIn": "→ INCLUDED IN THE INDEX", "house": "HOUSE ", "quoteTitle": "THE ARKA INDEX", "quoteNote": "EXAMPLE · ARKA INDEX", "hintTouch": "Tap the screen to continue"};
+  document.querySelector('#mob .m-logo').replaceWith(document.querySelector('#stage .logo svg').cloneNode(true));
+  const cv = document.getElementById('m-cv'), ctx = cv.getContext('2d');
+  const RED = '#CE1126';
+  let W = 0, H = 0, D = 1;
+  function size(force) { const r = cv.getBoundingClientRect(); if (!force && Math.abs(r.width - W) < 2 && Math.abs(r.height - H) < 160) return; D = Math.min(devicePixelRatio || 1, 2); W = r.width; H = r.height; cv.width = W * D; cv.height = H * D; }
+  size(true); addEventListener('resize', () => size(false));
+
+  const ROWS = 30, COLS = 46, N = ROWS * COLS;
+  const rnd = (() => { let s = 5; return () => (s = (s * 16807) % 2147483647) / 2147483647; })();
+  const dl = new Float32Array(N), gs = new Float32Array(N), hv = new Float32Array(N);
+  for (let i = 0; i < N; i++) { hv[i] = rnd(); dl[i] = rnd(); const u1 = Math.max(1e-6, rnd()), u2 = rnd(); gs[i] = Math.sqrt(-2 * Math.log(u1)) * Math.cos(6.283 * u2); }
+  // ring layout
+  const RK = 15, ringOf = new Int16Array(N), ringJ = new Int16Array(N), ringN = [];
+  { let tot = 0; const w = []; for (let k = 1; k <= RK; k++) { w.push(k); tot += k; } let i = 0; for (let k = 0; k < RK; k++) { const n = k === RK - 1 ? N - i : Math.round(N * w[k] / tot); ringN.push(n); for (let j = 0; j < n && i < N; j++, i++) { ringOf[i] = k; ringJ[i] = j; } } }
+
+  // formations: write x, y, a (alpha), s (size), r (redness)
+  const F = Array.from({ length: 2 }, () => ({ x: new Float32Array(N), y: new Float32Array(N), a: new Float32Array(N), s: new Float32Array(N), r: new Float32Array(N) }));
+  const sm = (v) => { v = Math.max(0, Math.min(1, v)); return v * v * (3 - 2 * v); };
+  function form(k, t, o) {
+    const cx = W / 2, cy = H * 0.6, S = Math.min(W * 0.88, H * 0.5);
+    for (let i = 0; i < N; i++) {
+      let x = 0, y = 0, a = 0, s = 1, r = 0;
+      if (k === 0 || k === 5) {
+        const row = Math.floor(i / COLS), col = i % COLS, u = col / (COLS - 1), v = row / (ROWS - 1);
+        const ph = k === 5 ? 2.0 : 0;
+        const wv = Math.sin(u * 5.2 + v * 3.1 + t * 0.0007 + ph) * H * 0.028 + Math.cos(u * 2.1 - v * 4.4 + t * 0.0005) * H * 0.018;
+        x = W * (-0.12 + u * 1.24) + (v - 0.5) * W * 0.22 * (1 - u);
+        y = H * 0.44 + v * H * 0.44 - wv * (0.4 + v) - Math.pow(u, 1.6) * H * 0.07 * (1 - v * 0.4);
+        const fd = Math.min(1, u * 3.2) * Math.min(1, (1 - u) * 5 + 0.1);
+        a = (0.06 + 0.5 * v) * fd; s = 0.6 + 1.7 * v;
+        if (i % 233 === 0 && v > 0.2) { r = 1; a = 0.9; s = 2.6; }
+      } else if (k === 1) {
+        const rk = ringOf[i], n = ringN[rk], rr = S * 0.5 * (0.1 + 0.9 * (rk + 1) / RK);
+        const ang = ringJ[i] / n * 6.283 + rk * 0.37 + t * 0.00009 * (rk % 2 ? 1 : -1);
+        x = cx + Math.cos(ang) * rr; y = cy + Math.sin(ang) * rr;
+        const sw = t * 0.0016; const d = ((sw - ang) % 6.283 + 6.283) % 6.283;
+        const tail = d < 1.1 ? 1 - d / 1.1 : 0;
+        a = 0.2 + 0.7 * tail * tail; s = 1.35 + 0.9 * tail;
+        if (d < 0.06) { r = 1; a = 1; s = 2.2; }
+      } else if (k === 2) {
+        const side = 37; if (i >= side * side) { x = cx; y = cy; a = 0; } else {
+          const row = Math.floor(i / side), col = i % side, cell = S * 0.92 / (side - 1);
+          x = cx - S * 0.46 + col * cell; y = cy - S * 0.46 + row * cell;
+          const tr = 23, tc = 14, sr = (t * 0.014) % (side + 12) - 6;
+          a = 0.17; s = 1.35;
+          if (row === tr || col === tc) { a = 0.42; s = 1.4; }
+          const dd = Math.abs(row - sr); if (dd < 2) a = Math.max(a, 0.5 * (1 - dd / 2));
+          if (row === tr && col === tc) { r = 1; a = 1; s = 4.2; }
+          else if (Math.abs(row - tr) <= 1 && Math.abs(col - tc) <= 1) { a = 0.85; s = 1.8; }
+        }
+      } else if (k === 3) {
+        const u = i / (N - 1);
+        x = cx - S * 0.5 + u * S;
+        const onL = i % 14 === 0;
+        const g = gs[i] * (1 + 0.06 * Math.sin(t * 0.001 + i));
+        y = onL ? cy : cy + g * S * 0.16;
+        a = onL ? 0.95 : Math.max(0.05, 0.45 - Math.abs(g) * 0.16); s = onL ? 1.7 : 1.1;
+        if (onL) r = 1;
+      } else if (k === 6) {
+        const BC = 69, row = Math.floor(i / BC), col = i % BC, bw = W * 0.84, x0 = W * 0.08;
+        x = x0 + col * bw / (BC - 1); y = cy - 30 + row * 3.2;
+        const fill = Math.round((BC - 1) * 0.4), sh = (t * 0.018) % (fill + 14) - 7;
+        if (col < fill) { a = 0.55 + 0.4 * Math.exp(-((col - sh) * (col - sh)) / 10); s = 1.5; }
+        else if (col === fill) { r = 1; a = 1; s = 1.9; if (row === 9) s = 4.4; }
+        else { a = 0.1; s = 1.1; }
+      } else if (k === 4) {
+        const row = Math.floor(i / COLS), col = i % COLS, u = col / (COLS - 1), v = row / (ROWS - 1);
+        const yc = cy + S * 0.26 - S * 0.52 * Math.pow(u, 1.3) - Math.sin(u * 9 + t * 0.0004) * S * 0.025 - Math.sin(u * 23) * S * 0.008;
+        const base = cy + S * 0.36;
+        const vv = row === 0 ? 0 : hv[i], jx = row === 0 ? 0 : (dl[i] - 0.5) * S / (COLS - 1);
+        x = cx - S * 0.47 + u * S * 0.9 + jx; y = yc + Math.pow(vv, 1.5) * (base - yc);
+        a = row === 0 ? 0.25 + 0.7 * u : 0.42 * Math.pow(1 - vv, 2) * (0.4 + 0.6 * u) + 0.03; s = row === 0 ? 1.9 : 1.1;
+        if (row === 0 && col === COLS - 1) { r = 1; a = 1; s = 4.4; }
+      }
+      o.x[i] = x; o.y[i] = y; o.a[i] = a; o.s[i] = s; o.r[i] = r;
+    }
+    return o;
+  }
+  const halo = (() => { const c = document.createElement('canvas'); c.width = c.height = 128; const g = c.getContext('2d'); const gr = g.createRadialGradient(64, 64, 0, 64, 64, 64); gr.addColorStop(0, 'rgba(206,17,38,.28)'); gr.addColorStop(1, 'rgba(206,17,38,0)'); g.fillStyle = gr; g.fillRect(0, 0, 128, 128); return c; })();
+
+  // scroll
+  const film = document.getElementById('m-film'), caps = [...document.querySelectorAll('#mob .m-cap')], rail = [...document.querySelectorAll('#m-rail b')], cue = document.getElementById('m-cue'), num = document.getElementById('m-num'), pct = document.getElementById('m-pct'), barlab = document.getElementById('m-barlab');
+  let P = 0, RAW = 0, cur = 0, tgt = 0, anim = null;
+  function onScroll() {
+    const r = film.getBoundingClientRect(), span = r.height - innerHeight;
+    RAW = Math.max(0, Math.min(1, -r.top / span)) * 6;
+    if (Math.abs(RAW - tgt) > 0.55) tgt = Math.max(0, Math.min(6, Math.round(RAW)));
+  }
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  const fmt = (v) => Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '’');
+
+  const t0 = performance.now();
+  function frame(now) {
+    requestAnimationFrame(frame);
+    if (!NARROW.matches) return; // bureau : la page mobile est masquee
+    size(false);
+    const t = now - t0;
+    // chapter changes play as a timed animation, whatever the finger does
+    if (!anim && tgt !== cur) anim = { from: cur, to: cur + Math.sign(tgt - cur), st: now, dur: Math.abs(tgt - cur) > 1 ? 900 : 1600 };
+    if (anim) { const u = Math.min(1, (now - anim.st) / anim.dur); P = anim.from + (anim.to - anim.from) * u; if (u >= 1) { cur = anim.to; anim = null; P = cur; } } else P = cur;
+    // captions
+    caps.forEach((c) => { const k = +c.dataset.k, d = P - k, o = Math.max(0, 1 - Math.abs(d) * 2.6); c.style.opacity = o; c.style.transform = 'translateY(' + (-d * 34) + 'px)'; });
+    const ai = Math.round(P); rail.forEach((b, k) => b.classList.toggle('a', k === ai));
+    cue.style.opacity = Math.max(0, 1 - P * 4);
+    num.textContent = fmt(28800 * sm((P - 2.45) / 0.55));
+    const be = sm((P - 5.55) / 0.45);
+    pct.textContent = Math.round(40 * be) + ' %';
+    barlab.style.opacity = be; barlab.style.top = (H * 0.6 - 62) + 'px';
+
+    ctx.setTransform(D, 0, 0, D, 0, 0); ctx.clearRect(0, 0, W, H);
+    // static fine grid
+    ctx.fillStyle = '#ECEBE7';
+    for (let gx = 11; gx < W; gx += 22) for (let gy = 11; gy < H; gy += 22) ctx.fillRect(gx - 0.6, gy - 0.6, 1.2, 1.2);
+
+    const k0 = Math.min(5, Math.floor(P)), fr = P - k0, k1 = k0 + 1;
+    const intro = sm((t - 200) / 1600);
+    const A = form(k0, t, F[0]), B = fr > 0.001 ? form(k1, t, F[1]) : null;
+    const grey = [], reds = [];
+    for (let i = 0; i < N; i++) {
+      let e = 0; if (B) e = sm(fr * 1.5 - dl[i] * 0.5);
+      let x = A.x[i], y = A.y[i], a = A.a[i], s = A.s[i], r = A.r[i];
+      if (e > 0) { x += (B.x[i] - x) * e; y += (B.y[i] - y) * e; a += (B.a[i] - a) * e; s += (B.s[i] - s) * e; r += (B.r[i] - r) * e; }
+      if (k1 === 6 && e > 0 && e < 1) {
+        const q = Math.sin(Math.PI * e), ccx = W / 2, ccy = H * 0.6, dx = x - ccx, dy = y - ccy, ro = q * 2.4 * (0.5 + dl[i]), sc = 1 - 0.8 * q;
+        x = ccx + (dx * Math.cos(ro) - dy * Math.sin(ro)) * sc; y = ccy + (dx * Math.sin(ro) + dy * Math.cos(ro)) * sc; a = Math.min(1, a + 0.4 * q);
+      }
+      if (intro < 1) { const ie = sm(intro * 1.4 - dl[i] * 0.4); y = H * 1.05 + (y - H * 1.05) * ie; a *= ie; }
+      if (a < 0.01) continue;
+      if (r > 0.5) reds.push(x, y, a, s); else { ctx.globalAlpha = Math.min(1, a); ctx.fillStyle = '#0E0E0F'; ctx.beginPath(); ctx.arc(x, y, s / 2, 0, 6.283); ctx.fill(); }
+    }
+    // hero: dotted cote curve rising over the wave
+    const hc = Math.max(0, 1 - P * 2.2) * sm((t - 900) / 1400);
+    if (hc > 0.01) {
+      const n = 56, draw = sm((t - 900) / 2200);
+      let ex = 0, ey = 0;
+      for (let j = 0; j <= n * draw; j++) {
+        const u = j / n, x = W * 0.08 + u * W * 0.84, y = H * 0.8 - u * H * 0.26 - Math.sin(u * 9 + t * 0.0006) * H * 0.012 - Math.sin(u * 23) * H * 0.004;
+        ctx.globalAlpha = hc * (0.25 + 0.75 * u); ctx.fillStyle = '#0E0E0F'; ctx.beginPath(); ctx.arc(x, y, 1.9, 0, 6.283); ctx.fill();
+        ex = x; ey = y;
+      }
+      if (draw > 0.98) reds.push(ex, ey, hc, 5);
+    }
+    // red dots + halos
+    const pulse = 0.5 + 0.5 * Math.sin(t * 0.003);
+    for (let j = 0; j < reds.length; j += 4) {
+      const x = reds[j], y = reds[j + 1], a = reds[j + 2], s = reds[j + 3];
+      if (s > 3) { ctx.globalAlpha = Math.min(1, a) * (0.7 + 0.3 * pulse); const hs = 70 + 20 * pulse; ctx.drawImage(halo, x - hs / 2, y - hs / 2, hs, hs); ctx.globalAlpha = Math.min(1, a) * 0.8; ctx.strokeStyle = RED; ctx.lineWidth = 1.1; ctx.beginPath(); ctx.arc(x, y, s * 2.4, 0, 6.283); ctx.stroke(); }
+      ctx.globalAlpha = Math.min(1, a); ctx.fillStyle = RED; ctx.beginPath(); ctx.arc(x, y, s / 2 + 0.3, 0, 6.283); ctx.fill();
+    }
+    if (P > 5.9) {
+      const fl = sm((P - 5.9) / 0.1), ph = (t % 2600) / 2600, fx = W * 0.08 + W * 0.84 * 0.4, fy = H * 0.6 - 30 + 9 * 3.2;
+      ctx.globalAlpha = fl * (1 - ph) * 0.6; ctx.strokeStyle = RED; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.arc(fx, fy, 8 + ph * 60, 0, 6.283); ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+  }
+  requestAnimationFrame(frame);
+
+  const em = document.getElementById('m-em'), go = document.getElementById('m-go');
+  const ok = () => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim());
+  em.addEventListener('input', () => {
+    go.setAttribute('aria-disabled', ok() ? 'false' : 'true');
+    go.href = 'mailto:contact@arkawatch.com?subject=' + encodeURIComponent(T.subjectSignup) + '&body=' + encodeURIComponent(T.bodySignup + '\n\n' + em.value.trim());
+  });
 })();
 </script>
 <!-- Assistant ARKA (widget Botello). -->
