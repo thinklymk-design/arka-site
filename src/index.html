@@ -175,7 +175,8 @@ button{font:inherit}
   .bot-right{margin-right:76px}
   .bot-right .outline{min-width:0;padding:0 16px}
   .bot-right .mobile-only{white-space:nowrap}
-  .chrome-bot .hint,.desk-only{display:none}
+  .desk-only{display:none}
+  .chrome-bot .hint{width:100%;font-size:13px}
   .mobile-only{display:flex!important}
   .bot-right{gap:16px}
   .pbar{padding:16px 20px}
@@ -369,6 +370,16 @@ button{font:inherit}
   // Mobile : les phrases s'empilent dans l'ordre de lecture, regulierement espacees entre
   // l'en-tete et le pied, au lieu des positions en % du bureau (qui se chevauchent).
   const NARROW = matchMedia('(max-width:760px)');
+  // Ecran tactile : pas de loupe a suivre au doigt (le doigt cache ce qu'il revele). La visite
+  // avance seule, toucher l'ecran passe a la phrase suivante ; apres la 7e, les points convergent.
+  const TOUCH = matchMedia('(hover: none) and (pointer: coarse)');
+  const STEP = 3400, CONVERGE = 2800;
+  function advance(t) {
+    if (S.phase === 'conv') { S.phase = 'tour'; S.ti = 0; S.down = false; S.tNext = t + STEP; return; }
+    S.ti = (S.ti || 0) + 1;
+    if (S.ti >= 7) { S.phase = 'conv'; S.ti = 6; S.down = true; S.tNext = t + CONVERGE; }
+    else S.tNext = t + STEP;
+  }
   function layoutPhrases() {
     el.phrases.forEach((ph) => { if (!ph.dataset.top) ph.dataset.top = ph.style.top; });
     root.classList.remove('tight');
@@ -566,8 +577,13 @@ button{font:inherit}
     const ease = (f) => 1 - Math.pow(1 - f, k60);
     const B = Math.max(0, Math.min(1, (t - S.t0 - 2600) / 900));
     const m = S.mouse;
-    const live = m.active && t - m.last < 2600;
-    const tour = anchor(Math.floor(Math.max(0, t - S.t0 - 3000) / 3400) % 7, w, h);
+    const touch = TOUCH.matches;
+    const live = !touch && m.active && t - m.last < 2600;
+    if (touch && !S.pOpen && !S.cOpen) {
+      if (S.tNext == null) { S.ti = 0; S.phase = 'tour'; S.tNext = S.t0 + 3000 + STEP; }
+      if (t >= S.tNext) advance(t);
+    }
+    const tour = anchor(touch ? (S.ti || 0) : Math.floor(Math.max(0, t - S.t0 - 3000) / STEP) % 7, w, h);
     const tx = live ? m.x : tour[0];
     const ty = live ? m.y : tour[1];
     const f = live ? 0.16 : 0.04;
@@ -748,11 +764,15 @@ button{font:inherit}
     S.mouse.x = e.clientX - r.left; S.mouse.y = e.clientY - r.top;
     S.mouse.active = true; S.mouse.last = performance.now();
   };
-  root.addEventListener('pointermove', (e) => { pos(e); S.touched = true; });
-  root.addEventListener('pointerdown', (e) => { pos(e); S.down = true; S.touched = true; });
-  root.addEventListener('pointerup', () => { S.down = false; });
-  root.addEventListener('pointercancel', () => { S.down = false; });
-  root.addEventListener('pointerleave', () => { S.down = false; S.mouse.active = false; });
+  root.addEventListener('pointermove', (e) => { if (TOUCH.matches) return; pos(e); S.touched = true; });
+  root.addEventListener('pointerdown', (e) => {
+    if (TOUCH.matches) { if (S.tNext != null) { S.touched = true; advance(performance.now()); } return; }
+    pos(e); S.down = true; S.touched = true;
+  });
+  root.addEventListener('pointerup', () => { if (!TOUCH.matches) S.down = false; });
+  root.addEventListener('pointercancel', () => { if (!TOUCH.matches) S.down = false; });
+  root.addEventListener('pointerleave', () => { if (!TOUCH.matches) { S.down = false; S.mouse.active = false; } });
+  if (TOUCH.matches) el.hint.textContent = T.hintTouch;
   const stop = (e) => e.stopPropagation();
   $$('[data-stop]').forEach((b) => b.addEventListener('pointerdown', stop));
   [el.contact, el.partners].forEach((o) => { o.addEventListener('pointerdown', stop); o.addEventListener('pointermove', stop); });
