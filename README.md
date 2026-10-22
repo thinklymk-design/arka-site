@@ -26,12 +26,12 @@ Aperçu local : `python3 -m http.server 5500 --directory public`, puis http://lo
 
 ## Mobile
 
-Sous 760 px de large, la page affiche `#mob` : un film qui défile (un message par écran,
-animations en points, inscription en bas), repris de la maquette « La vraie valeur de
-votre montre ». La scène du bureau (`#stage`) n'y sert plus qu'à porter la page partenaires
-et la fenêtre de contact ; sa constellation ne se dessine que quand la page partenaires est
-ouverte. Textes dans la section `mobile` des JSON. L'inscription ouvre pour l'instant un
-e-mail prérempli (HubSpot à brancher plus tard).
+Sous 760 px de large, la page affiche `#mob` (maquette « L'application des collectionneurs
+de montres ») : un seul écran à 7 étapes (intro où les points dessinent le logo, flèches,
+glissement du doigt), une vue « Maisons » propre au mobile (`#maisons`) et une feuille
+« Être prévenu ». La scène du bureau (`#stage`) y est masquée et ne dessine rien. Textes dans
+la section `mobile` des JSON ; la vue Maisons reprend ceux de `partners`. L'inscription ouvre
+pour l'instant un e-mail prérempli (HubSpot à brancher).
 
 ## Langues
 

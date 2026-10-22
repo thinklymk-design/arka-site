@@ -195,98 +195,167 @@ button{font:inherit}
   .step{display:flex;flex-direction:column;gap:12px;grid-row:auto;min-width:0}
   .step .st{min-height:0}
 }
-/* --- Page mobile (ecrans etroits) : film qui defile, un message par ecran. ---
-   Classes prefixees m- et regles limitees a #mob pour ne rien toucher du bureau. */
+/* --- Page mobile (ecrans etroits) : un ecran a 7 etapes, une vue « Maisons », une feuille
+   « Etre prevenu ». Classes prefixees m- et regles sous #mob : le bureau n'est pas touche. --- */
 #mob{display:none}
 @media (max-width:760px){
-  html{scroll-snap-type:y proximity}
-  html,body{height:auto}
-  body{overflow:visible;overflow-x:clip}
-  html.lock,html.lock body{overflow:hidden}
-  #mob{display:block;background:#fff;color:#0E0E0F;font-family:var(--sans);letter-spacing:-.01em;
+  #stage{display:none}
+  html.m-home,html.m-home body{overflow:hidden;height:100%;overscroll-behavior:none}
+  html.m-pv,html.m-pv body{height:auto;overflow:visible}
+  body{overflow-x:clip}
+  html.m-sheet #botello-widget-container{display:none!important}
+  #mob{display:block;background:#fff;color:#0E0E0F;font-family:var(--sans);-webkit-font-smoothing:antialiased;letter-spacing:-.01em;
     --m-fg:#0E0E0F;--m-muted:#6E6E73;--m-faint:#A1A1A6;--m-red:#CE1126;--m-line:rgba(14,14,15,.1)}
-  /* La scene du bureau ne sert plus qu'a porter la page partenaires et la fenetre de contact. */
-  #stage{position:fixed;inset:0;height:100dvh;min-height:0;z-index:40;background:transparent;pointer-events:none;cursor:default}
-  #stage>canvas,#stage>.chrome-top,#stage>.arka-phrase,#stage>.conv,#stage>.chrome-bot,#stage>.story{display:none}
-  #stage.p-open{background:var(--bg)}
-  #stage.p-open>canvas{display:block}
-  #stage .veil,#stage .partners{pointer-events:auto}
-
-  #mob .m-snap{position:absolute;left:0;width:1px;height:1px;scroll-snap-align:start;pointer-events:none}
-  #mob .m-end{scroll-snap-align:start}
-  #mob .m-nav{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:calc(14px + env(safe-area-inset-top)) 20px 12px}
-  #mob .m-nav svg{height:13px;width:auto;display:block;color:var(--m-fg)}
-  #mob .m-pill{display:inline-flex;align-items:center;min-height:34px;padding:0 15px;border-radius:999px;background:var(--m-fg);color:#fff;font-size:14px;font-weight:500;text-decoration:none}
-  #mob .m-film{position:relative;height:calc(6 * 95svh + 100svh)}
-  #mob .m-stage{position:sticky;top:0;height:100svh;overflow:hidden;touch-action:pan-y}
-  #mob .m-stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-  #mob .m-cap{position:absolute;left:22px;right:22px;top:calc(13svh + env(safe-area-inset-top));max-width:500px;margin:0 auto;pointer-events:none;will-change:opacity,transform;opacity:0}
+  #mob *{-webkit-tap-highlight-color:transparent}
   #mob .k{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--m-muted);display:flex;align-items:center;gap:10px}
-  #mob .k::before{content:"";width:6px;height:6px;background:var(--m-red);display:block}
-  #mob .m-cap h2{margin:16px 0 0;font-weight:400;letter-spacing:-.015em;line-height:1.2;font-size:29px;max-width:12em}
-  #mob .m-cap h2.m-h0{font-size:31px;max-width:11em}
+  #mob .k::before{content:"";width:6px;height:6px;background:var(--m-red);display:block;flex:none}
+  #mob .m-nav{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:calc(14px + env(safe-area-inset-top)) 20px 12px;background:linear-gradient(#fff 55%,rgba(255,255,255,0));opacity:0;transition:opacity .9s ease}
+  #mob svg.m-logo{height:13px;width:auto;display:block;color:var(--m-fg)}
+  #mob .m-nr{display:flex;align-items:center;gap:16px}
+  #mob .m-nl{font-family:var(--serif);font-size:15px;color:var(--m-fg);text-decoration:none;min-height:40px;display:flex;align-items:center}
+  #mob .m-pill{display:inline-flex;align-items:center;min-height:36px;padding:0 16px;border-radius:999px;background:var(--m-fg);color:#fff;font-family:var(--sans);font-size:14px;font-weight:500;border:0;cursor:pointer}
+  #mob .m-film{position:relative;height:100svh}
+  #mob .m-stage{position:relative;height:100svh;touch-action:none;overflow:hidden;background:#fff}
+  #mob .m-stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+  #mob .m-cap{position:absolute;left:22px;right:22px;top:calc(13svh + env(safe-area-inset-top));max-width:500px;margin:0 auto;pointer-events:none;opacity:0;will-change:opacity,transform}
+  #mob .m-cap h1,#mob .m-cap h2{margin:16px 0 0;font-weight:400;letter-spacing:-.015em;line-height:1.2}
+  #mob .m-cap h1{font-size:31px;max-width:11em}
+  #mob .m-cap h2{font-size:29px;max-width:12em}
   #mob .m-cap h2.num{font-size:46px;letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums}
-  #mob .num small{font-size:.36em;font-weight:400;color:var(--m-muted);letter-spacing:0;margin-right:6px;vertical-align:1em}
+  #mob .num small{font-size:.36em;color:var(--m-muted);letter-spacing:0;margin-right:6px;vertical-align:1em}
   #mob .m-cap p{margin:10px 0 0;font-family:var(--serif);font-size:16px;line-height:1.45;color:var(--m-muted);letter-spacing:0;max-width:20em}
   #mob .ln{margin-top:14px;display:flex;flex-direction:column;gap:7px;font-family:var(--serif);font-size:16px;color:var(--m-muted)}
   #mob .ln span{display:flex;align-items:center;gap:10px}
-  #mob .ln span::before{content:"";width:4px;height:4px;border-radius:50%;background:var(--m-fg);display:block}
-  #mob .m-cue{position:absolute;left:0;right:0;bottom:calc(26px + env(safe-area-inset-bottom));display:flex;flex-direction:column;align-items:center;gap:10px;font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--m-faint);pointer-events:none}
-  #mob .m-cue i{display:block;width:1px;height:34px;background:linear-gradient(var(--m-faint),rgba(161,161,166,0));animation:mcue 1.8s ease-in-out infinite}
+  #mob .ln span::before{content:"";width:4px;height:4px;border-radius:50%;background:var(--m-fg);display:block;flex:none}
   #mob .m-barlab{position:absolute;left:8%;right:8%;display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--m-fg);opacity:0;pointer-events:none}
   #mob .m-barlab span:last-child{color:var(--m-red)}
-  #mob .m-rail{position:absolute;right:14px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:9px}
-  #mob .m-rail b{width:4px;height:4px;border-radius:50%;background:rgba(14,14,15,.18);transition:background .3s,transform .3s}
-  #mob .m-rail b.a{background:var(--m-red);transform:scale(1.5)}
-  #mob .m-end{position:relative;padding:12svh 22px calc(96px + env(safe-area-inset-bottom));max-width:540px;margin:0 auto}
-  #mob .m-end h2{margin:16px 0 0;font-size:29px;font-weight:400;letter-spacing:-.015em;line-height:1.2}
-  #mob .m-end p{margin:10px 0 0;font-family:var(--serif);font-size:16px;line-height:1.45;color:var(--m-muted)}
-  #mob .m-form{margin-top:28px;display:flex;flex-direction:column;gap:10px}
-  #mob .m-form input{width:100%;min-height:56px;border-radius:16px;border:0;background:#F5F5F7;color:var(--m-fg);padding:0 18px;font-family:var(--sans);font-size:17px;outline:none}
-  #mob .m-form input:focus{box-shadow:inset 0 0 0 1.5px var(--m-fg)}
-  #mob .m-btn{display:flex;align-items:center;justify-content:center;min-height:56px;border-radius:16px;background:var(--m-fg);color:#fff;font-size:17px;font-weight:500;text-decoration:none}
+  /* Les fleches remontent au-dessus de la bulle de l'assistant (58 px, en bas a droite). */
+  #mob .m-ctl{position:absolute;left:22px;right:22px;bottom:calc(92px + env(safe-area-inset-bottom));max-width:500px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;opacity:0;transition:opacity .9s ease}
+  #mob .m-arr{position:relative;width:46px;height:46px;border-radius:50%;border:1px solid rgba(14,14,15,.14);background:rgba(255,255,255,.75);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;color:var(--m-fg);padding:0;cursor:pointer;transition:opacity .3s,border-color .3s}
+  #mob .m-arr:active{border-color:var(--m-fg)}
+  #mob .m-arr[disabled]{opacity:.25;pointer-events:none}
+  #mob .m-arr.hint::after{content:"";position:absolute;inset:-1px;border-radius:50%;border:1px solid var(--m-red);animation:mhint 2s ease-out infinite}
+  #mob .m-dots{display:flex;align-items:center;gap:7px}
+  #mob .m-dots b{display:block;width:5px;height:5px;border-radius:3px;background:rgba(14,14,15,.18);transition:width .45s cubic-bezier(.2,.8,.2,1),background .45s}
+  #mob .m-dots b.a{width:20px;background:var(--m-red)}
+  html.m-ready #mob .m-nav,html.m-ready #mob .m-ctl{opacity:1}
+  html.m-pv #mob .m-nav{opacity:1}
+
+  #mob .m-veil{position:fixed;inset:0;z-index:40;background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);opacity:0;pointer-events:none;transition:opacity .35s ease}
+  #mob .m-veil.on{opacity:1;pointer-events:auto}
+  #mob .m-sheet{position:fixed;left:0;right:0;bottom:0;z-index:41;background:#fff;border-radius:24px 24px 0 0;box-shadow:0 -10px 40px rgba(14,14,15,.12);padding:12px 22px calc(26px + env(safe-area-inset-bottom));transform:translateY(105%);transition:transform .5s cubic-bezier(.2,.8,.2,1);max-width:560px;margin:0 auto}
+  #mob .m-sheet.on{transform:none}
+  #mob .m-grab{width:38px;height:5px;border-radius:3px;background:#D8D8DC;margin:0 auto 18px}
+  #mob .m-sheet h3{margin:14px 0 0;font-size:26px;font-weight:400;letter-spacing:-.015em;line-height:1.2}
+  #mob .m-sheet p{margin:8px 0 0;font-family:var(--serif);font-size:16px;line-height:1.45;color:var(--m-muted)}
+  #mob .m-sheet input{width:100%;margin-top:22px;min-height:54px;border-radius:14px;border:0;background:#F5F5F7;color:var(--m-fg);padding:0 16px;font-family:var(--sans);font-size:17px;outline:none}
+  #mob .m-sheet input:focus{box-shadow:inset 0 0 0 1.5px var(--m-fg)}
+  #mob .m-btn{display:flex;align-items:center;justify-content:center;width:100%;margin-top:10px;min-height:54px;border-radius:14px;background:var(--m-fg);color:#fff;font-family:var(--sans);font-size:17px;font-weight:500;text-decoration:none;border:0}
   #mob .m-btn[aria-disabled="true"]{opacity:.3;pointer-events:none}
   #mob .m-legal{font-size:12.5px;line-height:1.5;color:var(--m-faint);margin-top:12px}
-  #mob .m-foot{margin-top:64px;border-top:1px solid var(--m-line);padding-top:22px;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--m-muted)}
-  #mob .m-foot button{padding:0;border:0;background:none;font:inherit;color:var(--m-fg);cursor:pointer}
+  #mob .m-x{position:absolute;right:14px;top:14px;width:36px;height:36px;border-radius:50%;border:0;background:#F5F5F7;color:var(--m-fg);font-size:18px;line-height:1;cursor:pointer}
+
+  #mob .m-pv-top{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:calc(14px + env(safe-area-inset-top)) 20px 12px;background:rgba(255,255,255,.92);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--m-line)}
+  #mob .m-back{display:flex;align-items:center;gap:8px;min-height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--m-line);background:#fff;color:var(--m-fg);font-family:var(--serif);font-size:15px;text-decoration:none}
+  #mob .m-pw{max-width:560px;margin:0 auto;padding:0 22px}
+  #mob .m-ph{padding-top:40px}
+  #mob .m-ph h1{margin:16px 0 0;font-size:31px;font-weight:400;letter-spacing:-.015em;line-height:1.2}
+  #mob .m-ph h1 i,#mob .m-ps h2 i{font-style:normal;color:var(--m-red)}
+  #mob .m-ph p{margin:12px 0 0;font-family:var(--serif);font-size:16px;line-height:1.5;color:var(--m-muted)}
+  #mob .m-dia{display:block;width:100%;height:auto;margin-top:26px}
+  #mob .m-dia .flow{stroke-dasharray:3 9;animation:mflow 2.4s linear infinite}
+  #mob .m-dia .nd{opacity:0;animation:mnd .6s ease forwards}
+  #mob .m-ps{padding:44px 0;border-top:1px solid var(--m-line)}
+  #mob .m-ps h2{margin:14px 0 0;font-size:26px;font-weight:400;letter-spacing:-.015em;line-height:1.22}
+  #mob .m-ps p{margin:12px 0 0;font-family:var(--serif);font-size:16px;line-height:1.5;color:var(--m-muted)}
+  #mob .m-st{display:grid;grid-template-columns:36px minmax(0,1fr);gap:4px 10px;padding:18px 0;border-bottom:1px solid var(--m-line)}
+  #mob .m-st:first-of-type{margin-top:20px;border-top:1px solid var(--m-line)}
+  #mob .m-st b{font-family:var(--mono);font-weight:400;font-size:12px;color:var(--m-red);padding-top:4px}
+  #mob .m-st h3{margin:0;font-size:18px;font-weight:400;letter-spacing:-.01em;line-height:1.3}
+  #mob .m-st p{grid-column:2;margin:4px 0 0;font-size:15px}
+  #mob .m-mail{display:block;margin-top:14px;text-align:center;font-family:var(--mono);font-size:13px;color:var(--m-fg);text-decoration:none;letter-spacing:.02em}
+  #mob .m-pfoot{padding:24px 0 calc(96px + env(safe-area-inset-bottom));border-top:1px solid var(--m-line);display:flex;justify-content:space-between;font-family:var(--serif);font-size:13px;color:var(--m-muted)}
 }
-@keyframes mcue{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+@keyframes mhint{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.5);opacity:0}}
+@keyframes mflow{to{stroke-dashoffset:-48}}
+@keyframes mnd{to{opacity:1}}
+@media (prefers-reduced-motion:reduce){#mob .m-dia .flow,#mob .m-arr.hint::after{animation:none}}
 @media (prefers-reduced-motion:reduce){.arka-bob{animation:none}}
 </style>
 </head>
 <body>
 <div id="mob">
-  <nav class="m-nav"><span class="m-logo"></span><a class="m-pill" href="#rejoindre">Être prévenu</a></nav>
-  <section class="m-film" id="m-film">
-    <span class="m-snap" style="top:calc(0 * 95svh)"></span><span class="m-snap" style="top:calc(1 * 95svh)"></span>
-    <span class="m-snap" style="top:calc(2 * 95svh)"></span><span class="m-snap" style="top:calc(3 * 95svh)"></span>
-    <span class="m-snap" style="top:calc(4 * 95svh)"></span><span class="m-snap" style="top:calc(5 * 95svh)"></span>
-    <span class="m-snap" style="top:calc(6 * 95svh)"></span>
-    <div class="m-stage">
-      <canvas id="m-cv" aria-hidden="true"></canvas>
-      <div class="m-cap" data-k="0"><span class="k">Arka · Suisse</span><h2 class="m-h0">La vraie valeur de votre montre.</h2><p>Calculée sur des ventes réellement conclues en Suisse.</p></div>
-      <div class="m-cap" data-k="1"><span class="k">01 · Scan</span><h2>Scannez votre montre.</h2><p>L’intelligence artificielle la reconnaît pour vous.</p></div>
-      <div class="m-cap" data-k="2"><span class="k">02 · Identification</span><h2>Identifiée à la référence près.</h2><p>Chaque montre est reconnue à sa référence exacte.</p></div>
-      <div class="m-cap" data-k="3"><span class="k">03 · Cote Arka</span><h2 class="num"><small>CHF</small><span id="m-num">0</span></h2><p>Sa cote, calculée sur des ventes réellement conclues. Jamais sur des prix affichés.</p></div>
-      <div class="m-cap" data-k="4"><span class="k">04 · Collection</span><h2>Votre collection, dans le temps.</h2><p>Suivez la valeur de chaque montre, mois après mois.</p></div>
-      <div class="m-cap" data-k="5"><span class="k">05 · Engagement</span><h2>Application 100 % gratuite.</h2><div class="ln"><span>Vos données protégées</span><span>Aucune montre achetée ni vendue</span><span>Conçue à Neuchâtel</span></div></div>
-      <div class="m-cap" data-k="6"><span class="k">En construction</span><h2>D’autres fonctionnalités arrivent bientôt.</h2><p>Arka se construit, étape par étape.</p></div>
-      <div class="m-barlab" id="m-barlab"><span>Arka</span><span id="m-pct">0 %</span></div>
-      <div class="m-cue" id="m-cue"><i></i>Défiler</div>
-      <div class="m-rail" id="m-rail"><b></b><b></b><b></b><b></b><b></b><b></b><b></b></div>
+  <div id="m-home">
+    <nav class="m-nav"><span data-m-logo></span><div class="m-nr"><a class="m-nl" href="#maisons">Maisons</a><button class="m-pill" type="button" data-open>Être prévenu</button></div></nav>
+    <section class="m-film" id="m-film">
+      <div class="m-stage">
+        <canvas id="m-cv" aria-hidden="true"></canvas>
+        <div class="m-cap" data-k="0"><span class="k">Bientôt disponible</span><h1>L’application des collectionneurs de montres.</h1><p>Identifier, estimer, suivre : votre collection, à sa juste valeur.</p></div>
+        <div class="m-cap" data-k="1"><span class="k">Scan IA</span><h2>Un scan. La référence exacte.</h2><p>L’intelligence artificielle reconnaît votre montre, jusqu’à sa référence.</p></div>
+        <div class="m-cap" data-k="2"><span class="k">Wallet</span><h2 class="num"><small>CHF</small><span id="m-num">0</span></h2><p>Toute votre collection, réunie. Et la cote de chaque montre.</p></div>
+        <div class="m-cap" data-k="3"><span class="k">Alertes</span><h2>Le marché bouge. Vous le savez.</h2><p>Une alerte dès que la cote d’une de vos montres, ou d’une montre convoitée, évolue.</p></div>
+        <div class="m-cap" data-k="4"><span class="k">Assistant IA</span><h2>Un expert, dans votre poche.</h2><p>Calibre, histoire, entretien : il répond, en connaissant votre collection.</p></div>
+        <div class="m-cap" data-k="5"><span class="k">Origine</span><h2>Née au cœur de l’horlogerie.</h2><div class="ln"><span>Données protégées, jamais revendues</span><span>Cotes issues de ventes réellement conclues</span><span>Conçue et développée à Neuchâtel</span></div></div>
+        <div class="m-cap" data-k="6"><span class="k">En construction</span><h2>Et ce n’est que le début.</h2><p>D’autres fonctionnalités arrivent. Arka sera gratuite pour tous les collectionneurs.</p></div>
+        <div class="m-barlab" id="m-barlab"><span>Arka</span><span id="m-pct">0 %</span></div>
+        <div class="m-ctl">
+          <button class="m-arr" type="button" id="m-prev" aria-label="Étape précédente" disabled><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg></button>
+          <div class="m-dots" id="m-dots" aria-hidden="true"><b class="a"></b><b></b><b></b><b></b><b></b><b></b><b></b></div>
+          <button class="m-arr hint" type="button" id="m-next" aria-label="Étape suivante"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div id="m-maisons" hidden>
+    <div class="m-pv-top"><span data-m-logo></span><a class="m-back" href="#" id="m-back">Retour <span aria-hidden="true">×</span></a></div>
+    <div class="m-pw">
+      <section class="m-ph">
+        <span class="k">Maisons partenaires</span>
+        <h1>Le prix juste se construit avec vous<i>.</i></h1>
+        <p>Nous invitons quelques maisons suisses à bâtir avec nous la cote de référence, à partir de leurs ventes conclues.</p>
+        <svg class="m-dia" id="m-dia" viewBox="0 0 346 300" aria-hidden="true"></svg>
+      </section>
+      <section class="m-ps">
+        <span class="k">Fonctionnement</span>
+        <h2>En trois étapes.</h2>
+        <div class="m-st"><b>01</b><h3>Vous partagez vos ventes conclues.</h3><p>Référence, état, full set, date et prix payé. Sous la forme qui vous convient : export régulier, fichier ou accès dédié.</p></div>
+        <div class="m-st"><b>02</b><h3>Arka agrège et anonymise.</h3><p>Vos ventes rejoignent celles des autres maisons. Aucune n’est affichée individuellement, aucune donnée client n’est demandée.</p></div>
+        <div class="m-st"><b>03</b><h3>La cote Arka est publiée.</h3><p>Un calcul déterministe, reproductible et journalisé, mis à jour semaine après semaine.</p></div>
+      </section>
+      <section class="m-ps">
+        <span class="k">Confiance</span>
+        <h2>Vos données restent les vôtres.</h2>
+        <p>Les ventes partagées servent uniquement au calcul de la cote Arka. Elles sont agrégées avant toute publication et ne sont jamais revendues.</p>
+        <p>Arka n’achète et ne vend aucune montre. Nos cotes reflètent le marché, rien d’autre.</p>
+      </section>
+      <section class="m-ps">
+        <span class="k">Conditions</span>
+        <h2>Chaque maison a ses conditions, nous voulons connaître les vôtres.</h2>
+        <p>L’objectif : un échange juste, pour vous comme pour nous.</p>
+      </section>
+      <section class="m-ps">
+        <span class="k">Contact</span>
+        <h2>Parlons-en<i>.</i></h2>
+        <p>Un appel de vingt minutes ou un passage chez vous, selon ce qui vous arrange.</p>
+        <a class="m-btn" style="margin-top:24px" href="mailto:contact@arkawatch.com?subject=Devenir%20maison%20partenaire%20ARKA">Devenir maison partenaire</a>
+        <a class="m-mail" href="mailto:contact@arkawatch.com">contact@arkawatch.com</a>
+      </section>
+      <div class="m-pfoot"><span>Données agrégées, jamais revendues.</span><span>Neuchâtel, Suisse</span></div>
     </div>
-  </section>
-  <section class="m-end" id="rejoindre">
+  </div>
+
+  <div class="m-veil" id="m-veil"></div>
+  <div class="m-sheet" id="m-sheet" role="dialog" aria-modal="true" aria-labelledby="m-shT">
+    <div class="m-grab"></div>
+    <button class="m-x" type="button" id="m-shX" aria-label="Fermer">×</button>
     <span class="k">Lancement</span>
-    <h2>Soyez parmi les premiers.</h2>
+    <h3 id="m-shT">Soyez parmi les premiers.</h3>
     <p>Un seul e-mail : le jour où Arka ouvre.</p>
-    <div class="m-form">
-      <input id="m-em" type="email" inputmode="email" autocomplete="email" placeholder="Adresse e-mail" aria-label="Votre adresse e-mail">
-      <a class="m-btn" id="m-go" href="#" aria-disabled="true">Me prévenir</a>
-    </div>
+    <input id="m-em" type="email" inputmode="email" autocomplete="email" placeholder="Adresse e-mail" aria-label="Votre adresse e-mail">
+    <a class="m-btn" id="m-go" href="#" aria-disabled="true">Me prévenir</a>
     <p class="m-legal">Votre adresse sert uniquement à vous prévenir du lancement. Elle n’est ni vendue ni partagée.</p>
-    <div class="m-foot"><span>Neuchâtel, Suisse</span><button type="button" data-act="partners">Maisons horlogères</button></div>
-  </section>
+  </div>
 </div>
 <div id="stage">
   <canvas aria-hidden="true"></canvas>
@@ -444,7 +513,7 @@ button{font:inherit}
       const hr = new Date().getHours();
       S.autoDark = d || hr >= 19 || hr < 7;
     }
-    const mode = matchMedia('(max-width:760px)').matches && S.override == null ? 'clair' : PROPS.theme; // page mobile : toujours claire
+    const mode = PROPS.theme;
     const dark = S.override != null ? S.override : mode === 'nuit' ? true : mode === 'clair' ? false : S.autoDark;
     return dark
       ? { dark: true, bg: '#0A0A0B', fg: '#F2F2F0', muted: '#A3A3A9', faint: '#8C8C92', line: 'rgba(242,242,240,0.28)' }
@@ -667,13 +736,7 @@ button{font:inherit}
   }
 
   function frame(t) {
-    if (!S.w) return;
-    // Page mobile : la constellation ne sert qu'a la page partenaires ; sinon, rien a dessiner.
-    if (NARROW.matches && !S.pOpen && (S.pa || 0) < 0.01) {
-      if (!S.idle) { S.idle = true; S.pa = 0; ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, el.cv.width, el.cv.height); }
-      S.tPrev = t; return;
-    }
-    S.idle = false;
+    if (!S.w || NARROW.matches) { S.tPrev = t; return; } // ecran etroit : page mobile, scene masquee
     const w = S.w, h = S.h, dpr = S.dpr;
     const R = PROPS.lens;
     const accent = PROPS.accent;
@@ -867,8 +930,6 @@ button{font:inherit}
     el.all.textContent = S.all ? T.hideAll : T.showAll;
     el.all.setAttribute('aria-pressed', S.all ? 'true' : 'false');
     el.partners.hidden = !(S.pOpen || pa > 0.01);
-    root.classList.toggle('p-open', !!S.pOpen || pa > 0.01);
-    document.documentElement.classList.toggle('lock', NARROW.matches && (!!S.pOpen || !!S.cOpen));
     setOp(el.partners, pa);
     el.contact.hidden = !S.cOpen;
     el.sent.hidden = !S.cSent; el.notsent.hidden = !!S.cSent;
@@ -915,10 +976,10 @@ button{font:inherit}
     'mode-ins': () => { S.cMode = 'ins'; render(); },
     'mode-q': () => { S.cMode = 'q'; render(); }
   };
-  [root, document.getElementById('mob')].forEach((n) => n.addEventListener('click', (e) => {
+  root.addEventListener('click', (e) => {
     const b = e.target.closest('[data-act]');
     if (b && act[b.dataset.act]) act[b.dataset.act]();
-  }));
+  });
   const pbar = el.partners.querySelector('.pbar');
   el.partners.addEventListener('scroll', () => pbar.classList.toggle('scrolled', el.partners.scrollTop > 8), { passive: true });
   el.email.addEventListener('input', render);
@@ -948,82 +1009,99 @@ button{font:inherit}
 </script>
 <script>
 (() => {
-  // Page mobile (maquette « La vraie valeur de votre montre ») : ne tourne que sur ecran etroit.
+  // Page mobile (maquette « L'application des collectionneurs de montres ») : ne tourne que sur ecran etroit.
   const NARROW = matchMedia('(max-width:760px)');
   const T = {"themeToNight": "Passer en mode nuit", "themeToDay": "Passer en mode jour", "showAll": "Tout révéler", "hideAll": "Masquer", "preparingAria": "Arka en préparation : ", "maison": ", construisez la cote avec Arka.", "subjectQuestion": "Question — site ARKA", "subjectSignup": "Inscription — ARKA", "bodySignup": "Merci de me prévenir à la sortie de l’application ARKA.", "labels": ["PRIX PAYÉ", "ÉTAT", "FULL SET", "DATE DE VENTE", "VENTE CONCLUE", "RÉFÉRENCE", "BOÎTE · PAPIERS", "ANNÉE"], "states": ["NEUF", "EXCELLENT", "TRÈS BON", "BON"], "cardTitle": "VENTE CONCLUE", "cardState": "ÉTAT · ", "cardFullSet": "FULL SET · ", "yes": "OUI", "no": "NON", "cardIn": "→ INTÉGRÉE À LA COTE", "house": "MAISON ", "quoteTitle": "LA COTE ARKA", "quoteNote": "EXEMPLE · COTE ARKA", "hintTouch": "Touchez l’écran pour la suite"};
-  document.querySelector('#mob .m-logo').replaceWith(document.querySelector('#stage .logo svg').cloneNode(true));
-  const cv = document.getElementById('m-cv'), ctx = cv.getContext('2d');
+  // Le logo de l'en-tete du bureau sert aussi ici (meme dessin, une seule source).
+  const LOGO = document.querySelector('#stage .logo svg');
+  document.querySelectorAll('#mob [data-m-logo]').forEach((n) => { const c = LOGO.cloneNode(true); c.classList.add('m-logo'); n.replaceWith(c); });
+  /* ---------- canvas film ---------- */
+  const cv = document.getElementById('m-cv'), ctx = cv.getContext('2d', { alpha: true });
   const RED = '#CE1126';
   let W = 0, H = 0, D = 1;
-  function size(force) { const r = cv.getBoundingClientRect(); if (!force && Math.abs(r.width - W) < 2 && Math.abs(r.height - H) < 160) return; D = Math.min(devicePixelRatio || 1, 2); W = r.width; H = r.height; cv.width = W * D; cv.height = H * D; }
+  function size(force) {
+    const r = cv.getBoundingClientRect();
+    if (!r.width) return;
+    if (!force && Math.abs(r.width - W) < 2 && Math.abs(r.height - H) < 160) return;
+    D = Math.min(devicePixelRatio || 1, 2); W = r.width; H = r.height; cv.width = Math.round(W * D); cv.height = Math.round(H * D);
+  }
   size(true); addEventListener('resize', () => size(false));
 
   const ROWS = 30, COLS = 46, N = ROWS * COLS;
   const rnd = (() => { let s = 5; return () => (s = (s * 16807) % 2147483647) / 2147483647; })();
   const dl = new Float32Array(N), gs = new Float32Array(N), hv = new Float32Array(N);
   for (let i = 0; i < N; i++) { hv[i] = rnd(); dl[i] = rnd(); const u1 = Math.max(1e-6, rnd()), u2 = rnd(); gs[i] = Math.sqrt(-2 * Math.log(u1)) * Math.cos(6.283 * u2); }
-  // ring layout
   const RK = 15, ringOf = new Int16Array(N), ringJ = new Int16Array(N), ringN = [];
   { let tot = 0; const w = []; for (let k = 1; k <= RK; k++) { w.push(k); tot += k; } let i = 0; for (let k = 0; k < RK; k++) { const n = k === RK - 1 ? N - i : Math.round(N * w[k] / tot); ringN.push(n); for (let j = 0; j < n && i < N; j++, i++) { ringOf[i] = k; ringJ[i] = j; } } }
 
-  // formations: write x, y, a (alpha), s (size), r (redness)
-  const F = Array.from({ length: 2 }, () => ({ x: new Float32Array(N), y: new Float32Array(N), a: new Float32Array(N), s: new Float32Array(N), r: new Float32Array(N) }));
-  const sm = (v) => { v = Math.max(0, Math.min(1, v)); return v * v * (3 - 2 * v); };
+  const F = [0, 1].map(() => ({ x: new Float32Array(N), y: new Float32Array(N), a: new Float32Array(N), s: new Float32Array(N), r: new Float32Array(N) }));
+  const sm = (v) => { v = v < 0 ? 0 : v > 1 ? 1 : v; return v * v * (3 - 2 * v); };
+  const eio = (u) => u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;
   function form(k, t, o) {
     const cx = W / 2, cy = H * 0.6, S = Math.min(W * 0.88, H * 0.5);
     for (let i = 0; i < N; i++) {
       let x = 0, y = 0, a = 0, s = 1, r = 0;
-      if (k === 0 || k === 5) {
-        const row = Math.floor(i / COLS), col = i % COLS, u = col / (COLS - 1), v = row / (ROWS - 1);
-        const ph = k === 5 ? 2.0 : 0;
-        const wv = Math.sin(u * 5.2 + v * 3.1 + t * 0.0007 + ph) * H * 0.028 + Math.cos(u * 2.1 - v * 4.4 + t * 0.0005) * H * 0.018;
+      if (k === 0) {
+        const row = (i / COLS) | 0, col = i % COLS, u = col / (COLS - 1), v = row / (ROWS - 1);
+        const wv = Math.sin(u * 5.2 + v * 3.1 + t * 0.0007) * H * 0.028 + Math.cos(u * 2.1 - v * 4.4 + t * 0.0005) * H * 0.018;
         x = W * (-0.12 + u * 1.24) + (v - 0.5) * W * 0.22 * (1 - u);
-        y = H * 0.44 + v * H * 0.44 - wv * (0.4 + v) - Math.pow(u, 1.6) * H * 0.07 * (1 - v * 0.4);
+        y = H * 0.44 + v * H * 0.44 - wv * (0.4 + v) - u * Math.sqrt(u) * u * H * 0.07 * (1 - v * 0.4);
         const fd = Math.min(1, u * 3.2) * Math.min(1, (1 - u) * 5 + 0.1);
-        a = (0.06 + 0.5 * v) * fd; s = 0.6 + 1.7 * v;
+        a = (0.06 + 0.5 * v) * fd; s = 0.7 + 1.7 * v;
         if (i % 233 === 0 && v > 0.2) { r = 1; a = 0.9; s = 2.6; }
       } else if (k === 1) {
+        // scan: concentric rings with a radar sweep, locking on one point
         const rk = ringOf[i], n = ringN[rk], rr = S * 0.5 * (0.1 + 0.9 * (rk + 1) / RK);
         const ang = ringJ[i] / n * 6.283 + rk * 0.37 + t * 0.00009 * (rk % 2 ? 1 : -1);
         x = cx + Math.cos(ang) * rr; y = cy + Math.sin(ang) * rr;
-        const sw = t * 0.0016; const d = ((sw - ang) % 6.283 + 6.283) % 6.283;
-        const tail = d < 1.1 ? 1 - d / 1.1 : 0;
-        a = 0.2 + 0.7 * tail * tail; s = 1.35 + 0.9 * tail;
+        const d = ((t * 0.0016 - ang) % 6.283 + 6.283) % 6.283, tail = d < 1.1 ? 1 - d / 1.1 : 0;
+        a = 0.2 + 0.7 * tail * tail; s = 1.4 + 0.9 * tail;
         if (d < 0.06) { r = 1; a = 1; s = 2.2; }
+        if (i === 0) { x = cx; y = cy; r = 1; a = 1; s = 4.4; }
       } else if (k === 2) {
-        const side = 37; if (i >= side * side) { x = cx; y = cy; a = 0; } else {
-          const row = Math.floor(i / side), col = i % side, cell = S * 0.92 / (side - 1);
+        // wallet: a matrix where each watch of the collection lights up
+        const side = 37;
+        if (i >= side * side) { x = cx; y = cy; a = 0; } else {
+          const row = (i / side) | 0, col = i % side, cell = S * 0.92 / (side - 1);
           x = cx - S * 0.46 + col * cell; y = cy - S * 0.46 + row * cell;
-          const tr = 23, tc = 14, sr = (t * 0.014) % (side + 12) - 6;
-          a = 0.17; s = 1.35;
-          if (row === tr || col === tc) { a = 0.42; s = 1.4; }
-          const dd = Math.abs(row - sr); if (dd < 2) a = Math.max(a, 0.5 * (1 - dd / 2));
-          if (row === tr && col === tc) { r = 1; a = 1; s = 4.2; }
-          else if (Math.abs(row - tr) <= 1 && Math.abs(col - tc) <= 1) { a = 0.85; s = 1.8; }
+          a = 0.15; s = 1.4;
+          const sr = (t * 0.012) % (side + 12) - 6, dd = Math.abs(row - sr); if (dd < 2) a = Math.max(a, 0.42 * (1 - dd / 2));
+          for (let w = 0; w < 3; w++) {
+            const wr = [9, 20, 28][w], wc = [10, 27, 15][w], dr = Math.abs(row - wr), dc = Math.abs(col - wc);
+            if (dr === 0 && dc === 0) { r = 1; a = 1; s = w === 1 ? 4.4 : 3.4; }
+            else if (dr <= 1 && dc <= 1) { a = 0.85; s = 1.9; }
+            else if (dr <= 2 && dc <= 2) { a = Math.max(a, 0.4); }
+          }
         }
       } else if (k === 3) {
-        const u = i / (N - 1);
-        x = cx - S * 0.5 + u * S;
-        const onL = i % 14 === 0;
-        const g = gs[i] * (1 + 0.06 * Math.sin(t * 0.001 + i));
-        y = onL ? cy : cy + g * S * 0.16;
-        a = onL ? 0.95 : Math.max(0.05, 0.45 - Math.abs(g) * 0.16); s = onL ? 1.7 : 1.1;
+        // alerts: the cote rises, the last point rings
+        const row = (i / COLS) | 0, col = i % COLS, u = col / (COLS - 1);
+        const yc = cy + S * 0.26 - S * 0.52 * Math.pow(u, 1.3) - Math.sin(u * 9 + t * 0.0004) * S * 0.025 - Math.sin(u * 23) * S * 0.008;
+        const base = cy + S * 0.36, vv = row === 0 ? 0 : hv[i], jx = row === 0 ? 0 : (dl[i] - 0.5) * S / (COLS - 1);
+        x = cx - S * 0.47 + u * S * 0.9 + jx; y = yc + vv * Math.sqrt(vv) * (base - yc);
+        a = row === 0 ? 0.25 + 0.7 * u : 0.42 * (1 - vv) * (1 - vv) * (0.4 + 0.6 * u) + 0.03; s = row === 0 ? 2 : 1.2;
+        if (row === 0 && col === COLS - 1) { r = 1; a = 1; s = 4.4; }
+      } else if (k === 4) {
+        // assistant: a slowly turning sphere of points, a few of them lighting up
+        const yy = 1 - 2 * (i + 0.5) / N, rad = Math.sqrt(1 - yy * yy), ph = i * 2.39996 + t * 0.00035;
+        const x3 = Math.cos(ph) * rad, z3 = Math.sin(ph) * rad, tl = 0.38;
+        const y3 = yy * Math.cos(tl) - z3 * Math.sin(tl), zz = yy * Math.sin(tl) + z3 * Math.cos(tl), R2 = S * 0.44, depth = (zz + 1) / 2;
+        x = cx + x3 * R2; y = cy + y3 * R2;
+        a = 0.05 + 0.5 * depth * depth; s = 0.8 + 1.5 * depth;
+        if (i % 61 === 0 && zz > 0.1) { const f = 0.5 + 0.5 * Math.sin(t * 0.004 + i); if (f > 0.55) { r = 1; a = f; s = 2.4; } }
+      } else if (k === 5) {
+        // origin: thousands of real sales, one line through them
+        const u = i / (N - 1), onL = i % 14 === 0, g = gs[i] * (1 + 0.06 * Math.sin(t * 0.001 + i));
+        x = cx - S * 0.5 + u * S; y = onL ? cy : cy + g * S * 0.16;
+        a = onL ? 0.95 : Math.max(0.05, 0.45 - Math.abs(g) * 0.16); s = onL ? 1.8 : 1.2;
         if (onL) r = 1;
       } else if (k === 6) {
-        const BC = 69, row = Math.floor(i / BC), col = i % BC, bw = W * 0.84, x0 = W * 0.08;
+        const BC = 69, row = (i / BC) | 0, col = i % BC, bw = W * 0.84, x0 = W * 0.08;
         x = x0 + col * bw / (BC - 1); y = cy - 30 + row * 3.2;
         const fill = Math.round((BC - 1) * 0.4), sh = (t * 0.018) % (fill + 14) - 7;
-        if (col < fill) { a = 0.55 + 0.4 * Math.exp(-((col - sh) * (col - sh)) / 10); s = 1.5; }
-        else if (col === fill) { r = 1; a = 1; s = 1.9; if (row === 9) s = 4.4; }
-        else { a = 0.1; s = 1.1; }
-      } else if (k === 4) {
-        const row = Math.floor(i / COLS), col = i % COLS, u = col / (COLS - 1), v = row / (ROWS - 1);
-        const yc = cy + S * 0.26 - S * 0.52 * Math.pow(u, 1.3) - Math.sin(u * 9 + t * 0.0004) * S * 0.025 - Math.sin(u * 23) * S * 0.008;
-        const base = cy + S * 0.36;
-        const vv = row === 0 ? 0 : hv[i], jx = row === 0 ? 0 : (dl[i] - 0.5) * S / (COLS - 1);
-        x = cx - S * 0.47 + u * S * 0.9 + jx; y = yc + Math.pow(vv, 1.5) * (base - yc);
-        a = row === 0 ? 0.25 + 0.7 * u : 0.42 * Math.pow(1 - vv, 2) * (0.4 + 0.6 * u) + 0.03; s = row === 0 ? 1.9 : 1.1;
-        if (row === 0 && col === COLS - 1) { r = 1; a = 1; s = 4.4; }
+        if (col < fill) { a = 0.55 + 0.4 * Math.exp(-((col - sh) * (col - sh)) / 10); s = 1.6; }
+        else if (col === fill) { r = 1; a = 1; s = 2; if (row === 9) s = 4.4; }
+        else { a = 0.1; s = 1.2; }
       }
       o.x[i] = x; o.y[i] = y; o.a[i] = a; o.s[i] = s; o.r[i] = r;
     }
@@ -1031,85 +1109,199 @@ button{font:inherit}
   }
   const halo = (() => { const c = document.createElement('canvas'); c.width = c.height = 128; const g = c.getContext('2d'); const gr = g.createRadialGradient(64, 64, 0, 64, 64, 64); gr.addColorStop(0, 'rgba(206,17,38,.28)'); gr.addColorStop(1, 'rgba(206,17,38,0)'); g.fillStyle = gr; g.fillRect(0, 0, 128, 128); return c; })();
 
-  // scroll
-  const film = document.getElementById('m-film'), caps = [...document.querySelectorAll('#mob .m-cap')], rail = [...document.querySelectorAll('#m-rail b')], cue = document.getElementById('m-cue'), num = document.getElementById('m-num'), pct = document.getElementById('m-pct'), barlab = document.getElementById('m-barlab');
-  let P = 0, RAW = 0, cur = 0, tgt = 0, anim = null;
-  function onScroll() {
-    const r = film.getBoundingClientRect(), span = r.height - innerHeight;
-    RAW = Math.max(0, Math.min(1, -r.top / span)) * 6;
-    if (Math.abs(RAW - tgt) > 0.55) tgt = Math.max(0, Math.min(6, Math.round(RAW)));
-  }
-  addEventListener('scroll', onScroll, { passive: true }); onScroll();
-  const fmt = (v) => Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '’');
+  // batched drawing: dots grouped by opacity, one fill per group
+  const NB = 14, bucket = Array.from({ length: NB }, () => new Float32Array(N * 3 + 300)), bn = new Int32Array(NB);
+  const push = (x, y, a, s) => { let b = (a * NB) | 0; if (b >= NB) b = NB - 1; if (b < 0) return; const o = bn[b]; const arr = bucket[b]; arr[o] = x; arr[o + 1] = y; arr[o + 2] = s; bn[b] = o + 3; };
 
-  const t0 = performance.now();
+  const film = document.getElementById('m-film'), caps = [...document.querySelectorAll('#mob .m-cap')], dots = [...document.querySelectorAll('#m-dots b')], num = document.getElementById('m-num'), pct = document.getElementById('m-pct'), barlab = document.getElementById('m-barlab');
+  const prevB = document.getElementById('m-prev'), nextB = document.getElementById('m-next');
+  let P = 0, cur = 0, tgt = 0, anim = null, ready = false;
+  const goTo = (k) => { if (!ready) return; tgt = Math.max(0, Math.min(6, k)); nextB.classList.remove('hint'); };
+  prevB.addEventListener('click', () => goTo(tgt - 1));
+  nextB.addEventListener('click', () => goTo(tgt + 1));
+  // swipe: left/up = next, right/down = previous
+  let sx = 0, sy = 0, st = 0;
+  film.addEventListener('touchstart', (e) => { const p = e.touches[0]; sx = p.clientX; sy = p.clientY; st = performance.now(); }, { passive: true });
+  film.addEventListener('touchend', (e) => {
+    const p = e.changedTouches[0], dx = p.clientX - sx, dy = p.clientY - sy;
+    if (performance.now() - st > 900) return;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) goTo(tgt + (dx < 0 ? 1 : -1));
+    else if (Math.abs(dy) > 50) goTo(tgt + (dy < 0 ? 1 : -1));
+  }, { passive: true });
+  let wl = 0;
+  film.addEventListener('wheel', (e) => { const n = performance.now(); if (n - wl < 900 || Math.abs(e.deltaY) < 12) return; wl = n; goTo(tgt + (e.deltaY > 0 ? 1 : -1)); }, { passive: true });
+  addEventListener('keydown', (e) => { if (!NARROW.matches) return; if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(tgt + 1); if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') goTo(tgt - 1); });
+
+  // intro: the dots assemble the Arka logo, then open into the page
+  const LX = new Float32Array(N), LY = new Float32Array(N), LR = new Uint8Array(N), SX = new Float32Array(N), SY = new Float32Array(N);
+  function buildLogo() {
+    const paths = LOGO.querySelectorAll('path');
+    const cw = Math.round(Math.min(W * 0.72, 320)), ch = Math.round(cw * 35.5 / 218);
+    const oc = document.createElement('canvas'); oc.width = cw; oc.height = ch;
+    const g = oc.getContext('2d');
+    g.setTransform(cw / 218, 0, 0, ch / 35.5, -189 * cw / 218, -400 * ch / 35.5);
+    g.fillStyle = '#000'; g.fill(new Path2D(paths[0].getAttribute('d')), 'evenodd');
+    g.fillStyle = '#f00'; g.fill(new Path2D(paths[1].getAttribute('d')));
+    const im = g.getImageData(0, 0, cw, ch).data, pts = [];
+    for (let y = 0; y < ch; y++) for (let x = 0; x < cw; x++) { const o = (y * cw + x) * 4; if (im[o + 3] > 140) pts.push(x, y, im[o] > 160 ? 1 : 0); }
+    const n = pts.length / 3, ox = W / 2 - cw / 2, oy = H * 0.45 - ch / 2;
+    for (let i = 0; i < N; i++) {
+      const k = Math.floor(((i * 0.6180339887) % 1) * n) * 3;
+      LX[i] = ox + pts[k] + (hv[i] - 0.5) * 0.8; LY[i] = oy + pts[k + 1] + (dl[i] - 0.5) * 0.8; LR[i] = pts[k + 2];
+      SX[i] = W / 2 + (hv[i] - 0.5) * W * 1.6; SY[i] = H * 0.45 + gs[i] * H * 0.28;
+    }
+  }
+  const fmt = (v) => Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '’');
+  const last = { caps: [], dot: -1, num: '', pct: '', bl: -1, nav: '' };
+
+  let running = false, raf = 0;
+  let t0 = 0, booted = false;
   function frame(now) {
-    requestAnimationFrame(frame);
-    if (!NARROW.matches) return; // bureau : la page mobile est masquee
-    size(false);
+    if (!running) return;
     const t = now - t0;
-    // chapter changes play as a timed animation, whatever the finger does
-    if (!anim && tgt !== cur) anim = { from: cur, to: cur + Math.sign(tgt - cur), st: now, dur: Math.abs(tgt - cur) > 1 ? 900 : 1600 };
-    if (anim) { const u = Math.min(1, (now - anim.st) / anim.dur); P = anim.from + (anim.to - anim.from) * u; if (u >= 1) { cur = anim.to; anim = null; P = cur; } } else P = cur;
-    // captions
-    caps.forEach((c) => { const k = +c.dataset.k, d = P - k, o = Math.max(0, 1 - Math.abs(d) * 2.6); c.style.opacity = o; c.style.transform = 'translateY(' + (-d * 34) + 'px)'; });
-    const ai = Math.round(P); rail.forEach((b, k) => b.classList.toggle('a', k === ai));
-    cue.style.opacity = Math.max(0, 1 - P * 4);
-    num.textContent = fmt(28800 * sm((P - 2.45) / 0.55));
-    const be = sm((P - 5.55) / 0.45);
-    pct.textContent = Math.round(40 * be) + ' %';
-    barlab.style.opacity = be; barlab.style.top = (H * 0.6 - 62) + 'px';
+    if (!anim && tgt !== cur) anim = { from: cur, to: cur + Math.sign(tgt - cur), st: now, dur: Math.abs(tgt - cur) > 1 ? 950 : 1500 };
+    if (anim) { const u = Math.min(1, (now - anim.st) / anim.dur); P = anim.from + (anim.to - anim.from) * eio(u); if (u >= 1) { cur = anim.to; anim = null; P = cur; } } else P = cur;
+
+    // DOM updates only when something changed
+    const rd = sm((t - 3250) / 700);
+    caps.forEach((c, k) => { const d = P - k, o = Math.max(0, 1 - Math.abs(d) * 2.4) * rd, key = Math.round(o * 200) + ':' + Math.round(d * 100); if (last.caps[k] !== key) { last.caps[k] = key; c.style.opacity = o.toFixed(3); c.style.transform = 'translate3d(0,' + (-d * 30).toFixed(1) + 'px,0)'; } });
+    const ai = Math.round(P); if (ai !== last.dot) { last.dot = ai; dots.forEach((b, k) => b.classList.toggle('a', k === ai)); }
+    const nk = (tgt <= 0 ? 'a' : 'b') + (tgt >= 6 ? 'a' : 'b'); if (nk !== last.nav) { last.nav = nk; prevB.disabled = tgt <= 0; nextB.disabled = tgt >= 6; }
+    if (!ready && t > 3300) { ready = true; document.documentElement.classList.add('m-ready'); }
+    const nv = fmt(74600 * sm((P - 1.45) / 0.55)); if (nv !== last.num) { last.num = nv; num.textContent = nv; }
+    const be = sm((P - 5.55) / 0.45), pv = Math.round(40 * be) + ' %';
+    if (pv !== last.pct) { last.pct = pv; pct.textContent = pv; }
+    if (be !== last.bl) { last.bl = be; barlab.style.opacity = be; barlab.style.top = (H * 0.6 - 62) + 'px'; }
 
     ctx.setTransform(D, 0, 0, D, 0, 0); ctx.clearRect(0, 0, W, H);
-    // static fine grid
-    ctx.fillStyle = '#ECEBE7';
-    for (let gx = 11; gx < W; gx += 22) for (let gy = 11; gy < H; gy += 22) ctx.fillRect(gx - 0.6, gy - 0.6, 1.2, 1.2);
-
     const k0 = Math.min(5, Math.floor(P)), fr = P - k0, k1 = k0 + 1;
-    const intro = sm((t - 200) / 1600);
     const A = form(k0, t, F[0]), B = fr > 0.001 ? form(k1, t, F[1]) : null;
-    const grey = [], reds = [];
+    bn.fill(0);
+    const reds = [];
+    const ccx = W / 2, ccy = H * 0.6;
     for (let i = 0; i < N; i++) {
-      let e = 0; if (B) e = sm(fr * 1.5 - dl[i] * 0.5);
       let x = A.x[i], y = A.y[i], a = A.a[i], s = A.s[i], r = A.r[i];
-      if (e > 0) { x += (B.x[i] - x) * e; y += (B.y[i] - y) * e; a += (B.a[i] - a) * e; s += (B.s[i] - s) * e; r += (B.r[i] - r) * e; }
-      if (k1 === 6 && e > 0 && e < 1) {
-        const q = Math.sin(Math.PI * e), ccx = W / 2, ccy = H * 0.6, dx = x - ccx, dy = y - ccy, ro = q * 2.4 * (0.5 + dl[i]), sc = 1 - 0.8 * q;
-        x = ccx + (dx * Math.cos(ro) - dy * Math.sin(ro)) * sc; y = ccy + (dx * Math.sin(ro) + dy * Math.cos(ro)) * sc; a = Math.min(1, a + 0.4 * q);
+      if (B) {
+        const e = sm(fr * 1.5 - dl[i] * 0.5);
+        if (e > 0) {
+          x += (B.x[i] - x) * e; y += (B.y[i] - y) * e; a += (B.a[i] - a) * e; s += (B.s[i] - s) * e; r += (B.r[i] - r) * e;
+          if (k1 === 6 && e < 1) {
+            const q = Math.sin(Math.PI * e), dx = x - ccx, dy = y - ccy, ro = q * 2.4 * (0.5 + dl[i]), sc = 1 - 0.8 * q, c = Math.cos(ro), sn = Math.sin(ro);
+            x = ccx + (dx * c - dy * sn) * sc; y = ccy + (dx * sn + dy * c) * sc; a = Math.min(1, a + 0.4 * q);
+          }
+        }
       }
-      if (intro < 1) { const ie = sm(intro * 1.4 - dl[i] * 0.4); y = H * 1.05 + (y - H * 1.05) * ie; a *= ie; }
-      if (a < 0.01) continue;
-      if (r > 0.5) reds.push(x, y, a, s); else { ctx.globalAlpha = Math.min(1, a); ctx.fillStyle = '#0E0E0F'; ctx.beginPath(); ctx.arc(x, y, s / 2, 0, 6.283); ctx.fill(); }
+      if (t < 3900) {
+        const la = LR[i] ? 1 : 0.82, ls = LR[i] ? 1.5 : 1.45;
+        if (t < 2500) {
+          const e1 = sm(((t - 120) / 1350) * 1.4 - dl[i] * 0.4), sh = 0.78 + 0.22 * Math.sin(LX[i] * 0.05 - t * 0.007);
+          x = SX[i] + (LX[i] - SX[i]) * e1; y = SY[i] + (LY[i] - SY[i]) * e1; a = la * (LR[i] ? 1 : sh) * e1; s = ls; r = LR[i];
+        } else {
+          const e2 = sm(((t - 2500) / 1250) * 1.5 - dl[i] * 0.5);
+          x = LX[i] + (x - LX[i]) * e2; y = LY[i] + (y - LY[i]) * e2; a = la + (a - la) * e2; s = ls + (s - ls) * e2; r = LR[i] * (1 - e2) + r * e2;
+        }
+      }
+      if (a < 0.02) continue;
+      if (r > 0.5) reds.push(x, y, a, s); else push(x, y, a > 1 ? 1 : a, s);
     }
-    // hero: dotted cote curve rising over the wave
-    const hc = Math.max(0, 1 - P * 2.2) * sm((t - 900) / 1400);
+    // hero dotted curve
+    const hc = Math.max(0, 1 - P * 2.2) * sm((t - 3300) / 1200);
+    let ex = 0, ey = 0, drew = false;
     if (hc > 0.01) {
-      const n = 56, draw = sm((t - 900) / 2200);
-      let ex = 0, ey = 0;
+      const n = 56, draw = sm((t - 3300) / 2000);
       for (let j = 0; j <= n * draw; j++) {
         const u = j / n, x = W * 0.08 + u * W * 0.84, y = H * 0.8 - u * H * 0.26 - Math.sin(u * 9 + t * 0.0006) * H * 0.012 - Math.sin(u * 23) * H * 0.004;
-        ctx.globalAlpha = hc * (0.25 + 0.75 * u); ctx.fillStyle = '#0E0E0F'; ctx.beginPath(); ctx.arc(x, y, 1.9, 0, 6.283); ctx.fill();
-        ex = x; ey = y;
+        push(x, y, hc * (0.25 + 0.75 * u), 3.4); ex = x; ey = y;
       }
-      if (draw > 0.98) reds.push(ex, ey, hc, 5);
+      drew = draw > 0.98;
     }
-    // red dots + halos
+    ctx.fillStyle = '#0E0E0F';
+    for (let b = 0; b < NB; b++) {
+      const n = bn[b]; if (!n) continue;
+      const arr = bucket[b];
+      ctx.globalAlpha = (b + 0.5) / NB;
+      ctx.beginPath();
+      for (let j = 0; j < n; j += 3) { const s = arr[j + 2], h = s / 2; ctx.rect(arr[j] - h, arr[j + 1] - h, s, s); }
+      ctx.fill();
+    }
+    if (drew) reds.push(ex, ey, hc, 5);
     const pulse = 0.5 + 0.5 * Math.sin(t * 0.003);
+    ctx.fillStyle = RED; ctx.strokeStyle = RED;
     for (let j = 0; j < reds.length; j += 4) {
-      const x = reds[j], y = reds[j + 1], a = reds[j + 2], s = reds[j + 3];
-      if (s > 3) { ctx.globalAlpha = Math.min(1, a) * (0.7 + 0.3 * pulse); const hs = 70 + 20 * pulse; ctx.drawImage(halo, x - hs / 2, y - hs / 2, hs, hs); ctx.globalAlpha = Math.min(1, a) * 0.8; ctx.strokeStyle = RED; ctx.lineWidth = 1.1; ctx.beginPath(); ctx.arc(x, y, s * 2.4, 0, 6.283); ctx.stroke(); }
-      ctx.globalAlpha = Math.min(1, a); ctx.fillStyle = RED; ctx.beginPath(); ctx.arc(x, y, s / 2 + 0.3, 0, 6.283); ctx.fill();
-    }
-    if (P > 5.9) {
-      const fl = sm((P - 5.9) / 0.1), ph = (t % 2600) / 2600, fx = W * 0.08 + W * 0.84 * 0.4, fy = H * 0.6 - 30 + 9 * 3.2;
-      ctx.globalAlpha = fl * (1 - ph) * 0.6; ctx.strokeStyle = RED; ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.arc(fx, fy, 8 + ph * 60, 0, 6.283); ctx.stroke();
+      const x = reds[j], y = reds[j + 1], a = Math.min(1, reds[j + 2]), s = reds[j + 3];
+      if (s > 3) { ctx.globalAlpha = a * (0.35 + 0.2 * pulse); const hs = 30 + 6 * pulse; ctx.drawImage(halo, x - hs / 2, y - hs / 2, hs, hs); ctx.globalAlpha = a; ctx.beginPath(); ctx.arc(x, y, 2.6, 0, 6.283); ctx.fill(); continue; }
+      ctx.globalAlpha = a; ctx.beginPath(); ctx.arc(x, y, s / 2 + 0.3, 0, 6.283); ctx.fill();
     }
     ctx.globalAlpha = 1;
+    raf = requestAnimationFrame(frame);
   }
-  requestAnimationFrame(frame);
+  // Premier demarrage sur ecran etroit : mesure du canvas, logo en points, puis l'intro.
+  const start = () => {
+    if (running || !NARROW.matches) return;
+    size(true); if (!W) return;
+    if (!booted) { booted = true; buildLogo(); t0 = performance.now(); }
+    running = true; raf = requestAnimationFrame(frame);
+  };
+  const stop = () => { running = false; cancelAnimationFrame(raf); };
+  // draw only while the film is on screen and the page is visible
+  document.addEventListener('visibilitychange', () => { !document.hidden && homeOn ? start() : stop(); });
+  NARROW.addEventListener('change', () => { NARROW.matches && homeOn ? start() : stop(); });
 
-  const em = document.getElementById('m-em'), go = document.getElementById('m-go');
+  /* ---------- partner view ---------- */
+  const home = document.getElementById('m-home'), maisons = document.getElementById('m-maisons');
+  let homeOn = true, savedY = 0;
+  const dia = document.getElementById('m-dia');
+  function buildDia() {
+    const ns = 'http://www.w3.org/2000/svg', el = (n, a) => { const e = document.createElementNS(ns, n); for (const k in a) e.setAttribute(k, a[k]); return e; };
+    dia.innerHTML = '';
+    const x0 = 88, cx = 196, cy = 132, top = 20, bot = 244;
+    for (let i = 0; i < 6; i++) {
+      const y = top + (bot - top) * i / 5;
+      const d = 'M' + (x0 + 8) + ' ' + y + ' C ' + (x0 + 80) + ' ' + y + ', ' + (cx - 70) + ' ' + cy + ', ' + (cx - 6) + ' ' + cy;
+      dia.appendChild(el('path', { d, fill: 'none', stroke: 'rgba(14,14,15,.14)', 'stroke-width': 1 }));
+      const f = el('path', { d, fill: 'none', stroke: '#0E0E0F', 'stroke-width': 1.1, class: 'flow', style: 'animation-delay:' + (-i * 0.3) + 's;opacity:.55' });
+      dia.appendChild(f);
+      const g = el('g', { class: 'nd', style: 'animation-delay:' + (0.1 + i * 0.07) + 's' });
+      g.appendChild(el('circle', { cx: x0, cy: y, r: 2.4, fill: '#0E0E0F' }));
+      g.appendChild(el('circle', { cx: x0, cy: y, r: 6, fill: 'none', stroke: 'rgba(14,14,15,.35)', 'stroke-width': .8 }));
+      const tx = el('text', { x: x0 - 14, y: y + 3, 'text-anchor': 'end', 'font-family': "'Liberation Mono','Cousine',monospace", 'font-size': 8, 'letter-spacing': 1.2, fill: '#0E0E0F', 'font-style': 'italic' });
+      tx.textContent = T.house + String(i + 1).padStart(2, '0'); g.appendChild(tx); dia.appendChild(g);
+    }
+    dia.appendChild(el('circle', { cx, cy, r: 3.2, fill: '#CE1126' }));
+    const t1 = el('text', { x: cx - 8, y: cy + 46, 'font-family': "'Liberation Mono','Cousine',monospace", 'font-size': 8, 'letter-spacing': 1.4, fill: '#CE1126', 'font-style': 'italic' }); t1.textContent = T.quoteTitle; dia.appendChild(t1);
+    const t2 = el('text', { x: cx - 8, y: cy + 74, 'font-family': "'Liberation Sans','Arimo',Arial,sans-serif", 'font-size': 26, fill: '#0E0E0F', 'font-style': 'italic' }); t2.textContent = 'CHF 28’000'; dia.appendChild(t2);
+    const t3 = el('text', { x: cx - 8, y: cy + 90, 'font-family': "'Liberation Mono','Cousine',monospace", 'font-size': 7.5, 'letter-spacing': 1.4, fill: '#6E6E73', 'font-style': 'italic' }); t3.textContent = T.quoteNote; dia.appendChild(t3);
+  }
+  function route() {
+    const pv = location.hash === '#maisons';
+    if (pv && homeOn) {
+      savedY = scrollY; homeOn = false; stop();
+      document.documentElement.classList.add('m-pv'); document.documentElement.classList.remove('m-home');
+      home.hidden = true; maisons.hidden = false; buildDia(); scrollTo(0, 0);
+    } else if (!pv && !homeOn) {
+      homeOn = true; maisons.hidden = true; home.hidden = false;
+      document.documentElement.classList.remove('m-pv'); document.documentElement.classList.add('m-home');
+      scrollTo(0, 0); size(true); anim = null; P = cur; start();
+    }
+  }
+  let viaLink = false;
+  addEventListener('hashchange', route);
+  document.querySelectorAll('#mob a[href="#maisons"]').forEach((a) => a.addEventListener('click', () => { viaLink = true; }));
+  document.getElementById('m-back').addEventListener('click', (e) => {
+    e.preventDefault();
+    if (viaLink) { viaLink = false; history.back(); }
+    else { history.replaceState(null, '', location.pathname + location.search); route(); }
+  });
+  document.documentElement.classList.add('m-home');
+  route();
+  if (homeOn) start();
+
+  /* ---------- launch sheet ---------- */
+  const veil = document.getElementById('m-veil'), sheet = document.getElementById('m-sheet'), em = document.getElementById('m-em'), go = document.getElementById('m-go');
+  const open = () => { document.documentElement.classList.add('m-sheet'); veil.classList.add('on'); sheet.classList.add('on'); setTimeout(() => em.focus({ preventScroll: true }), 450); };
+  const close = () => { document.documentElement.classList.remove('m-sheet'); veil.classList.remove('on'); sheet.classList.remove('on'); em.blur(); };
+  document.querySelectorAll('#mob [data-open]').forEach((b) => b.addEventListener('click', open));
+  veil.addEventListener('click', close); document.getElementById('m-shX').addEventListener('click', close);
   const ok = () => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim());
   em.addEventListener('input', () => {
     go.setAttribute('aria-disabled', ok() ? 'false' : 'true');
