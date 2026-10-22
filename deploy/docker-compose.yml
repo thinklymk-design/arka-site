@@ -2,6 +2,8 @@
 # Ne crée ni réseau, ni volume, ni port publié : il rejoint seulement public_network.
 # Seul public/ est servi (lecture seule) : le README et deploy/ restent hors ligne.
 # Le dossier est monté en entier pour qu'un `git pull` soit pris en compte sans redémarrage.
+# arka-signup reçoit la liste d'attente (POST /api/inscription) et l'écrit dans /opt/arka-data,
+# hors du dépôt : bibliothèque standard Python, aucun paquet installé, aucun port publié.
 name: arka-site
 
 services:
@@ -34,6 +36,43 @@ services:
         limits:
           cpus: '0.25'
           memory: 64M
+
+  arka-signup:
+    image: python:3.13.16-alpine
+    container_name: arka-signup
+    restart: unless-stopped
+    read_only: true
+    user: '65534:65534'
+    command: ['python', '-u', '/app/app.py']
+    environment:
+      ALLOWED_ORIGINS: 'https://${ARKA_DOMAIN},https://www.${ARKA_DOMAIN}'
+    volumes:
+      - ./signup/app.py:/app/app.py:ro
+      - ${ARKA_DATA:-/opt/arka-data}:/data
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - public_network
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.arka-signup.rule=(Host(`${ARKA_DOMAIN}`) || Host(`www.${ARKA_DOMAIN}`)) && Path(`/api/inscription`)'
+      - 'traefik.http.routers.arka-signup.priority=100'
+      - 'traefik.http.routers.arka-signup.entrypoints=websecure'
+      - 'traefik.http.routers.arka-signup.tls.certresolver=mytlschallenge'
+      - 'traefik.http.services.arka-signup.loadbalancer.server.port=8080'
+      - 'traefik.docker.network=public_network'
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '1m'
+        max-file: '2'
+    deploy:
+      resources:
+        limits:
+          cpus: '0.1'
+          memory: 32M
 
 networks:
   public_network:

@@ -10,7 +10,8 @@ src/i18n/fr.json de.json en.json   tous les textes, une langue par fichier
 src/static/                icônes, image de partage, robots.txt, manifeste — copiés dans public/
 build.py                   génère public/ (pages, copie de src/static/, sitemap.xml)
 public/                    les pages générées (/, /de/, /en/) — seul dossier servi, ne pas éditer
-deploy/docker-compose.yml  le conteneur (lecture seule, 64 Mo, aucun port publié)
+deploy/docker-compose.yml  les conteneurs (lecture seule, aucun port publié)
+deploy/signup/app.py       la liste d'attente : POST /api/inscription → /opt/arka-data/inscriptions.csv
 deploy/.env.example        ARKA_DOMAIN=<domaine>
 archive/v1/index.html      la version précédente (hors ligne, gardée pour mémoire)
 ```
@@ -67,9 +68,30 @@ cd /opt/arka-site-src && git pull
 Pas de redémarrage : le conteneur monte le dossier `public/` en entier et voit le nouveau
 fichier tout de suite.
 
+## Liste d'attente
+
+Les boutons « S'inscrire » (bureau) et « Me prévenir » (mobile) envoient l'adresse en
+arrière-plan à `POST /api/inscription` : rien ne s'ouvre chez le visiteur, qui voit « Merci,
+c'est noté ». Le conteneur `arka-signup` (Python, bibliothèque standard seulement, 32 Mo,
+utilisateur sans droits) ajoute une ligne `date,email,langue` à `/opt/arka-data/inscriptions.csv`,
+hors du dépôt. Doublons ignorés ; 5 envois par heure et par visiteur, 1000 par jour au total ;
+aucune adresse dans les journaux. Si le service ne répond pas, la page retombe sur l'e-mail
+(`mailto:`), comme avant. Les questions passent toujours par l'e-mail.
+
+Mise en route (une fois) :
+
+```sh
+mkdir -p /opt/arka-data && chown 65534:65534 /opt/arka-data && chmod 700 /opt/arka-data
+cd /opt/arka-site-src/deploy && docker compose up -d arka-signup
+```
+
+Lire la liste : `cat /opt/arka-data/inscriptions.csv` (le fichier s'importe tel quel dans HubSpot).
+Après un changement de `app.py` : `docker restart arka-signup`.
+
 ## Retirer ou déplacer
 
-- **Retirer** : `docker compose down` dans `/opt/arka-site-src/deploy`, puis supprimer le dossier.
+- **Retirer** : `docker compose down` dans `/opt/arka-site-src/deploy`, puis supprimer le dossier
+  (et `/opt/arka-data` une fois la liste récupérée).
 - **Changer de serveur** : refaire « Mettre en ligne » sur le nouveau, puis pointer le DNS.
 - **Changer de propriétaire GitHub** (transfert du dépôt) : GitHub redirige l'ancienne
   adresse ; pour la mettre à jour sur le serveur,

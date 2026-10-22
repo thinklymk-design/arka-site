@@ -44,7 +44,8 @@
     "signupHint": "Be the first to know when the app launches.",
     "send": "Send",
     "thanks": "Thank you. We will get back to you very soon.",
-    "close": "Close"
+    "close": "Close",
+    "thanksSignup": "Thank you, you’re on the list. We’ll write to you as soon as the app launches."
   },
   "partners": {
     "tag": "Partner houses",
@@ -106,7 +107,9 @@
     "sheetP": "One email only: the day Arka opens.",
     "placeholder": "Email address",
     "btn": "Notify me",
-    "legal": "Your address is only used to tell you about the launch. It is never sold or shared."
+    "legal": "Your address is only used to tell you about the launch. It is never sold or shared.",
+    "doneH": "Thank you, you’re on the list.",
+    "doneP": "We’ll write to you as soon as the app launches."
   },
   "js": {
     "themeToNight": "Switch to night mode",

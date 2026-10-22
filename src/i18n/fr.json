@@ -44,7 +44,8 @@
     "signupHint": "Soyez prévenu dès la sortie de l’application.",
     "send": "Envoyer",
     "thanks": "Merci. Nous revenons vers vous très vite.",
-    "close": "Fermer"
+    "close": "Fermer",
+    "thanksSignup": "Merci, c’est noté. Nous vous écrirons dès le lancement de l’application."
   },
   "partners": {
     "tag": "Maisons partenaires",
@@ -106,7 +107,9 @@
     "sheetP": "Un seul e-mail : le jour où Arka ouvre.",
     "placeholder": "Adresse e-mail",
     "btn": "Me prévenir",
-    "legal": "Votre adresse sert uniquement à vous prévenir du lancement. Elle n’est ni vendue ni partagée."
+    "legal": "Votre adresse sert uniquement à vous prévenir du lancement. Elle n’est ni vendue ni partagée.",
+    "doneH": "Merci, c’est noté.",
+    "doneP": "Nous vous écrirons dès le lancement de l’application."
   },
   "js": {
     "themeToNight": "Passer en mode nuit",

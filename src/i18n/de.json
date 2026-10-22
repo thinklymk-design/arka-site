@@ -44,7 +44,8 @@
     "signupHint": "Wir benachrichtigen Sie, sobald die App erscheint.",
     "send": "Senden",
     "thanks": "Danke. Wir melden uns in Kürze.",
-    "close": "Schliessen"
+    "close": "Schliessen",
+    "thanksSignup": "Danke, Sie sind auf der Liste. Wir schreiben Ihnen, sobald die App verfügbar ist."
   },
   "partners": {
     "tag": "Partnerhäuser",
@@ -106,7 +107,9 @@
     "sheetP": "Eine einzige E-Mail: an dem Tag, an dem Arka öffnet.",
     "placeholder": "E-Mail-Adresse",
     "btn": "Benachrichtigen",
-    "legal": "Ihre Adresse dient nur dazu, Sie über den Start zu informieren. Sie wird weder verkauft noch weitergegeben."
+    "legal": "Ihre Adresse dient nur dazu, Sie über den Start zu informieren. Sie wird weder verkauft noch weitergegeben.",
+    "doneH": "Danke, Sie sind auf der Liste.",
+    "doneP": "Wir schreiben Ihnen, sobald die App verfügbar ist."
   },
   "js": {
     "themeToNight": "Zum Nachtmodus wechseln",

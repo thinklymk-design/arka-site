@@ -350,11 +350,17 @@ button{font:inherit}
     <div class="m-grab"></div>
     <button class="m-x" type="button" id="m-shX" aria-label="Schliessen">×</button>
     <span class="k">Start</span>
-    <h3 id="m-shT">Seien Sie unter den Ersten.</h3>
-    <p>Eine einzige E-Mail: an dem Tag, an dem Arka öffnet.</p>
-    <input id="m-em" type="email" inputmode="email" autocomplete="email" placeholder="E-Mail-Adresse" aria-label="Ihre E-Mail-Adresse">
-    <a class="m-btn" id="m-go" href="#" aria-disabled="true">Benachrichtigen</a>
-    <p class="m-legal">Ihre Adresse dient nur dazu, Sie über den Start zu informieren. Sie wird weder verkauft noch weitergegeben.</p>
+    <div id="m-form">
+      <h3 id="m-shT">Seien Sie unter den Ersten.</h3>
+      <p>Eine einzige E-Mail: an dem Tag, an dem Arka öffnet.</p>
+      <input id="m-em" type="email" inputmode="email" autocomplete="email" enterkeyhint="send" placeholder="E-Mail-Adresse" aria-label="Ihre E-Mail-Adresse">
+      <a class="m-btn" id="m-go" href="#" aria-disabled="true">Benachrichtigen</a>
+      <p class="m-legal">Ihre Adresse dient nur dazu, Sie über den Start zu informieren. Sie wird weder verkauft noch weitergegeben.</p>
+    </div>
+    <div id="m-done" hidden role="status">
+      <h3>Danke, Sie sind auf der Liste.</h3>
+      <p>Wir schreiben Ihnen, sobald die App verfügbar ist.</p>
+    </div>
   </div>
 </div>
 <div id="stage">
@@ -413,8 +419,9 @@ button{font:inherit}
         <a class="send" data-send href="mailto:contact@arkawatch.com" aria-disabled="true">Senden<svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M3 9L9 3M4 3h5v5"/></svg></a>
       </div>
       <div data-sent hidden style="display:flex;flex-direction:column;gap:10px">
-        <span style="font-size:15px;line-height:1.5">Danke. Wir melden uns in Kürze.</span>
-        <span class="hintline">contact@arkawatch.com</span>
+        <span style="font-size:15px;line-height:1.5" data-insonly>Danke, Sie sind auf der Liste. Wir schreiben Ihnen, sobald die App verfügbar ist.</span>
+        <span style="font-size:15px;line-height:1.5" data-qonly>Danke. Wir melden uns in Kürze.</span>
+        <span class="hintline" data-qonly>contact@arkawatch.com</span>
       </div>
     </div>
   </div>
@@ -474,6 +481,14 @@ button{font:inherit}
   </div>
 </div>
 
+<script>
+// Liste d'attente : l'adresse part en arriere-plan vers /api/inscription (deploy/signup).
+// Renvoie false en cas d'echec, et l'appelant retombe alors sur l'e-mail.
+window.arkaSignup = (email) => fetch('/api/inscription', {
+  method: 'POST', headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ email, lang: document.documentElement.lang })
+}).then((r) => r.ok, () => false);
+</script>
 <script>
 /* Logique reprise du composant Constellation (Main.dc.html) : memes calculs,
    rendu DOM direct a la place du moteur de gabarits de Claude Design. */
@@ -937,6 +952,8 @@ button{font:inherit}
     el.modeIns.setAttribute('aria-pressed', q ? 'false' : 'true');
     el.modeQ.setAttribute('aria-pressed', q ? 'true' : 'false');
     el.qonly.hidden = !q; el.insonly.hidden = q;
+    el.sent.querySelectorAll('[data-qonly]').forEach((n) => { n.hidden = !q; });
+    el.sent.querySelectorAll('[data-insonly]').forEach((n) => { n.hidden = q; });
     const em = el.email.value.trim(), mg = el.msg.value.trim();
     const can = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em) && (!q || mg.length > 2);
     const subj = q ? T.subjectQuestion : T.subjectSignup;
@@ -985,8 +1002,15 @@ button{font:inherit}
   el.email.addEventListener('input', render);
   el.msg.addEventListener('input', render);
   el.send.addEventListener('click', (e) => {
-    if (el.send.getAttribute('aria-disabled') === 'true') { e.preventDefault(); return; }
-    setTimeout(() => { S.cSent = true; render(); }, 300);
+    if (el.send.getAttribute('aria-disabled') === 'true' || S.busy) { e.preventDefault(); return; }
+    if (S.cMode === 'q') { setTimeout(() => { S.cSent = true; render(); }, 300); return; }
+    // Inscription : rien ne s'ouvre, l'adresse est enregistree directement.
+    e.preventDefault(); S.busy = true;
+    const href = el.send.href;
+    window.arkaSignup(el.email.value.trim()).then((ok) => {
+      S.busy = false;
+      if (ok) { S.cSent = true; render(); } else location.href = href;
+    });
   });
   el.contact.addEventListener('click', (e) => { if (e.target === el.contact) act['contact-close'](); });
   document.addEventListener('keydown', (e) => {
@@ -1307,7 +1331,11 @@ button{font:inherit}
   /* ---------- launch sheet ---------- */
   const veil = document.getElementById('m-veil'), sheet = document.getElementById('m-sheet'), em = document.getElementById('m-em'), go = document.getElementById('m-go');
   const open = () => { document.documentElement.classList.add('m-sheet'); veil.classList.add('on'); sheet.classList.add('on'); setTimeout(() => em.focus({ preventScroll: true }), 450); };
-  const close = () => { document.documentElement.classList.remove('m-sheet'); veil.classList.remove('on'); sheet.classList.remove('on'); em.blur(); };
+  const shForm = document.getElementById('m-form'), done = document.getElementById('m-done');
+  const close = () => {
+    document.documentElement.classList.remove('m-sheet'); veil.classList.remove('on'); sheet.classList.remove('on'); em.blur();
+    if (!done.hidden) setTimeout(() => { done.hidden = true; shForm.hidden = false; em.value = ''; go.setAttribute('aria-disabled', 'true'); }, 500);
+  };
   document.querySelectorAll('#mob [data-open]').forEach((b) => b.addEventListener('click', open));
   veil.addEventListener('click', close); document.getElementById('m-shX').addEventListener('click', close);
   const ok = () => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim());
@@ -1315,6 +1343,20 @@ button{font:inherit}
     go.setAttribute('aria-disabled', ok() ? 'false' : 'true');
     go.href = 'mailto:contact@arkawatch.com?subject=' + encodeURIComponent(T.subjectSignup) + '&body=' + encodeURIComponent(T.bodySignup + '\n\n' + em.value.trim());
   });
+  // Rien ne s'ouvre : l'adresse est enregistree directement. Si le service ne repond pas, on retombe sur l'e-mail.
+  let busy = false;
+  go.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (busy || !ok()) return;
+    busy = true; go.setAttribute('aria-disabled', 'true');
+    const href = go.href;
+    window.arkaSignup(em.value.trim()).then((sent) => {
+      busy = false; go.setAttribute('aria-disabled', 'false');
+      if (!sent) { location.href = href; return; }
+      em.blur(); shForm.hidden = true; done.hidden = false;
+    });
+  });
+  em.addEventListener('keydown', (e) => { if (e.key === 'Enter') go.click(); });
 })();
 </script>
 <!-- Assistant ARKA (widget Botello). -->
