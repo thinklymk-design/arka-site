@@ -143,6 +143,8 @@
     "house": "HOUSE ",
     "quoteTitle": "THE ARKA INDEX",
     "quoteNote": "EXAMPLE · ARKA INDEX",
-    "hintTouch": "Tap the screen to continue"
+    "hintTouch": "Tap the screen to continue",
+    "restart": "Start again",
+    "nextStep": "Next step"
   }
 }

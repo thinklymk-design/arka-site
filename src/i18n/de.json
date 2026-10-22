@@ -143,6 +143,8 @@
     "house": "HAUS ",
     "quoteTitle": "DER ARKA-KURS",
     "quoteNote": "BEISPIEL · ARKA-KURS",
-    "hintTouch": "Tippen Sie für die nächste Aussage"
+    "hintTouch": "Tippen Sie für die nächste Aussage",
+    "restart": "Von vorne beginnen",
+    "nextStep": "Nächster Schritt"
   }
 }

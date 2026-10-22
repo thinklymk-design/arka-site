@@ -143,6 +143,8 @@
     "house": "MAISON ",
     "quoteTitle": "LA COTE ARKA",
     "quoteNote": "EXEMPLE · COTE ARKA",
-    "hintTouch": "Touchez l’écran pour la suite"
+    "hintTouch": "Touchez l’écran pour la suite",
+    "restart": "Recommencer",
+    "nextStep": "Étape suivante"
   }
 }
